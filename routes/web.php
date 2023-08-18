@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\MainController;
+use App\Http\Controllers\BackOfficeController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,6 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', [MainController::class, 'index']);
+Route::get('/event/{id}', [MainController::class, 'event']);
+Route::get('/order/{code}', [MainController::class, 'order']);
+Route::get('/checkout', [MainController::class, 'checkout']);
+Route::prefix('backoffice')->group(function () {
+  Route::get('/', [BackOfficeController::class, 'index']);
+  Route::prefix('my-events')->group(function () {
+    Route::get('/', [BackOfficeController::class, 'myEvents']);
+    Route::get('/form', [BackOfficeController::class, 'myEventsForm']);
+  });
 });

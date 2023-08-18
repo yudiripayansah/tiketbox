@@ -1,0 +1,85 @@
+#home .swiper-nav {
+  z-index: 2;
+}
+#home .swiper-nav .swiper-prev {
+  margin-left: -70px;
+}
+#home .swiper-nav .swiper-next {
+  margin-right: -70px;
+}
+
+.home-banner .hb-caption {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+.home-banner .hb-caption .hbc-input-search {
+  background-color: #252525;
+  width: 100%;
+  max-width: 700px;
+  height: 70px;
+  border-radius: 20px;
+}
+.home-banner .hb-caption .hbc-input-search input {
+  width: 100%;
+}
+.home-banner .hb-caption .hbc-input-search input:focus, .home-banner .hb-caption .hbc-input-search input:active, .home-banner .hb-caption .hbc-input-search input:hover {
+  outline: none;
+  box-shadow: none;
+  border: none;
+}
+.home-banner .hb-caption .hbc-input-search input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.home-category .hc-item {
+  background-color: #252525;
+}
+
+.home-place-best-deals .hpbd-item {
+  background-color: #505050;
+}
+
+.home-popular .hp-item {
+  background-color: #505050;
+}
+
+.home-past-events .hpe-item {
+  background-color: #505050;
+}
+
+#sidemenu {
+  background-color: #252525;
+}
+#sidemenu .sm-title {
+  background-color: #252525;
+  box-shadow: 0px 8px 27px 0px rgba(0, 0, 0, 0.37);
+}
+#sidemenu .sm-menu > ul > li > a:hover, #sidemenu .sm-menu > ul > li > a.active {
+  background: linear-gradient(90deg, #3E63F9 0%, #8CA2FE 100%);
+  color: black !important;
+}
+#sidemenu .sm-menu > ul > li > a:hover .svg-stroke path, #sidemenu .sm-menu > ul > li > a.active .svg-stroke path {
+  stroke: black;
+}
+#sidemenu .sm-menu > ul > li > a:hover .svg-fill path, #sidemenu .sm-menu > ul > li > a.active .svg-fill path {
+  fill: black;
+}
+
+.backoffice .boc-title {
+  background-color: #252525;
+  z-index: 2;
+}
+.backoffice .boc-content {
+  background-color: #252525;
+}
+.backoffice .image-poster .ip-caption {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-bg-black-choco .modal-content {
+  background-color: #484040;
+}
+
+/*# sourceMappingURL=home.css.map */
