@@ -5,6 +5,7 @@ import {AuthContext} from '../context/AuthContext';
 import {UserContext} from '../context/UserContext';
 import { useRoute } from '@react-navigation/native';
 import im from '../config/Images';
+import Modal from '../components/Modal'
 const Header = ({navigation, ...props}) => {
   const route = useRoute();
   const {currentScreen} = props;
@@ -12,6 +13,7 @@ const Header = ({navigation, ...props}) => {
   const user = useContext(UserContext);
   const {removeUser} = useContext(AuthContext);
   const [header, setHeader] = useState(Object)
+  const [modalLogout, setModalLogout] = useState(false)
   const doLogout = () => {
     removeUser();
   };
@@ -20,27 +22,6 @@ const Header = ({navigation, ...props}) => {
       <Image
         source={im.logo}
         style={[theme.w57,theme.h44,{objectFit:'contain'}]}
-      />
-    )
-  }
-  const CSearch = () => {
-    return (
-      <TextInput
-        placeholder="Search..."
-        style={[
-          {backgroundColor: '#12120B'},
-          theme.cwhite,
-          theme.br14,
-          theme['h10-500'],
-          theme.h40,
-          theme.w165,
-          theme.px10,
-          theme.fjCenter,
-          {textAlignVertical: 'center'},
-        ]}
-        placeholderTextColor="#4F4F3F"
-        multiline
-        numberOfLines={1}
       />
     )
   }
@@ -54,13 +35,20 @@ const Header = ({navigation, ...props}) => {
       <TouchableOpacity onPress={() => {navigation.goBack()}}>
         <Image
           source={im.icon_back}
-          style={[theme.w20,theme.h16]}
+          style={[theme.w18,theme.h18]}
         />
       </TouchableOpacity>
     )
   }
-  const CFavorite = () => {
-
+  const CLogout = () => {
+    return (
+      <TouchableOpacity onPress={() => {setModalLogout(true)}}>
+        <Image
+          source={im.icon_logout}
+          style={[theme.w18,theme.h18]}
+        />
+      </TouchableOpacity>
+    )
   }
   const HeaderHome = () => {
     return (
@@ -72,6 +60,7 @@ const Header = ({navigation, ...props}) => {
         <CTitle/>
       </View>
       <View style={[theme.wp20, theme.faEnd]}>
+        <CLogout/>
       </View>
       </>
     )
@@ -86,7 +75,7 @@ const Header = ({navigation, ...props}) => {
         <CTitle/>
       </View>
       <View style={[theme.wp20, theme.faEnd]}>
-
+        <CLogout/>
       </View>
       </>
     )
@@ -102,6 +91,22 @@ const Header = ({navigation, ...props}) => {
       )
     }
   }
+  const modal = {
+    header: 'Perhatian!!!',
+    content: 'Apakah anda yakin ingin logout dari aplikasi?',
+    footer: () => {
+      return (
+        <View style={[theme.fRow,theme.fjEnd,theme.faCenter,theme.mt25]}>
+          <TouchableOpacity style={[theme.px5]} onPress={() => {setModalLogout(false)}}>
+            <Text style={[theme['p12-700'],{color:'#252525'}]}>Batal</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={[theme.px5]} onPress={() => {doLogout()}}>
+            <Text style={[theme['p12-700'],{color:'#252525'}]}>Logout</Text>
+          </TouchableOpacity>
+        </View>
+      )
+    }
+  }
   useEffect(() => {
     let mounted = true;
     navigation.addListener('focus', () => {
@@ -113,6 +118,7 @@ const Header = ({navigation, ...props}) => {
   }, []);
 
   return (
+    <>
     <View
       style={[
         theme.wp100,
@@ -127,6 +133,16 @@ const Header = ({navigation, ...props}) => {
       ]}>
       {getHeader()}
     </View>
+    {
+      (modalLogout) ? (
+        <Modal
+          header={modal.header}
+          content={modal.content}
+          footer={modal.footer()}
+        />
+      ) : null
+    }
+    </>
   );
 };
 

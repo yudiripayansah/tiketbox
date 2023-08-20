@@ -10,7 +10,7 @@ const Nav = ({navigation, ...props}) => {
     <>
     <View style={[theme.absolute, theme.bottom0, theme.wp100, theme.h80, theme.fRow, theme.fjCenter, theme.faStart, theme.bgwhite, theme.brtl8,theme.brtr8]}>
       <TouchableWithoutFeedback onPress={()=>{
-        
+        navigation.navigate('Scanner')
       }}>
         <View style={[theme.mx80, theme.fjCenter, theme.faCenter, theme.mmt35, theme.w100]}>
           <View style={[theme.mb10,theme.relative]}>

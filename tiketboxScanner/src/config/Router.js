@@ -4,6 +4,8 @@ import {useState} from 'react';
 import Forgot from '../screen/Forgot';
 import Home from '../screen/Home';
 import Login from '../screen/Login';
+import Scanner from '../screen/Scanner';
+import Ticket from '../screen/Ticket';
 import Nav from '../components/Navigation';
 import Header from '../components/Header';
 const AuthStack = createStackNavigator();
@@ -26,35 +28,9 @@ export const RouteMain = ({navigation}) => {
                         let routes = e.data.state.routes
                         let routeName = routes[index].name
                         if(
-                            routeName == 'Radio'
-                            || routeName == 'RadioDetails'
+                            routeName == 'Ticket'
                             ){
-                            routeName = 'Ardan Radio'
-                        }
-                        if(
-                            routeName == 'Penyiar'
-                            ){
-                            routeName = 'Ardan Announcher'
-                        }
-                        if(
-                            routeName == 'ProgramDetails'
-                            ){
-                            routeName = 'Program'
-                        }
-                        if(
-                            routeName == 'ArdanContent'
-                            ){
-                            routeName = 'Ardan Content'
-                        }
-                        if(
-                            routeName == 'Social'
-                            ){
-                            routeName = 'Ardan Social'
-                        }
-                        if(
-                            routeName == 'SocialSharingDetails'
-                            ){
-                            routeName = 'Forum'
+                            routeName = 'Detail Ticket'
                         }
                         if(
                             routeName == 'Home'
@@ -66,6 +42,8 @@ export const RouteMain = ({navigation}) => {
                 })}
                 >
                 <MainStack.Screen name={'Home'} component={Home} options={options}/>
+                <MainStack.Screen name={'Scanner'} component={Scanner} options={options}/>
+                <MainStack.Screen name={'Ticket'} component={Ticket} options={options}/>
             </MainStack.Navigator>
             <Nav navigation={navigation} currentScreen={activeHeader}/>
         </>

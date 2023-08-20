@@ -16,9 +16,6 @@ const Home = ({navigation}) => {
   const theme = useContext(ThemeContext);
   const user = useContext(UserContext);
   const {removeUser} = useContext(AuthContext);
-  const doLogout = () => {
-    removeUser();
-  };
   useEffect(() => {
     let mounted = true;
     navigation.addListener('focus', () => {
@@ -47,11 +44,6 @@ const Home = ({navigation}) => {
                 <Text style={[theme['p12-700'],theme.cwhite]}>Tanggal</Text>
                 <Text style={[theme['p12-400'],theme.cwhite]}>: 23 Januari 2022 - 24 Januari 2022</Text>
               </View>
-              <TouchableOpacity style={[theme.fRow]} onPress={()=> {
-                doLogout()
-              }}>
-                <Text style={[theme['p12-700'],theme.cwhite]}>Logout</Text>
-              </TouchableOpacity>
             </View>
           </View>
         </View>
