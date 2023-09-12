@@ -11,14 +11,16 @@ use App\Models\EventTicketSeats;
 use App\Models\EventImages;
 use App\Models\Orders;
 use App\Models\OrderItems;
+use App\Models\User;
 use App\Mail\TicketEmail;
 use Illuminate\Support\Facades\Mail;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Illuminate\Support\Facades\Hash;
 
 class OrdersController extends Controller
 {
   public function __construct() {
-    
+    $this->key = base64_encode('xnd_production_1J52v7LRH1FVxQ49EG3RrOR5S5gGGlrjZGQ7tJkfIzGshO31pqG4o1bKSJtON:');
   }
   public function read(Request $request) {
     $page = ($request->page) ? $request->page : 1;
@@ -100,9 +102,13 @@ class OrdersController extends Controller
         $item->seat_detail = EventTicketSeats::find($item->id_seat);
       }
       $getData->items = $items;
-      $getData->qr = QrCode::size(300)->generate('https://techvblogs.com/blog/generate-qr-code-laravel-8');
+      $getData->payment_description = json_decode($getData->payment_description);
+      $getData->payment_expired = '1999-01-01 00:00:00';
+      if($getData->payment_description->expiry_date) {
+        $getData->payment_expired = $getData->payment_description->expiry_date;
+      }
       if ($getData) {
-          $this->sendEmail($getData);
+          // $this->sendEmail($getData);
           $res = array(
                   'status' => true,
                   'data' => $getData,
@@ -126,12 +132,16 @@ class OrdersController extends Controller
     $dataCreate = $request->all();
     $dataCreate['id_user'] = 0;
     $dataCreate['order_code'] = 'TXB-'.uniqid().'-'.date('ymdHi');
-    $dataCreate['payment_method'] = 'default';
-    $dataCreate['payment_status'] = 'default';
-    $dataCreate['payment_description'] = 'default';
+    $dataCreate['payment_method'] = 'none';
+    $dataCreate['payment_status'] = 'UNPAID';
+    $dataCreate['payment_description'] = 'none';
     $dataCreate['payment_date'] = '2999-01-01';
-    $dataCreate['status'] = 'default';
-    $dataCreate['description'] = 'default';
+    $dataCreate['status'] = 'UNPAID';
+    $dataCreate['description'] = '-';
+    $invoice = $this->createInvoice($dataCreate);
+    $user = $this->createUser($dataCreate);
+    $dataCreate['payment_id'] = $invoice->id;
+    $dataCreate['payment_description'] = json_encode($invoice);
     unset($dataCreate['order_items']);
     DB::beginTransaction();
     $validate = Orders::validate($dataCreate);
@@ -166,21 +176,13 @@ class OrdersController extends Controller
   }
   public function update(Request $request) {
     $dataUpdate = $request->all();
-    $dataFind = Events::find($request->id);
-    $validate = Promo::validate($dataUpdate);
-    if (basename($request->powered_by_image) != basename($dataFind->powered_by_image)) {
-      $filename = uniqid().time().'-'. '-event-powered-by.png';
-      $filePath = 'event/' .$filename;
-      $dataUpdate['powered_by_image'] = $filename;
-      Storage::disk('public')->put($filePath, file_get_contents($request->powered_by_image));
-    } else {
-      unset($dataUpdate['powered_by_image']);
-    }
+    $dataFind = Orders::find($request->id);
+    $validate = Orders::validate($dataUpdate);
     DB::beginTransaction();
     if ($validate['status']) {
       try {
-        $du = Events::where('id',$request->id)->update($dataUpdate);
-        $dg = Events::find($request->id);
+        $du = Orders::where('id',$request->id)->update($dataUpdate);
+        $dg = Orders::find($request->id);
         $res = array(
                 'status' => true,
                 'data' => $dg,
@@ -227,6 +229,60 @@ class OrdersController extends Controller
             );
     }
     return response()->json($res, 200);
+  }
+  public function createInvoice($data) {
+    $payload = '{
+                  "external_id": "'.$data['order_code'].'",
+                  "amount": '.$data['total_amount'].',
+                  "payer_email": "'.$data['email'].'",
+                  "description": "Invoice for Order: '.$data['order_code'].'"
+                }';
+    $curl = curl_init();
+    curl_setopt_array($curl, array(
+      CURLOPT_URL => 'https://api.xendit.co/v2/invoices',
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_ENCODING => '',
+      CURLOPT_MAXREDIRS => 10,
+      CURLOPT_TIMEOUT => 0,
+      CURLOPT_FOLLOWLOCATION => true,
+      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+      CURLOPT_CUSTOMREQUEST => 'POST',
+      CURLOPT_POSTFIELDS => $payload,
+      CURLOPT_HTTPHEADER => array(
+        'Content-Type: application/json',
+        'Authorization: Basic '.$this->key,
+        'Cookie: incap_ses_1111_2182539=ddBbQu6Aqy9K+q2UrRFrD/vr2mQAAAAAd87Vvw5K+eKHjNr/Zvp+cw==; nlbi_2182539=tnNwFS0AF1fIXumCtAof7AAAAADbZqEFEwbsGAFVNRT39an0'
+      ),
+    ));
+
+    $response = curl_exec($curl);
+
+    curl_close($curl);
+    return json_decode($response);
+  }
+  public function createUser($data) {
+    $dataCreate = [
+      'username' => $data['name'].uniqid(),
+      'email' => $data['email'],
+      'name' => $data['name'],
+      'password' => Hash::make(uniqid()),
+      'phone' => $data['phone'],
+      'address' => $data['domicile'],
+      'gender' => $data['gender'],
+      'dob' => $data['dob'],
+      'domicile' => $data['domicile'],
+      'status' => 'active',
+      'type' => 'user',
+    ];
+    $user = User::where('email',$data['email'])->get();
+    if(count($user) < 1){
+      return User::create($dataCreate);
+    } else {
+      return 'User already exist';
+    }
+  }
+  public function checkTicket(Request $request) {
+    
   }
   function handleItems($id_order,$items) {
     DB::beginTransaction();

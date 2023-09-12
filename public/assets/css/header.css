@@ -1,1 +1,20 @@
-nav.main-header{background:#050607;top:0;left:0;right:0;z-index:2}/*# sourceMappingURL=header.css.map */
+nav.main-header {
+  background: #050607;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+}
+nav.main-header .dropdown-menu {
+  background-color: #252525;
+}
+
+#modalLogin .modal-body, #modalForgot .modal-body {
+  background-color: #252525;
+}
+
+#modalRegister .modal-body {
+  background-color: #252525;
+}
+
+/*# sourceMappingURL=header.css.map */

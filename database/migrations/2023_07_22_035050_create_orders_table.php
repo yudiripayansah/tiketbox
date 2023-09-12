@@ -25,6 +25,7 @@ class CreateOrdersTable extends Migration
             $table->text('domicile');
             $table->integer('total_items');
             $table->integer('total_amount');
+            $table->text('payment_id')->nullable();
             $table->text('payment_method');
             $table->text('payment_status');
             $table->text('payment_description');

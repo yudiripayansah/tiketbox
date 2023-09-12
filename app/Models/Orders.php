@@ -11,7 +11,7 @@ class Orders extends Model
     use SoftDeletes;
     protected $table = 'orders';
     protected $fillable = [
-      'order_code','id_user','email','phone','name','gender','dob','domicile','total_items','total_amount','payment_method','payment_status','payment_description','payment_date','status','description'
+      'order_code','id_user','email','phone','name','gender','dob','domicile','total_items','total_amount','payment_id','payment_method','payment_status','payment_description','payment_date','status','description'
     ];
     public static function validate($validate)
     {

@@ -4,18 +4,22 @@
     <div class="row boc-title align-items-center border-bottom border-primary g-0 position-sticky top-72 br-tl-10 br-tr-10">
       <div class="col-6">
         <div class="py-15 px-25 fw-700 fs-14 text-light">
-          Buat Event
+          Buat
+          <select v-model="form.data.type" class="border-top-0 border-start-0 border-end-0 border-bottom border-primary bg-transparent py-12 text-light fs-16 fw-400 wp-100 bg-dark">
+            <option value="event" class="bg-dark">Event</option>
+            <option value="amusement" class="bg-dark">Amusement Park</option>
+          </select>
         </div>
       </div>
       <div class="col-6 text-end">
-        <div class="px-25">
-          <button class="btn br-10 btn-sm btn-danger">
+        <div class="px-20 py-10">
+          <a href="{{ url('/backoffice/my-events') }}" class="btn m-5 br-10 btn-sm btn-danger">
             <svg width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path id="Vector" d="M18 5H3.83L7.41 1.41L6 0L0 6L6 12L7.41 10.59L3.83 7H18V5Z" fill="white"/>
             </svg>            
             Back
-          </button>
-          <button class="btn br-10 btn-sm btn-secondary" @click="dummyContent()">
+          </a>
+          <button class="btn m-5 br-10 btn-sm btn-secondary" @click="dummyContent()">
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
               <g id="save">
               <path id="Vector" d="M12.5943 2.33301H3.70432C2.882 2.33301 2.22266 2.99976 2.22266 3.81467V14.1863C2.22266 15.0013 2.882 15.668 3.70432 15.668H14.076C14.8909 15.668 15.5577 15.0013 15.5577 14.1863V5.29634L12.5943 2.33301ZM14.076 14.1863H3.70432V3.81467H11.9794L14.076 5.91123V14.1863ZM8.89016 9.00051C7.66037 9.00051 6.66766 9.99323 6.66766 11.223C6.66766 12.4528 7.66037 13.4455 8.89016 13.4455C10.1199 13.4455 11.1127 12.4528 11.1127 11.223C11.1127 9.99323 10.1199 9.00051 8.89016 9.00051ZM4.44516 4.55551H11.1127V7.51884H4.44516V4.55551Z" fill="white"/>
@@ -23,7 +27,7 @@
             </svg>                     
             Use Dummy
           </button>
-          <button class="btn br-10 btn-sm btn-info" @click="doSave('draft')">
+          <button class="btn m-5 br-10 btn-sm btn-info" @click="doSave('draft')">
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
               <g id="save">
               <path id="Vector" d="M12.5943 2.33301H3.70432C2.882 2.33301 2.22266 2.99976 2.22266 3.81467V14.1863C2.22266 15.0013 2.882 15.668 3.70432 15.668H14.076C14.8909 15.668 15.5577 15.0013 15.5577 14.1863V5.29634L12.5943 2.33301ZM14.076 14.1863H3.70432V3.81467H11.9794L14.076 5.91123V14.1863ZM8.89016 9.00051C7.66037 9.00051 6.66766 9.99323 6.66766 11.223C6.66766 12.4528 7.66037 13.4455 8.89016 13.4455C10.1199 13.4455 11.1127 12.4528 11.1127 11.223C11.1127 9.99323 10.1199 9.00051 8.89016 9.00051ZM4.44516 4.55551H11.1127V7.51884H4.44516V4.55551Z" fill="white"/>
@@ -31,7 +35,7 @@
             </svg>                     
             Draft
           </button>
-          <button class="btn br-10 btn-sm btn-primary" @click="doSave('active')">
+          <button class="btn m-5 br-10 btn-sm btn-primary" @click="doSave('active')">
             <svg width="18" height="16" viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path id="Vector" d="M17.78 6.2217V2.6657C17.78 1.67891 16.9799 0.887695 16.002 0.887695H1.778C0.8001 0.887695 0.00888999 1.67891 0.00888999 2.6657V6.2217C0.98679 6.2217 1.778 7.0218 1.778 7.9997C1.778 8.9776 0.98679 9.7777 0 9.7777V13.3337C0 14.3116 0.8001 15.1117 1.778 15.1117H16.002C16.9799 15.1117 17.78 14.3116 17.78 13.3337V9.7777C16.8021 9.7777 16.002 8.9776 16.002 7.9997C16.002 7.0218 16.8021 6.2217 17.78 6.2217ZM16.002 4.92376C14.9441 5.53717 14.224 6.69287 14.224 7.9997C14.224 9.30653 14.9441 10.4622 16.002 11.0756V13.3337H1.778V11.0756C2.83591 10.4622 3.556 9.30653 3.556 7.9997C3.556 6.68398 2.8448 5.53717 1.78689 4.92376L1.778 2.6657H16.002V4.92376ZM8.001 10.6667H9.779V12.4447H8.001V10.6667ZM8.001 7.1107H9.779V8.8887H8.001V7.1107ZM8.001 3.5547H9.779V5.3327H8.001V3.5547Z" fill="white"/>
             </svg>                       
@@ -43,41 +47,54 @@
     <div class="boc-content px-45 py-35">
       <div class="row">
         <div class="col-12">
-          <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+          <input type="file" @change="previewImage" multiple class="d-none" id="input-poster">
+          <div id="event-banner-carousel" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
               <div class="carousel-item active">
-                <label class="wp-100 position-relative image-poster cursor-pointer" for="input-poster">
-                  <img src="{{ url('assets/images/events/bg-banner.png') }}" alt="" class="wp-100 img-fluid">
-                  <div class="position-absolute d-flex flex-column align-items-center justify-content-center top-0 bottom-0 left-0 right-0 hp-100 ip-caption">
-                    <svg width="80" height="63" viewBox="0 0 80 63" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path id="Vector" d="M66.6667 53.3333V55.5556C66.6667 59.2375 63.6819 62.2222 60 62.2222H6.66667C2.98472 62.2222 0 59.2375 0 55.5556V20C0 16.3181 2.98472 13.3333 6.66667 13.3333H8.88889V42.2222C8.88889 48.3489 13.8733 53.3333 20 53.3333H66.6667ZM80 42.2222V6.66667C80 2.98472 77.0153 0 73.3333 0H20C16.3181 0 13.3333 2.98472 13.3333 6.66667V42.2222C13.3333 45.9042 16.3181 48.8889 20 48.8889H73.3333C77.0153 48.8889 80 45.9042 80 42.2222ZM35.5556 13.3333C35.5556 17.0153 32.5708 20 28.8889 20C25.2069 20 22.2222 17.0153 22.2222 13.3333C22.2222 9.65139 25.2069 6.66667 28.8889 6.66667C32.5708 6.66667 35.5556 9.65139 35.5556 13.3333ZM22.2222 33.3333L29.9326 25.6229C30.5835 24.9721 31.6388 24.9721 32.2897 25.6229L37.7778 31.1111L56.5993 12.2896C57.2501 11.6387 58.3054 11.6387 58.9564 12.2896L71.1111 24.4444V40H22.2222V33.3333Z" fill="white"/>
-                    </svg>
-                    <span class="fs-20 fw-600 text-light text-center max-w-350 mt-15">Upload Banner / Poster Event</span>
-                    <span class="fs-12 fw-400 text-light text-center max-w-350">Rekomendasi ukuran 798px x 450px, bisa mengupload lebih dari satu gambar.</span>              
-                  </div>
-                </label>
-                <input type="file" @change="previewImage" multiple class="d-none" id="input-poster">
+                <img src="{{ url('assets/images/events/bg-banner.png') }}" alt="" class="wp-100 img-fluid">
+                <div class="carousel-caption left-0 right-0 top-0 bottom-0 d-flex align-items-center">
+                  <label class="wp-100 position-relative image-poster cursor-pointer hp-100" for="input-poster">
+                    <div class="d-flex flex-column align-items-center justify-content-center hp-100">
+                      <svg width="80" height="63" viewBox="0 0 80 63" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path id="Vector" d="M66.6667 53.3333V55.5556C66.6667 59.2375 63.6819 62.2222 60 62.2222H6.66667C2.98472 62.2222 0 59.2375 0 55.5556V20C0 16.3181 2.98472 13.3333 6.66667 13.3333H8.88889V42.2222C8.88889 48.3489 13.8733 53.3333 20 53.3333H66.6667ZM80 42.2222V6.66667C80 2.98472 77.0153 0 73.3333 0H20C16.3181 0 13.3333 2.98472 13.3333 6.66667V42.2222C13.3333 45.9042 16.3181 48.8889 20 48.8889H73.3333C77.0153 48.8889 80 45.9042 80 42.2222ZM35.5556 13.3333C35.5556 17.0153 32.5708 20 28.8889 20C25.2069 20 22.2222 17.0153 22.2222 13.3333C22.2222 9.65139 25.2069 6.66667 28.8889 6.66667C32.5708 6.66667 35.5556 9.65139 35.5556 13.3333ZM22.2222 33.3333L29.9326 25.6229C30.5835 24.9721 31.6388 24.9721 32.2897 25.6229L37.7778 31.1111L56.5993 12.2896C57.2501 11.6387 58.3054 11.6387 58.9564 12.2896L71.1111 24.4444V40H22.2222V33.3333Z" fill="white"/>
+                      </svg>
+                      <span class="fs-20 fw-600 text-light text-center max-w-350 mt-15">Upload Banner / Poster Event</span>
+                      <span class="fs-12 fw-400 text-light text-center max-w-350">Rekomendasi ukuran 798px x 450px, bisa mengupload lebih dari satu gambar.</span>              
+                    </div>
+                  </label>
+                </div>
               </div>
-              <div class="carousel-item" v-for="(poster, index) in form.data.images" :key="index">
+              <div class="carousel-item carousel-item-main" v-for="(poster, index) in form.data.images" :key="index">
                 <img :src="poster" class="d-block wp-100" :alt="form.data.name">
+                <div class="carousel-caption left-0 right-0 top-0 bottom-0 d-flex align-items-center">
+                  <label class="wp-100 position-relative image-poster cursor-pointer hp-100" for="input-poster">
+                    <div class="d-flex flex-column align-items-center justify-content-center hp-100">
+                      <svg width="80" height="63" viewBox="0 0 80 63" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path id="Vector" d="M66.6667 53.3333V55.5556C66.6667 59.2375 63.6819 62.2222 60 62.2222H6.66667C2.98472 62.2222 0 59.2375 0 55.5556V20C0 16.3181 2.98472 13.3333 6.66667 13.3333H8.88889V42.2222C8.88889 48.3489 13.8733 53.3333 20 53.3333H66.6667ZM80 42.2222V6.66667C80 2.98472 77.0153 0 73.3333 0H20C16.3181 0 13.3333 2.98472 13.3333 6.66667V42.2222C13.3333 45.9042 16.3181 48.8889 20 48.8889H73.3333C77.0153 48.8889 80 45.9042 80 42.2222ZM35.5556 13.3333C35.5556 17.0153 32.5708 20 28.8889 20C25.2069 20 22.2222 17.0153 22.2222 13.3333C22.2222 9.65139 25.2069 6.66667 28.8889 6.66667C32.5708 6.66667 35.5556 9.65139 35.5556 13.3333ZM22.2222 33.3333L29.9326 25.6229C30.5835 24.9721 31.6388 24.9721 32.2897 25.6229L37.7778 31.1111L56.5993 12.2896C57.2501 11.6387 58.3054 11.6387 58.9564 12.2896L71.1111 24.4444V40H22.2222V33.3333Z" fill="white"/>
+                      </svg>
+                      <span class="fs-20 fw-600 text-light text-center max-w-350 mt-15">Upload Banner / Poster Event</span>
+                      <span class="fs-12 fw-400 text-light text-center max-w-350">Rekomendasi ukuran 798px x 450px, bisa mengupload lebih dari satu gambar.</span>              
+                    </div>
+                  </label>
+                </div>
               </div>
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+            <button class="carousel-control-prev" type="button" data-bs-target="#event-banner-carousel" data-bs-slide="prev">
               <span class="carousel-control-prev-icon" aria-hidden="true"></span>
               <span class="visually-hidden">Previous</span>
             </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+            <button class="carousel-control-next" type="button" data-bs-target="#event-banner-carousel" data-bs-slide="next">
               <span class="carousel-control-next-icon" aria-hidden="true"></span>
               <span class="visually-hidden">Next</span>
             </button>
           </div>
         </div>
         <div class="col-5 pt-35 pb-5 border-bottom border-primary">
-          <label class="fs-20 fw-600 text-light wp-100">Nama Event</label>
-          <input type="text" class="border-0 bg-transparent py-10 text-light wp-100" placeholder="Nama Event" v-model="form.data.name">
+          <label class="fs-20 fw-600 text-light wp-100">Nama</label>
+          <input type="text" class="border-0 bg-transparent py-10 text-light wp-100" placeholder="Nama" v-model="form.data.name">
         </div>
         <div class="col-7 pt-35 pb-5 border-bottom border-primary" data-bs-toggle="modal" data-bs-target="#jenisKategoriModal">
-          <label class="fs-20 fw-600 text-light wp-100 cursor-pointer">Jenis & Kategori Event</label>
+          <label class="fs-20 fw-600 text-light wp-100 cursor-pointer">Jenis & Kategori</label>
           <div class="d-flex align-items-center py-10 cursor-pointer">
             <div class="d-flex align-items-center">
               <svg width="18" height="15" viewBox="0 0 18 15" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -89,7 +106,7 @@
               <svg width="18" height="13" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path id="Vector" d="M8.89 1.61636C11.953 1.61636 14.6847 3.33779 16.0182 6.06136C14.6847 8.78494 11.953 10.5064 8.89 10.5064C5.82699 10.5064 3.09534 8.78494 1.76184 6.06136C3.09534 3.33779 5.82699 1.61636 8.89 1.61636ZM8.89 0C4.84909 0 1.39815 2.51345 0 6.06136C1.39815 9.60928 4.84909 12.1227 8.89 12.1227C12.9309 12.1227 16.3818 9.60928 17.78 6.06136C16.3818 2.51345 12.9309 0 8.89 0ZM8.89 4.04091C10.0053 4.04091 10.9105 4.94607 10.9105 6.06136C10.9105 7.17665 10.0053 8.08182 8.89 8.08182C7.77471 8.08182 6.86955 7.17665 6.86955 6.06136C6.86955 4.94607 7.77471 4.04091 8.89 4.04091ZM8.89 2.42455C6.88571 2.42455 5.25318 4.05707 5.25318 6.06136C5.25318 8.06565 6.88571 9.69818 8.89 9.69818C10.8943 9.69818 12.5268 8.06565 12.5268 6.06136C12.5268 4.05707 10.8943 2.42455 8.89 2.42455Z" fill="white"/>
               </svg>                  
-              <span class="text-secondary ms-10" v-text="(form.data.subcategory) ? form.data.subcategory : 'Jenis Event'"></span>                
+              <span class="text-secondary ms-10" v-text="(form.data.subcategory) ? form.data.subcategory : 'Jenis'"></span>                
             </div>
           </div>
         </div>
@@ -100,7 +117,7 @@
               <img :src='(form.data.powered_by_image) ? form.data.powered_by_image : "{{ url('assets/images/events/powered.png') }}"' alt="" class="w-60 h-60 br-100 me-15">
             </label>
             <input type="file" @change="previewImagePowered" class="d-none" id="input-powered">
-            <input type="text" class="border-0 bg-transparent py-10 text-light wp-100" placeholder="PT Tiket Event" v-model="form.data.powered_by">
+            <input type="text" class="border-0 bg-transparent py-10 text-light wp-100" placeholder="PT Tiket" v-model="form.data.powered_by">
           </div>
         </div>
         <div class="col-7 pt-20 pb-20 border-bottom border-primary">
@@ -131,7 +148,7 @@
                   <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path id="Vector" d="M11.6019 4.66706L12.0464 6.88956H1.73396L2.17846 4.66706H11.6019ZM12.8168 0.962891H0.96349V2.44456H12.8168V0.962891ZM12.8168 3.18539H0.96349L0.222656 6.88956V8.37122H0.96349V12.8162H8.37182V8.37122H11.3352V12.8162H12.8168V8.37122H13.5577V6.88956L12.8168 3.18539ZM2.44516 11.3346V8.37122H6.89016V11.3346H2.44516Z" fill="white"/>
                   </svg>                                     
-                  <span class="text-secondary ms-10" v-text="(form.data.location_name) ? form.data.location_name : 'Lokasi Event'"></span>                
+                  <span class="text-secondary ms-10" v-text="(form.data.location_name) ? form.data.location_name : 'Lokasi'"></span>                
                 </div>
                 <div class="d-flex align-items-center mt-10">
                   <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -146,9 +163,9 @@
           </div>
         </div>
         <div class="col-12 pt-20 pb-20 border-bottom border-primary">
-          <label class="fs-20 fw-600 text-light wp-100">Detil Event</label>
+          <label class="fs-20 fw-600 text-light wp-100">Detil</label>
           <div class="d-flex bg-secondary p-10 mt-15 br-tl-10 br-tr-10">
-            <button class="nav-link fs-16 text-light me-35" :class="(detilForm == 'description') ? 'fw-700' : 'fw-400'" @click="detilForm = 'description'">Deskripsi Event</button>
+            <button class="nav-link fs-16 text-light me-35" :class="(detilForm == 'description') ? 'fw-700' : 'fw-400'" @click="detilForm = 'description'">Deskripsi</button>
             <button class="nav-link fs-16 text-light" :class="(detilForm == 'toc') ? 'fw-700' : 'fw-400'" @click="detilForm = 'toc'">Terms & Condition</button>
           </div>
           <div class="tab-content br-br-10 br-bl-10 overflow-hidden">
@@ -373,18 +390,18 @@
       <div class="modal-dialog modal-dialog-centered modal-bg-black-choco max-w-570">
         <div class="modal-content">
           <div class="modal-header border-bottom border-primary pt-30 pb-20 px-30 position-relative">
-            <h5 class="modal-title text-center text-light fs-20 fw-600 wp-100" id="jenisKategoriModalLabel">Kategori & Jenis Event</h5>
+            <h5 class="modal-title text-center text-light fs-20 fw-600 wp-100" id="jenisKategoriModalLabel">Kategori & Jenis</h5>
             <button type="button" class="btn-close btn-close-white position-absolute right-30" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body px-30 pt-40">
             <div class="form-group">
-              <label class="fs-20 fw-600 text-light mb-10 form-label">Kategori Event</label>
+              <label class="fs-20 fw-600 text-light mb-10 form-label">Kategori</label>
               <select class="border-top-0 border-start-0 border-end-0 border-bottom border-primary bg-transparent py-12 text-light fs-16 fw-400 wp-100 bg-dark" v-model="form.data.category">
                 <option :value="category" class="bg-dark" v-for="(category,idx) in opt.category" :key="idx" v-text="category"/>
               </select>
             </div>
             <div class="form-group mt-20">
-              <label class="fs-20 fw-600 text-light mb-10 form-label">Subkategori Event</label>
+              <label class="fs-20 fw-600 text-light mb-10 form-label">Subkategori</label>
               <select class="border-top-0 border-start-0 border-end-0 border-bottom border-primary bg-transparent py-12 text-light fs-16 fw-400 wp-100 bg-dark" v-model="form.data.subcategory">
                 <option :value="subcategory" class="bg-dark" v-for="(subcategory,idx) in opt.subcategory" :key="idx" v-text="subcategory"/>
               </select>
@@ -394,7 +411,7 @@
               <input type="text" class="border-top-0 border-start-0 border-end-0 border-bottom border-primary bg-transparent py-12 text-light fs-16 fw-400 wp-100" placeholder="Masukan kata kunci dengan pemisah koma (,)" v-model="form.data.keyword">
             </div>
             <div class="form-group mt-20">
-              <label class="fs-20 fw-600 text-light mb-10 form-label">Jenis Event</label>
+              <label class="fs-20 fw-600 text-light mb-10 form-label">Jenis</label>
               <div class="row">
                 <div class="col-6 border-end border-primary d-flex">
                   <div class="form-check wp-50">
@@ -455,8 +472,9 @@
               <select class="border-top-0 border-start-0 border-end-0 border-bottom border-primary bg-transparent py-12 text-light fs-16 fw-400 wp-100 bg-dark" v-model="form.data.location_city">
                 <option :value="city" class="bg-dark" v-for="(city,idx) in opt.city" :key="idx" v-text="city"/>
               </select>
-              <img src="{{ url('assets/images/events/peta.png') }}" alt="" class="img-fluid wp-100 mt-15">
-              <span class="text-light wp-100 d-block mt-15 fs-12 fw-400 text-center">Jika location event tidak akurat, silahkan geser map pointer!</span>
+              <div id="lokasi-event" class="wp-100 h-300"></div>
+              {{-- <img src="{{ url('assets/images/events/peta.png') }}" alt="" class="img-fluid wp-100 mt-15"> --}}
+              <span class="text-light wp-100 d-block mt-15 fs-12 fw-400 text-center">Jika lokasi tidak akurat, silahkan geser map pointer!</span>
             </div>
           </div>
           <div class="modal-footer text-center justify-content-center pt-50 pb-45 border-top-0">
@@ -475,7 +493,7 @@
           </div>
           <div class="modal-body px-30 pt-40">
             <div class="form-group pb-20 border-bottom border-primary">
-              <label class="fs-20 fw-600 text-light mb-20 form-label">Tanggal Event</label>
+              <label class="fs-20 fw-600 text-light mb-20 form-label">Tanggal</label>
               <div class="row">
                 <div class="col-6">
                   <label class="fs-14 fw-400 text-light mb-10">Tanggal Mulai</label>
@@ -498,7 +516,7 @@
               </div>
             </div>
             <div class="form-group pb-20 border-bottom border-primary mt-20">
-              <label class="fs-20 fw-600 text-light mb-20 form-label">Waktu Event</label>
+              <label class="fs-20 fw-600 text-light mb-20 form-label">Waktu</label>
               <div class="row">
                 <div class="col-6">
                   <label class="fs-14 fw-400 text-light mb-10">Waktu Mulai</label>
@@ -633,7 +651,7 @@
               <label class="fs-20 fw-600 text-light mb-10 form-label">Deskripsi Tiket</label>
               <textarea rows="5" class="border-top-0 border-start-0 border-end-0 border-bottom border-primary bg-transparent py-12 text-light fs-16 fw-400 wp-100" placeholder="E.g berlaku untuk tiket tertentu" v-model="ticket_paid.description"></textarea>
             </div>
-            <div class="form-group mt-20">
+            <div class="form-group mt-20" v-if="form.data.type == 'event'">
               <label class="fs-20 fw-600 text-light mb-10 form-label">Seat</label>
               <div class="row g-0">
                 <div class="col">
@@ -765,6 +783,64 @@
               <label class="fs-20 fw-600 text-light mb-10 form-label">Deskripsi Tiket</label>
               <textarea rows="5" class="border-top-0 border-start-0 border-end-0 border-bottom border-primary bg-transparent py-12 text-light fs-16 fw-400 wp-100" placeholder="E.g berlaku untuk tiket tertentu" v-model="ticket_free.description"></textarea>
             </div>
+            <div class="form-group mt-20" v-if="form.data.type == 'event'">
+              <label class="fs-20 fw-600 text-light mb-10 form-label">Seat</label>
+              <div class="row g-0">
+                <div class="col">
+                  <label class="fs-14 fw-600 text-light mb-10 form-label"></label>
+                </div>
+                <div class="col">
+                  <label class="fs-14 fw-600 text-light mb-10 form-label">Section</label>
+                </div>
+                <div class="col">
+                  <label class="fs-14 fw-600 text-light mb-10 form-label">Row</label>
+                </div>
+                <div class="col">
+                  <label class="fs-14 fw-600 text-light mb-10 form-label">Jumlah Seat</label>
+                </div>
+                <div class="col">
+                  <label class="fs-14 fw-600 text-light mb-10 form-label">Harga</label>
+                </div>
+                <div class="col-1">
+
+                </div>
+              </div>
+              <div class="row align-items-center py-10 border-bottom border-primary g-0" v-for="(seat,index) in ticket_free.seats" :key="index" v-show="!seat.deleted">
+                <div class="col">
+                  <label class="w-100 d-flex align-items-center justify-content-between bg-primary br-6 cursor-pointer overflow-hidden">
+                    <img :src="seat.image" v-if="seat.image" class="w-100">
+                    <svg v-else width="40" height="31" viewBox="0 0 80 63" fill="none" xmlns="http://www.w3.org/2000/svg" class="mx-auto my-15">
+                      <path id="Vector" d="M66.6667 53.3333V55.5556C66.6667 59.2375 63.6819 62.2222 60 62.2222H6.66667C2.98472 62.2222 0 59.2375 0 55.5556V20C0 16.3181 2.98472 13.3333 6.66667 13.3333H8.88889V42.2222C8.88889 48.3489 13.8733 53.3333 20 53.3333H66.6667ZM80 42.2222V6.66667C80 2.98472 77.0153 0 73.3333 0H20C16.3181 0 13.3333 2.98472 13.3333 6.66667V42.2222C13.3333 45.9042 16.3181 48.8889 20 48.8889H73.3333C77.0153 48.8889 80 45.9042 80 42.2222ZM35.5556 13.3333C35.5556 17.0153 32.5708 20 28.8889 20C25.2069 20 22.2222 17.0153 22.2222 13.3333C22.2222 9.65139 25.2069 6.66667 28.8889 6.66667C32.5708 6.66667 35.5556 9.65139 35.5556 13.3333ZM22.2222 33.3333L29.9326 25.6229C30.5835 24.9721 31.6388 24.9721 32.2897 25.6229L37.7778 31.1111L56.5993 12.2896C57.2501 11.6387 58.3054 11.6387 58.9564 12.2896L71.1111 24.4444V40H22.2222V33.3333Z" fill="white"/>
+                    </svg>
+                    <input type="file" :id="`seat-${index}`" class="d-none" @change="seatImage('free',index, event)">
+                  </label>
+                </div>
+                <div class="col">
+                  <input type="text" class="border-0 bg-transparent py-10 text-light wp-100" placeholder="E.g: 300" v-model="seat.section">
+                </div>
+                <div class="col">
+                  <input type="text" class="border-0 bg-transparent py-10 text-light wp-100" placeholder="E.g: A" v-model="seat.row">
+                </div>
+                <div class="col">
+                  <input type="number" class="border-0 bg-transparent py-10 text-light wp-100" placeholder="E.g: 10" v-model="seat.seat">
+                </div>
+                <div class="col">
+                  <input type="number" class="border-0 bg-transparent py-10 text-light wp-100" placeholder="E.g: 200.000" v-model="seat.price">
+                </div>
+                <div class="col-1">
+                  <a href="#" @click="removeSeat('free',index)">
+                    <svg width="15" height="18" viewBox="0 0 15 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path id="Vector" d="M1.07143 15.5357C1.07143 15.962 1.24075 16.3707 1.54215 16.6721C1.84355 16.9735 2.25233 17.1429 2.67857 17.1429H12.3214C12.7477 17.1429 13.1565 16.9735 13.4578 16.6721C13.7592 16.3707 13.9286 15.962 13.9286 15.5357V4.28572H1.07143V15.5357ZM10.1786 6.96429C10.1786 6.82221 10.235 6.68595 10.3355 6.58548C10.4359 6.48502 10.5722 6.42858 10.7143 6.42858C10.8564 6.42858 10.9926 6.48502 11.0931 6.58548C11.1936 6.68595 11.25 6.82221 11.25 6.96429V14.4643C11.25 14.6064 11.1936 14.7426 11.0931 14.8431C10.9926 14.9436 10.8564 15 10.7143 15C10.5722 15 10.4359 14.9436 10.3355 14.8431C10.235 14.7426 10.1786 14.6064 10.1786 14.4643V6.96429ZM6.96429 6.96429C6.96429 6.82221 7.02073 6.68595 7.12119 6.58548C7.22166 6.48502 7.35792 6.42858 7.5 6.42858C7.64208 6.42858 7.77834 6.48502 7.87881 6.58548C7.97927 6.68595 8.03571 6.82221 8.03571 6.96429V14.4643C8.03571 14.6064 7.97927 14.7426 7.87881 14.8431C7.77834 14.9436 7.64208 15 7.5 15C7.35792 15 7.22166 14.9436 7.12119 14.8431C7.02073 14.7426 6.96429 14.6064 6.96429 14.4643V6.96429ZM3.75 6.96429C3.75 6.82221 3.80644 6.68595 3.90691 6.58548C4.00737 6.48502 4.14363 6.42858 4.28571 6.42858C4.42779 6.42858 4.56406 6.48502 4.66452 6.58548C4.76499 6.68595 4.82143 6.82221 4.82143 6.96429V14.4643C4.82143 14.6064 4.76499 14.7426 4.66452 14.8431C4.56406 14.9436 4.42779 15 4.28571 15C4.14363 15 4.00737 14.9436 3.90691 14.8431C3.80644 14.7426 3.75 14.6064 3.75 14.4643V6.96429ZM14.4643 1.07143H10.4464L10.1317 0.445318C10.065 0.311462 9.96233 0.198864 9.83515 0.120193C9.70798 0.0415218 9.56137 -0.000101383 9.41183 5.87033e-06H5.58482C5.43562 -0.000567697 5.28927 0.0409003 5.16255 0.119659C5.03582 0.198417 4.93385 0.311281 4.8683 0.445318L4.55357 1.07143H0.535714C0.393634 1.07143 0.257373 1.12788 0.156907 1.22834C0.0564412 1.32881 0 1.46507 0 1.60715L0 2.67858C0 2.82066 0.0564412 2.95692 0.156907 3.05738C0.257373 3.15785 0.393634 3.21429 0.535714 3.21429H14.4643C14.6064 3.21429 14.7426 3.15785 14.8431 3.05738C14.9436 2.95692 15 2.82066 15 2.67858V1.60715C15 1.46507 14.9436 1.32881 14.8431 1.22834C14.7426 1.12788 14.6064 1.07143 14.4643 1.07143V1.07143Z" fill="white"></path></svg>
+                  </a>
+                </div>
+              </div>
+              <div class="row pt-10">
+                <div class="col">
+                  <button class="btn btn-primary wp-100 btn-sm" type="button" @click="addSeat('free')">
+                    + Add Seat
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="modal-footer text-center justify-content-center pt-50 pb-45 border-top-0">
             <button type="button" class="btn btn-secondary max-w-430 wp-100 fs-16 fw-600 py-13" @click="dummyTicket('free')">Use Dummy</button>
@@ -788,378 +864,438 @@
   <p class="d-block text-end fs-14 fw-400 text-light mt-35 wp-100">Copyright © Tiketbox.com. All Copyright Protected</p>
 @endsection
 @section('script')
-<script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
-<script src="{{ url('assets/plugin/axios/axios.js') }}"></script>
-<script src="{{ url('assets/js/services.js') }}"></script>
-<script src="{{ url('assets/js/helper.js') }}"></script>
-<script src="{{ url('node_modules/@ckeditor/ckeditor5-build-classic/build/ckeditor.js') }}"></script>
-<script src="{{ url('node_modules/@ckeditor/ckeditor5-vue2/dist/ckeditor.js') }}"></script>
-<script>
-  Vue.use( CKEditor );
-  const vueBhome = new Vue( {
-    el: '#bhome',
-    data: {
-      detilForm: 'description',
-      editor: ClassicEditor,
-      editorConfig: {
-          // The configuration of the editor.
-      },
-      form: {
-        data: {
-          '_token':'{{ csrf_token() }}',
+  <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+  <script>
+    Vue.use( CKEditor );
+    const vueBhome = new Vue( {
+      el: '#bhome',
+      data: {
+        detilForm: 'description',
+        editor: ClassicEditor,
+        editorConfig: {
+            // The configuration of the editor.
+        },
+        form: {
+          data: {
+            _token:'{{ csrf_token() }}',
+            name: null,
+            powered_by: null,
+            powered_by_image: null,
+            category: null,
+            subcategory: null,
+            keyword: null,
+            is_public: true,
+            is_offline: true,
+            date_start: null,
+            date_end: null,
+            time_start: null,
+            time_end: null,
+            location_name: null,
+            location_address: null,
+            location_city: null,
+            location_coordinate: 'location,coordinate',
+            description: '',
+            toc: '',
+            max_ticket: 1,
+            one_email_one_transaction: false,
+            one_ticket_one_order: false,
+            peduli_lindungi: false,
+            status: 'active',
+            type: 'event',
+            images: [],
+            ticket: [],
+            form_order: []
+          }
+        },
+        ticket_paid: {
+          image: null,
           name: null,
-          powered_by: null,
-          powered_by_image: null,
-          category: null,
-          subcategory: null,
-          keyword: null,
-          is_public: true,
-          is_offline: true,
+          quota: null,
+          price: 0,
+          tax: false,
+          tax_amount: 0,
           date_start: null,
           date_end: null,
           time_start: null,
           time_end: null,
-          location_name: null,
-          location_address: null,
-          location_city: null,
-          location_coordinate: 'location,coordinate',
-          description: '',
-          toc: '',
-          max_ticket: 1,
-          one_email_one_transaction: false,
-          one_ticket_one_order: false,
-          peduli_lindungi: false,
+          description: null,
+          type: 'paid',
           status: 'active',
-          type: 'event',
-          images: [],
-          ticket: [],
-          form_order: []
-        }
-      },
-      ticket_paid: {
-        image: null,
-        name: null,
-        quota: null,
-        price: 0,
-        tax: false,
-        tax_amount: 0,
-        date_start: null,
-        date_end: null,
-        time_start: null,
-        time_end: null,
-        description: null,
-        type: 'paid',
-        status: 'active',
-        seats: [
-          {
-            id: null,
-            image: null,
-            section: null,
-            row: null,
-            seat: null,
-            price: null,
-            deleted: false
-          }
-        ]
-      },
-      ticket_free: {
-        image: null,
-        name: null,
-        quota: null,
-        price: 0,
-        tax: false,
-        tax_amount: 0,
-        date_start: null,
-        date_end: null,
-        time_start: null,
-        time_end: null,
-        description: null,
-        type: 'free',
-        status: 'active',
-        seats: [
-          {
-            id: null,
-            image: null,
-            section: null,
-            row: null,
-            seat: null,
-            price: null,
-            deleted: false
-          }
-        ]
-      },
-      opt: {
-        category: ["Konser","Atraksi","Standup Comedy","Reality Show"],
-        subcategory: ["Musik","Drama","Cosplay","Teater"],
-        city: ["Jakarta","Bandung","Bogor","Bekasi","Tanggerang","Semarang","Jogja","Surabaya"],
-        max_ticket: [1,5,10,15,20]
-      },
-      alert: {
-        show: 'hide',
-        bg: 'bg-primary',
-        title: null,
-        msg: null
-      }
-    },
-    computed: {
-      ticket_paid_price() {
-        let price = this.thousand(this.ticket_paid.price)
-        return price
-      },
-      ticket_paid_quota() {
-        let quota = this.thousand(this.ticket_paid.quota)
-        return quota
-      }
-    },
-    methods: {
-      ...helper,
-      onChangeThousand(target, e){
-        switch (target) {
-          case 'ticketpaid_price':
-            this.ticket_paid.price = this.removeThousand(e.target.value);
-            break;
-          case 'ticketpaid_quota':
-            this.ticket_paid.quota = this.removeThousand(e.target.value);
-            break;
-        }
-      },
-      async getCity() {
-        let city = await axios.get('/assets/city.json')
-        this.opt.city = city.data
-      },
-      async doSave(status) {
-        this.notify('info','Processing','Menyimpan data...')
-        let payload = {...this.form.data}
-        payload.status = status
-        let token = 'abcdreUYBH&^*VHGY^&GY'
-        try {
-          let req = await tiketboxApi.createEvent(payload,token)
-          let { status, msg, data} = req.data
-          if(status){
-            this.notify('success','Success',msg)
-            setTimeout(() => {
-              window.location.reload()
-            }, 2000)
-          } else {
-            this.notify('error','Error',msg)
-          }
-        } catch (error) {
-          this.notify('error','Error',error.message)
-        }
-      },
-      addTicket(type) {
-        let ticket = {...this.ticket_paid}
-        if(type == 'free'){
-          ticket = {...this.ticket_free}
-        }
-        this.form.data.ticket.push(ticket)
-      },
-      addSeat(type) {
-        let seat = {
-                      id: null,
-                      image: null,
-                      section: null,
-                      row: null,
-                      seat: null,
-                      price: null,
-                      deleted: false
-                    }
-        if(type == 'free'){
-          this.ticket_free.seats.push(seat)
-        } else {
-          this.ticket_paid.seats.push(seat)
-        }
-      },
-      removeSeat(type,idx) {
-        if(type == 'free'){
-          if(this.ticket_free.seats[idx]){
-            this.ticket_free.seats[idx].deleted = true
-          } else {
-            this.ticket_free.seats.splice(idx,1)
-          }
-        } else {
-          if(this.ticket_paid.seats[idx]){
-            this.ticket_paid.seats[idx].deleted = true
-          } else {
-            this.ticket_paid.seats.splice(idx,1)
-          }
-        }
-      },
-      previewImage(e) {
-        let vm = this
-        let inp = e.target
-        let files = e.target.files
-        for(let i = 0; i < files.length; i++) {
-          let reader = new FileReader();
-          reader.readAsDataURL(files[i]);
-          reader.onload = function () {
-            vm.form.data.images.push(reader.result)
-            inp.type = 'text';
-            inp.type = 'file';
-          };
-          reader.onerror = function () {
-            inp.type = 'text';
-            inp.type = 'file';
-          };
-        }
-      },
-      previewImagePowered(e) {
-        let vm = this
-        let inp = e.target
-        let files = e.target.files
-        for(let i = 0; i < files.length; i++) {
-          let reader = new FileReader();
-          reader.readAsDataURL(files[i]);
-          reader.onload = function () {
-            vm.form.data.powered_by_image = reader.result
-            inp.type = 'text';
-            inp.type = 'file';
-          };
-          reader.onerror = function () {
-            inp.type = 'text';
-            inp.type = 'file';
-          };
-        }
-      },
-      seatImage(type,index,e) {
-        let vm = this
-        let inp = e.target
-        let files = e.target.files
-        for(let i = 0; i < files.length; i++) {
-          let reader = new FileReader();
-          reader.readAsDataURL(files[i]);
-          reader.onload = function () {
-            if(type == 'free'){
-              vm.ticket_free.seats[index].image = reader.result
-            } else {
-              vm.ticket_paid.seats[index].image = reader.result
+          seats: [
+            {
+              id: null,
+              image: null,
+              section: null,
+              row: null,
+              seat: null,
+              price: null,
+              deleted: false
             }
-            inp.type = 'text';
-            inp.type = 'file';
-          };
-          reader.onerror = function () {
-            inp.type = 'text';
-            inp.type = 'file';
-          };
-        }
-      },
-      ticketImage(type,e) {
-        let vm = this
-        let inp = e.target
-        let files = e.target.files
-        for(let i = 0; i < files.length; i++) {
-          let reader = new FileReader();
-          reader.readAsDataURL(files[i]);
-          reader.onload = function () {
-            if(type == 'free'){
-              vm.ticket_free.image = reader.result
-            } else {
-              vm.ticket_paid.image = reader.result
-            }
-            inp.type = 'text';
-            inp.type = 'file';
-          };
-          reader.onerror = function () {
-            inp.type = 'text';
-            inp.type = 'file';
-          };
-        }
-      },
-      dummyContent() {
-        let dummy = {
-          '_token':'{{ csrf_token() }}',
-          name: 'Nama Event',
-          powered_by: 'Powered By',
-          category: 'Konser',
-          subcategory: 'Musik',
-          keyword: 'Konser, Musik, Gebyar',
-          is_public: true,
-          is_offline: true,
-          date_start: '2023-07-30',
-          date_end: '2023-08-10',
-          time_start: '07:00',
-          time_end: '11:00',
-          location_name: 'Nama Lokasi',
-          location_address: 'Alamat',
-          location_city: 'Jakarta',
-          location_coordinate: '-6.2188519,106.7996837',
-          description: `What is Lorem Ipsum? Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.`,
-          toc: `What is Lorem Ipsum? Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.`,
-          max_ticket: 1,
-          one_email_one_transaction: false,
-          one_ticket_one_order: false,
-          peduli_lindungi: false,
-          status: 'active',
-          type: 'event',
-        }
-        let formData = {...this.form.data}
-        this.form.data = {...formData,...dummy}
-      },
-      dummyTicket(type) {
-        let dummy = {
+          ]
+        },
+        ticket_free: {
           image: null,
-          name: 'Nama Tiket',
-          quota: 10000,
-          price: 1000000,
-          tax: true,
-          tax_amount: 11,
-          date_start: '2023-07-30',
-          date_end: '2023-08-10',
-          time_start: '07:00',
-          time_end: '23:00',
-          description: 'deskripsi tiket',
+          name: null,
+          quota: null,
+          price: 0,
+          tax: false,
+          tax_amount: 0,
+          date_start: null,
+          date_end: null,
+          time_start: null,
+          time_end: null,
+          description: null,
+          type: 'free',
           status: 'active',
-          type: type,
-          seats: [{
-            id: null,
-            image: null,
-            section: '300',
-            row: 'A',
-            seat: 10,
-            price: 230000,
-            deleted: false
-          }]
-        }
-        console.log(type,dummy)
-        if(type == 'free'){
-          let ticketFree = {...this.ticket_free}
-          this.ticket_free = {...ticketFree, ...dummy}
-        } else {
-          let ticketPaid = {...this.ticket_paid}
-          this.ticket_paid = {...ticketPaid, ...dummy}
+          seats: [
+            {
+              id: null,
+              image: null,
+              section: null,
+              row: null,
+              seat: null,
+              price: null,
+              deleted: false
+            }
+          ]
+        },
+        opt: {
+          category: ["Konser","Atraksi","Standup Comedy","Reality Show"],
+          subcategory: ["Musik","Drama","Cosplay","Teater"],
+          city: ["Jakarta","Bandung","Bogor","Bekasi","Tanggerang","Semarang","Jogja","Surabaya"],
+          max_ticket: [1,5,10,15,20]
+        },
+        alert: {
+          show: 'hide',
+          bg: 'bg-primary',
+          title: null,
+          msg: null
+        },
+        googleMap: {
+          map: null,
+          marker: null,
         }
       },
-      notify(type,title,msg){
-        let bg = 'bg-primary'
-        switch (bg) {
-          case 'error':
-            bg = 'bg-danger'
-            break;
-          case 'success':
-            bg = 'bg-success'
-            break;
-          case 'warning':
-            bg = 'bg-warning'
-            break;
-          case 'info':
-            bg = 'bg-info'
-            break;
+      computed: {
+        ticket_paid_price() {
+          let price = this.thousand(this.ticket_paid.price)
+          return price
+        },
+        ticket_paid_quota() {
+          let quota = this.thousand(this.ticket_paid.quota)
+          return quota
         }
-        this.alert = {
-          show: 'show',
-          bg: bg,
-          title: title,
-          msg: msg
+      },
+      methods: {
+        ...helper,
+        onChangeThousand(target, e){
+          switch (target) {
+            case 'ticketpaid_price':
+              this.ticket_paid.price = this.removeThousand(e.target.value);
+              break;
+            case 'ticketpaid_quota':
+              this.ticket_paid.quota = this.removeThousand(e.target.value);
+              break;
+          }
+        },
+        async getCity() {
+          let city = await axios.get('/assets/city.json')
+          this.opt.city = city.data
+        },
+        async doSave(status) {
+          this.notify('info','Processing','Menyimpan data...')
+          let payload = {...this.form.data}
+          payload.status = status
+          let token = 'abcdreUYBH&^*VHGY^&GY'
+          try {
+            let req = await tiketboxApi.createEvent(payload,token)
+            let { status, msg, data} = req.data
+            if(status){
+              this.notify('success','Success',msg)
+              setTimeout(() => {
+                window.location.reload()
+              }, 2000)
+            } else {
+              this.notify('error','Error',msg)
+            }
+          } catch (error) {
+            this.notify('error','Error',error.message)
+          }
+        },
+        addTicket(type) {
+          let ticket = {...this.ticket_paid}
+          if(type == 'free'){
+            ticket = {...this.ticket_free}
+          }
+          this.clearTicketForm()
+          this.form.data.ticket.push(ticket)
+        },
+        clearTicketForm() {
+          let empty_ticket = {
+            image: null,
+            name: null,
+            quota: null,
+            price: 0,
+            tax: false,
+            tax_amount: 0,
+            date_start: null,
+            date_end: null,
+            time_start: null,
+            time_end: null,
+            description: null,
+            type: 'paid',
+            status: 'active',
+            seats: [
+              {
+                id: null,
+                image: null,
+                section: null,
+                row: null,
+                seat: null,
+                price: null,
+                deleted: false
+              }
+            ]
+          }
+          this.ticket_paid = empty_ticket
+          this.ticket_free = empty_ticket
+          this.ticket_free.type = 'free'
+        },
+        addSeat(type) {
+          let seat = {
+                        id: null,
+                        image: null,
+                        section: null,
+                        row: null,
+                        seat: null,
+                        price: null,
+                        deleted: false
+                      }
+          if(type == 'free'){
+            this.ticket_free.seats.push(seat)
+          } else {
+            this.ticket_paid.seats.push(seat)
+          }
+        },
+        removeSeat(type,idx) {
+          if(type == 'free'){
+            if(this.ticket_free.seats[idx]){
+              this.ticket_free.seats[idx].deleted = true
+            } else {
+              this.ticket_free.seats.splice(idx,1)
+            }
+          } else {
+            if(this.ticket_paid.seats[idx]){
+              this.ticket_paid.seats[idx].deleted = true
+            } else {
+              this.ticket_paid.seats.splice(idx,1)
+            }
+          }
+        },
+        previewImage(e) {
+          let vm = this
+          let inp = e.target
+          let files = e.target.files
+          for(let i = 0; i < files.length; i++) {
+            let reader = new FileReader();
+            reader.readAsDataURL(files[i]);
+            reader.onload = function () {
+              vm.form.data.images.push(reader.result)
+              inp.type = 'text';
+              inp.type = 'file';
+            };
+            reader.onerror = function () {
+              inp.type = 'text';
+              inp.type = 'file';
+            };
+          }
+        },
+        previewImagePowered(e) {
+          let vm = this
+          let inp = e.target
+          let files = e.target.files
+          for(let i = 0; i < files.length; i++) {
+            let reader = new FileReader();
+            reader.readAsDataURL(files[i]);
+            reader.onload = function () {
+              vm.form.data.powered_by_image = reader.result
+              inp.type = 'text';
+              inp.type = 'file';
+            };
+            reader.onerror = function () {
+              inp.type = 'text';
+              inp.type = 'file';
+            };
+          }
+        },
+        seatImage(type,index,e) {
+          let vm = this
+          let inp = e.target
+          let files = e.target.files
+          for(let i = 0; i < files.length; i++) {
+            let reader = new FileReader();
+            reader.readAsDataURL(files[i]);
+            reader.onload = function () {
+              if(type == 'free'){
+                vm.ticket_free.seats[index].image = reader.result
+              } else {
+                vm.ticket_paid.seats[index].image = reader.result
+              }
+              inp.type = 'text';
+              inp.type = 'file';
+            };
+            reader.onerror = function () {
+              inp.type = 'text';
+              inp.type = 'file';
+            };
+          }
+        },
+        ticketImage(type,e) {
+          let vm = this
+          let inp = e.target
+          let files = e.target.files
+          for(let i = 0; i < files.length; i++) {
+            let reader = new FileReader();
+            reader.readAsDataURL(files[i]);
+            reader.onload = function () {
+              if(type == 'free'){
+                vm.ticket_free.image = reader.result
+              } else {
+                vm.ticket_paid.image = reader.result
+              }
+              inp.type = 'text';
+              inp.type = 'file';
+            };
+            reader.onerror = function () {
+              inp.type = 'text';
+              inp.type = 'file';
+            };
+          }
+        },
+        googleMapInit() {
+          this.googleMap.map = new google.maps.Map(document.getElementById("lokasi-event"), {
+            center: { lat: -6.2184580612406055, lng: 106.8391129723255 },
+            zoom: 12,
+          });
+          this.googleMap.marker = new google.maps.Marker({
+            position: this.googleMap.map.getCenter(),
+            map: this.googleMap.map,
+            draggable: true,
+          });
+          this.googleMap.marker.addListener("dragend", this.handleMarkerDragend);
+        },
+        handleMarkerDragend(event) {
+          const newPosition = event.latLng;
+          this.form.data.location_coordinate = `${newPosition.lat()},${newPosition.lng()}`
+        },
+        dummyContent() {
+          let dummy = {
+            '_token':'{{ csrf_token() }}',
+            name: 'Nama Event',
+            powered_by: 'Powered By',
+            category: 'Konser',
+            subcategory: 'Musik',
+            keyword: 'Konser, Musik, Gebyar',
+            is_public: true,
+            is_offline: true,
+            date_start: '2023-07-30',
+            date_end: '2023-08-10',
+            time_start: '07:00',
+            time_end: '11:00',
+            location_name: 'Nama Lokasi',
+            location_address: 'Alamat',
+            location_city: 'Jakarta',
+            location_coordinate: '-6.2188519,106.7996837',
+            description: `What is Lorem Ipsum? Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.`,
+            toc: `What is Lorem Ipsum? Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.`,
+            max_ticket: 1,
+            one_email_one_transaction: false,
+            one_ticket_one_order: false,
+            peduli_lindungi: false,
+            status: 'active',
+            type: 'event',
+          }
+          let formData = {...this.form.data}
+          this.form.data = {...formData,...dummy}
+        },
+        dummyTicket(type) {
+          let dummy = {
+            image: null,
+            name: 'Nama Tiket',
+            quota: 10000,
+            price: 1000000,
+            tax: true,
+            tax_amount: 11,
+            date_start: '2023-07-30',
+            date_end: '2023-08-10',
+            time_start: '07:00',
+            time_end: '23:00',
+            description: 'deskripsi tiket',
+            status: 'active',
+            type: type,
+            seats: [{
+              id: null,
+              image: null,
+              section: '300',
+              row: 'A',
+              seat: 10,
+              price: 230000,
+              deleted: false
+            }]
+          }
+          console.log(type,dummy)
+          if(type == 'free'){
+            let ticketFree = {...this.ticket_free}
+            this.ticket_free = {...ticketFree, ...dummy}
+          } else {
+            let ticketPaid = {...this.ticket_paid}
+            this.ticket_paid = {...ticketPaid, ...dummy}
+          }
+        },
+        notify(type,title,msg){
+          let bg = 'bg-primary'
+          switch (bg) {
+            case 'error':
+              bg = 'bg-danger'
+              break;
+            case 'success':
+              bg = 'bg-success'
+              break;
+            case 'warning':
+              bg = 'bg-warning'
+              break;
+            case 'info':
+              bg = 'bg-info'
+              break;
+          }
+          this.alert = {
+            show: 'show',
+            bg: bg,
+            title: title,
+            msg: msg
+          }
+          console.log(this.alert)
+          setTimeout(() => {
+            this.alert.show = 'hide'
+          }, 2000);
         }
-        console.log(this.alert)
-        setTimeout(() => {
-          this.alert.show = 'hide'
-        }, 2000);
+      },
+      mounted() {
+        // this.getCity()
+        this.googleMapInit()
       }
-    },
-    mounted() {
-      // this.getCity()
+    });
+  </script>
+@endsection
+@section('styles')
+  <style>
+    .carousel-item-main .carousel-caption {
+      background: rgba(0,0,0,.5);
+      opacity: 0;
+      transition: 500ms;
     }
-  });
-</script>
+    .carousel-item-main:hover .carousel-caption {
+      opacity: 1;
+    }
+  </style>
 @endsection

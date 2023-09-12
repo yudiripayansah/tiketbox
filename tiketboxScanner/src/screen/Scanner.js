@@ -14,38 +14,99 @@ import {ThemeContext} from '../context/ThemeContext';
 import {UserContext} from '../context/UserContext';
 import im from '../config/Images';
 // Camera
-import { useCameraDevices } from 'react-native-vision-camera';
+import { useCameraDevices, useFrameProcessor } from 'react-native-vision-camera';
 import { Camera } from 'react-native-vision-camera';
-import { useScanBarcodes, BarcodeFormat } from 'vision-camera-code-scanner';
+import { runOnJS } from 'react-native-reanimated';
+import Api from '../services/Api';
 const Scanner = ({navigation}) => {
   const theme = useContext(ThemeContext);
   const user = useContext(UserContext);
   // Camera
   const [hasPermission, setHasPermission] = React.useState(false);
+  const [ticket,setTicket] = useState()
   const devices = useCameraDevices();
   const device = devices.back;
-
-  const [frameProcessor, barcodes] = useScanBarcodes([BarcodeFormat.QR_CODE], {
-    checkInverted: true,
-  });
-
+  const [loading,setLoading] = useState(false)
+  const [errorMsg, seterrorMsg] = useState() 
+  const checkTicket = async (ticket) => {
+    setLoading(true)
+    try {
+      let fTicket = ticket.split('-')
+      if(fTicket.length > 1){
+        if(fTicket[0] == 'TXB') {
+          seterrorMsg(null)
+          let payload = {
+            ticket: ticket
+          }
+          let req = await Api.checkTicket(payload, user.access_token)
+          if(req.status === 200) {
+            let { data, status, msg } = req.data
+            if(status) {
+              navigation.navigate('Detail', {
+                id: data.id
+              });
+              seterrorMsg(null)
+            } else {
+              seterrorMsg(msg)
+            }
+          } else {
+            seterrorMsg('Unkown qrcode')
+          }
+        } else {
+          seterrorMsg('Unkown qrcode')
+        }
+      } else {
+        seterrorMsg('Unkown qrcode')
+      }
+      setLoading(false)
+    } catch (error) {
+      console.log(error)
+      setLoading(false)
+    }
+  }
+  const frameProcessor = useFrameProcessor((frame) => {
+    'worklet'
+    let types = 256
+    let options = {
+      checkInverted: true
+    }
+    let code = __scanCodes(frame, [types], options);
+    if(code.length > 0) {
+      // runOnJS(navigation.push)('Detail',code[0].displayValue);
+      runOnJS(checkTicket)(code[0].displayValue);
+    } else {
+      runOnJS(setTicket)(null);
+    }
+  }, [])
+  
+  const details = (param) => {
+    console.log(param)
+    navigation.push('Detail')
+  }
   const TheCamera = () => {
     return (
       device != null &&
       hasPermission && (
         <>
           <Camera
-            style={StyleSheet.absoluteFill}
+            style={[theme.wp100,theme.bgyellow,theme.h500]}
             device={device}
             isActive={true}
             frameProcessor={frameProcessor}
-            frameProcessorFps={60}
+            frameProcessorFps={1}
           />
-          {barcodes.map((barcode, idx) => (
-            <Text key={idx}>
-              {barcode.displayValue}
-            </Text>
-          ))}
+          <View style={[theme.px20]}>
+            {
+            (loading) ? (
+              <Text style={[theme['p13-400'],{color:'#fff'},{backgroundColor:'#0ff'},theme.mt20,theme.tCenter,theme.br6]}>Memproses...</Text>
+            ) : null
+            }
+            {
+            (errorMsg) ? (
+              <Text style={[theme['p13-400'],{color:'#fff'},{backgroundColor:'#f00'},theme.mt20,theme.tCenter,theme.br6]}>{errorMsg}</Text>
+            ) : null
+            }
+          </View>
         </>
       )
     )
@@ -62,56 +123,6 @@ const Scanner = ({navigation}) => {
     <SafeAreaView style={[{backgroundColor:'#f7f7f7'},{flexGrow: 1},theme.pt50]}>
       <ScrollView style={[]}>
         <TheCamera/>
-        <View style={[]}>
-          <View style={[theme.fRow,{backgroundColor:'#252525'},theme.px15,theme.pt40,theme.pb100]}>
-            <View style={[{backgroundColor:'rgba(77, 139, 49, 0.75)'},theme.p10,theme.br10,theme.fRow,theme.faCenter,theme.fjCenter,theme.wp100]}>
-              <Image source={im.icon_check} style={[theme.w12,theme.h12,{objectFit:'contain'}]}/>
-              <Text style={[theme['p12-700'],theme.cwhite,theme.ms5]}>Ticket ini belum digunakan</Text>
-            </View>
-            <ImageBackground source={im.banner_ticket} resizeMode='cover' style={[theme.relative,theme.wp100,theme.h187,theme.brtl10,theme.brtr10,{overflow:'hidden'},theme.mt15]}>
-              <View style={[theme.absolute,theme.wp100,theme.bottom0,theme.p10]}>
-                <Text style={[theme['p10-700'],theme.cwhite]}>Ticket ID: 123900071</Text>
-                <Text style={[theme['p24-700'],theme.cwhite]}>Prambanan Jazz</Text>
-              </View>
-            </ImageBackground>
-          </View>
-        </View>
-        <View style={[theme.px15,theme.mmt100]}>
-          <View style={[theme.bgwhite,theme.p10,theme.bbw1,theme.blw1,theme.brw1,theme.bsolid,theme.brbl20,theme.brbr20,{borderColor:'#dedede'}]}>
-            <Text style={[theme['p10-700'],{color:'#747474'}]}>Tunjukan QR code di pintu login</Text>
-            <Text style={[theme['p18-700'],{color:'#292929'}]}>EAST VIP</Text>
-            <View style={[theme.fRow,theme.faCenter,theme.mt10]}>
-              <View style={[theme.w20,theme.h20,theme.br100,theme.faCenter,theme.fjCenter,{backgroundColor:'#252525'}]}>
-                <Image source={im.icon_place} style={[theme.w12,theme.h12,{objectFit:'contain'}]}/>
-              </View>
-              <Text style={[theme['p10-700'],{color:'#292929'},theme.ms5]}>JCC Convention Center</Text>
-            </View>
-            <View style={[theme.fRow,theme.faCenter,theme.mt10]}>
-              <View style={[theme.w20,theme.h20,theme.br100,theme.faCenter,theme.fjCenter,{backgroundColor:'#252525'}]}>
-                <Image source={im.icon_time} style={[theme.w12,theme.h12,{objectFit:'contain'}]}/>
-              </View>
-              <Text style={[theme['p10-700'],{color:'#292929'},theme.ms5]}>Minggu, 23 Januari 2022 • 09:00 - 21:00</Text>
-            </View>
-            <View style={[theme.mt20,theme.p10,theme.br10,theme.bw1,theme.bsolid,theme.fRow,theme.fjBetween,theme.faCenter,{borderColor:'#dfdfdf'}]}>
-              <View style={[theme.fRow,theme.faCenter]}>
-                <View style={[theme.h50,theme.w50,theme.faCenter,theme.fjCenter,theme.br10,{backgroundColor:'#252525'}]}>
-                  <Image source={im.icon_speaker} style={[theme.h24,theme.w24]}/>
-                </View>
-                <View style={[theme.ms10]}>
-                  <Text style={[theme['p12-700'],{color:'#292929'}]}>Benefit Ticket</Text>
-                  <Text style={[theme['p10-700'],{color:'#747474'}]}>Tap untuk Melihat</Text>
-                </View>
-              </View>
-              <Image source={im.icon_question} style={[theme.h20,theme.w20]}/>
-            </View>
-            <View style={[theme.mt40,theme.pt40,theme.pb40,theme.btw2,theme.bdashed,theme.bblack,theme.fjCenter,theme.faCenter]}>
-              <Image source={im.qr} style={[theme.w170,theme.h170,{objectFit:'contain'}]}/>
-            </View>
-          </View>
-          <TouchableOpacity style={[theme.h45,theme.w200,theme.br15,theme.faCenter,theme.fjCenter,theme.msAuto,theme.meAuto,{backgroundColor:'#252525'},theme.mb150,theme.mt20]}>
-            <Text style={[theme['p14-700'],theme.cwhite]}>Gunakan Tiket</Text>
-          </TouchableOpacity>
-        </View>
       </ScrollView>
     </SafeAreaView>
     </>

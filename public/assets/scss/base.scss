@@ -84,6 +84,9 @@
   .max-hp-#{$i} {
     max-height: #{$i*1%} !important;
   }
+  .zi-#{$i} {
+    z-index: $i !important;
+  }
 } 
 @for $i from 1 through 9 {
   .fw-#{$i * 100} {

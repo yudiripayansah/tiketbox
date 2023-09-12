@@ -18,6 +18,8 @@ Route::get('/', [MainController::class, 'index']);
 Route::get('/event/{id}', [MainController::class, 'event']);
 Route::get('/order/{code}', [MainController::class, 'order']);
 Route::get('/checkout', [MainController::class, 'checkout']);
+Route::get('/login', [MainController::class, 'login']);
+Route::get('/email', [MainController::class, 'email']);
 Route::prefix('backoffice')->group(function () {
   Route::get('/', [BackOfficeController::class, 'index']);
   Route::prefix('my-events')->group(function () {

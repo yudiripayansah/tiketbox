@@ -680,12 +680,6 @@
   
 @endsection
 @section('script')
-  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
-  <script src="{{ url('assets/plugin/axios/axios.js') }}"></script>
-  <script src="{{ url('assets/js/services.js') }}"></script>
-  <script src="{{ url('assets/js/helper.js') }}"></script>
-  <script src="{{ url('node_modules/@ckeditor/ckeditor5-build-classic/build/ckeditor.js') }}"></script>
-  <script src="{{ url('node_modules/@ckeditor/ckeditor5-vue2/dist/ckeditor.js') }}"></script>
   <script>
     const homeBestDeals = new Swiper('.swiper-hbd', {
       // Optional parameters

@@ -63,6 +63,24 @@ const helper = {
         finalText = finalText + " " + text3[i] + " ";
       return finalText + "…";
     } else return textToLimit;
-  }
+  },
+  dateIndo(date) {
+    let theDate = new Date(date)
+    let month = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus','September','Oktober','November','Desember']
+    let day = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu']
+    let dy = theDate.getDay()
+    let d = theDate.getDate()
+    let m = theDate.getMonth()
+    let y = theDate.getFullYear()
+    return `${day[dy]}, ${d} ${month[m]} ${y}`
+  },
+  timeIndo(time) {
+    let theTime = new Date(time)
+    let h = theTime.getHours()
+    let m = theTime.getMinutes()
+    h = ('0' + (h)).slice(-2)
+    m = ('0' + (m)).slice(-2)
+    return `${h}:${m}`
+  },
 }
 export default helper

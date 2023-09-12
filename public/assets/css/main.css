@@ -1,1 +1,12 @@
-@import"fonts.css";@import"base.css";@import"header.css";@import"home.css";body{background:#000;font-family:"Poppins";font-weight:400}/*# sourceMappingURL=main.css.map */
+@import url("fonts.css");
+@import url("base.css");
+@import url("header.css");
+@import url("home.css");
+@import url("email.css");
+body {
+  background: black;
+  font-family: "Poppins";
+  font-weight: 400;
+}
+
+/*# sourceMappingURL=main.css.map */

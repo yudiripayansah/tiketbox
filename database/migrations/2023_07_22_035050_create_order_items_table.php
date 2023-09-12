@@ -28,6 +28,7 @@ class CreateOrderItemsTable extends Migration
             $table->integer('total');
             $table->text('description');
             $table->text('status');
+            $table->integer('updated_by');
             $table->softDeletes();
             $table->timestamps();
         });

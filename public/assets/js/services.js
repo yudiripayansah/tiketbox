@@ -1,12 +1,3 @@
-const authorization = btoa('')
-const xenditAxios = axios.create({ 
-  baseURL: 'https://api.xendit.co/',
-  headers: {
-    "Content-Type":"application/json",
-    "Authorization": `Basic ${authorization}`
-  }
-})
-console.log(authorization)
 const defAxios = axios.create({
   baseURL: "https://demo.tiketbox.com/api/"
 })
@@ -103,22 +94,38 @@ const tiketboxApi = {
     return defAxios.post(url, payload, config);
   },
   // payment
-  createVA(paylod) {
+  createVA(payload) {
     let url = '/xendit/createVA'
-    return defAxios.post(url, paylod)
+    return defAxios.post(url, payload)
   },
-  createQR(paylod) {
+  createQR(payload) {
     let url = '/xendit/createQR'
-    return defAxios.post(url, paylod)
+    return defAxios.post(url, payload)
   },
-  createInvoice(paylod) {
+  createInvoice(payload) {
     let url = '/xendit/createInvoice'
-    return defAxios.post(url, paylod)
-  }
-}
-const xendit = {
-  createVa(paylod) {
-    let url = '/callback_virtual_accounts'
-    return xenditAxios.post(url, paylod)
-  }
+    return defAxios.post(url, payload)
+  },
+  // auth
+  signIn(payload) {
+    let url = '/users/login'
+    return defAxios.post(url, payload)
+  },
+  signOut(payload, token) {
+    let url = '/users/logout'
+    let config = {
+      headers: {
+        Authorization: 'Bearer '+token,
+      },
+    };
+    return defAxios.post(url, payload, config);
+  },
+  signUp(payload) {
+    let url = '/users/register'
+    return defAxios.post(url, payload)
+  },
+  forgot(payload) {
+    let url = '/users/forgot'
+    return defAxios.post(url, payload)
+  },
 }

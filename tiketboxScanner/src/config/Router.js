@@ -3,6 +3,7 @@ import { createStackNavigator, TransitionPresets } from '@react-navigation/stack
 import {useState} from 'react';
 import Forgot from '../screen/Forgot';
 import Home from '../screen/Home';
+import Detail from '../screen/Detail';
 import Login from '../screen/Login';
 import Scanner from '../screen/Scanner';
 import Ticket from '../screen/Ticket';
@@ -42,6 +43,7 @@ export const RouteMain = ({navigation}) => {
                 })}
                 >
                 <MainStack.Screen name={'Home'} component={Home} options={options}/>
+                <MainStack.Screen name={'Detail'} component={Detail} options={options}/>
                 <MainStack.Screen name={'Scanner'} component={Scanner} options={options}/>
                 <MainStack.Screen name={'Ticket'} component={Ticket} options={options}/>
             </MainStack.Navigator>

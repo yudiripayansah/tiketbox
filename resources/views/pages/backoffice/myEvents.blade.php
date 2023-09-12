@@ -105,9 +105,6 @@
   <p class="d-block text-end fs-14 fw-400 text-light mt-35 wp-100">Copyright © Tiketbox.com. All Copyright Protected</p>
 @endsection
 @section('script')
-<script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
-<script src="{{ url('assets/plugin/axios/axios.js') }}"></script>
-<script src="{{ url('assets/js/services.js') }}"></script>"></script>
 <script>
   const vueBhome = new Vue( {
     el: '#bhome',

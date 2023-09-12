@@ -11,7 +11,7 @@ class OrderItems extends Model
     use SoftDeletes;
     protected $table = 'order_items';
     protected $fillable = [
-      'date','id_order','id_event','id_ticket','id_seat','section','row','seat','price','amount','total','description','status'
+      'date','id_order','id_event','id_ticket','id_seat','section','row','seat','price','amount','total','description','status','updated_by'
     ];
     public static function validate($validate)
     {

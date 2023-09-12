@@ -36,7 +36,7 @@
                   </div>
                   <div>
                     <h6 class="fs-18 fw-300 text-white wp-100 text-end">Please complete the payment before :</h6>
-                    <span class="fs-20 fw-600 text-white text-end">Kamis, 31 Agustus 2023 | 17:14 WIB</span>
+                    <span class="fs-20 fw-600 text-white text-end" v-text="(order.payment_expired) ? `${dateIndo(order.payment_expired)} | ${timeIndo(order.payment_expired)}` : ``">Kamis, 31 Agustus 2023 | 17:14 WIB</span>
                   </div>
                 </div>
                 <div class="border border-white py-20 px-30 br-8 mt-30">
@@ -90,7 +90,7 @@
                   <button class="btn btn-primary h-40">Use Voucher</button>
                 </div>
               </div>
-              <div class="odb-payment-method px-50 text-white">
+              {{-- <div class="odb-payment-method px-50 text-white">
                 <div class="border border-white py-20 px-30 br-8">
                   <h6 class="pb-20 border-bottom border-primary fs-20 fw-600">Payment Method</h6>
                   <div class="pt-30" v-for="(pm,index) in payment_methods" :key="index">
@@ -124,11 +124,11 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> --}}
               <div class="odb-continue pt-30 px-50">
                 <div class="d-flex align-items-center justify-content-between">
                   <button class="btn btn-light wp-48">Back</button>
-                  <button class="btn btn-primary wp-48">Continue</button>
+                  <a :href="order.payment_description.invoice_url" class="btn btn-primary wp-48" target="_blank">Continue to Payment</a>
                 </div>
               </div>
             </div>
@@ -150,21 +150,60 @@
   </section>
 @endsection
 @section('script')
-  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
-  <script src="https://unpkg.com/vuex@4.0.0/dist/vuex.global.js"></script>
-  <script src="{{ url('assets/plugin/axios/axios.js') }}"></script>
-  <script src="{{ url('assets/plugin/qrcode/qrcode.js') }}"></script>
-  <script src="{{ url('assets/js/services.js') }}"></script>
-  <script src="{{ url('assets/js/helper.js') }}"></script>
-  <script src="{{ url('assets/js/store.js') }}"></script>
-  <script src="{{ url('node_modules/@ckeditor/ckeditor5-build-classic/build/ckeditor.js') }}"></script>
-  <script src="{{ url('node_modules/@ckeditor/ckeditor5-vue2/dist/ckeditor.js') }}"></script>
   <script>
     const vueEvent = new Vue( {
       store,
       el: '#order',
       data: {
-        order: Object,
+        order: {
+          "id": null,
+          "order_code": null,
+          "id_user": null,
+          "email": null,
+          "phone": null,
+          "name": null,
+          "gender": null,
+          "dob": null,
+          "domicile": null,
+          "total_items": null,
+          "total_amount": null,
+          "payment_id": null,
+          "payment_method": null,
+          "payment_status": null,
+          "payment_description": {
+              "id": null,
+              "external_id": null,
+              "user_id": null,
+              "status": null,
+              "merchant_name": null,
+              "merchant_profile_picture_url": null,
+              "amount": null,
+              "payer_email": null,
+              "description": null,
+              "expiry_date": null,
+              "invoice_url": null,
+              "available_banks": [],
+              "available_retail_outlets": [],
+              "available_ewallets": [],
+              "available_qr_codes": [],
+              "available_direct_debits": [],
+              "available_paylaters": [],
+              "should_exclude_credit_card": null,
+              "should_send_email": null,
+              "created": null,
+              "updated": null,
+              "currency": null
+          },
+          "payment_date": null,
+          "status": null,
+          "description": null,
+          "deleted_at": null,
+          "created_at": null,
+          "updated_at": null,
+          "items": [],
+          "payment_expired": null
+        },
+        payment_link: null,
         payment_methods: [
           {
             title: 'Virtual Account',
@@ -260,7 +299,7 @@
             let { status, msg, data} = req.data
             if(status){
               this.order = data
-              this.createQR()
+              // this.createInvoice()
             } else {
               this.notify('error','Error',msg)
             }
@@ -283,8 +322,6 @@
             let { status, msg, data, qr_string} = req.data
             if(req.status == 200){
               // this.order = data
-              this.qrCode(qr_string)
-              this.createVA()
             } else {
               this.notify('error','Error',msg)
             }
@@ -292,14 +329,9 @@
             this.notify('error','Error',error.message)
           }
         },
-        async createVA() {
+        async createVA(bank) {
           var payload = {
-            'postfields' : `{
-                              "external_id": "${this.order.order_code}",
-                              "bank_code": "MANDIRI",
-                              "name": "${this.order.name}",
-                              "virtual_account_number": "8890839760000000001"
-                            }`
+            'bank' : bank
           };
           try {
             let req = await tiketboxApi.createVA(payload)
@@ -323,8 +355,9 @@
           }
           try {
             let req = await tiketboxApi.createInvoice(payload)
-            let { status, msg, data, qr_string} = req.data
+            let { invoice_url } = req.data
             if(req.status == 200){
+              this.payment_link = invoice_url
             } else {
               this.notify('error','Error',msg)
             }

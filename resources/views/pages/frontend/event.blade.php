@@ -161,14 +161,6 @@
   </section>
 @endsection
 @section('script')
-  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
-  <script src="https://unpkg.com/vuex@4.0.0/dist/vuex.global.js"></script>
-  <script src="{{ url('assets/plugin/axios/axios.js') }}"></script>
-  <script src="{{ url('assets/js/services.js') }}"></script>
-  <script src="{{ url('assets/js/helper.js') }}"></script>
-  <script src="{{ url('assets/js/store.js') }}"></script>
-  <script src="{{ url('node_modules/@ckeditor/ckeditor5-build-classic/build/ckeditor.js') }}"></script>
-  <script src="{{ url('node_modules/@ckeditor/ckeditor5-vue2/dist/ckeditor.js') }}"></script>
   <script>
     const vueEvent = new Vue( {
       store,
@@ -223,7 +215,6 @@
       },
       methods: {
         ...helper,
-        ...store._actions,
         async detailEvent() {
           let payload = {
             id: '{{ $id }}'
