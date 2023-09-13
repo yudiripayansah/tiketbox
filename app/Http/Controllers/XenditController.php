@@ -132,10 +132,33 @@ class XenditController extends Controller
       $dataUpdate['payment_date'] = date('Y-m-d',strtotime($request->paid_at));
       $dataUpdate['status'] = 'PAID';
       $dataUpdate['description'] = '-';
-      $order = Orders::where('order_code',$request->external_id);
-      // $order = Orders::where('order_code','TXB-64d9ae893abe0-2308140433');
-      $doUpdate = $order->update($dataUpdate);
-      $dataOrder = $order->first();
+      // $orders = Orders::where('order_code',$request->external_id);
+      $orders = Orders::find(5);
+      $items = OrderItems::where('id_order', $orders->id)->get();
+      foreach($items as $item) {
+        $item->event_detail = Events::find($item->id_event);
+        $item->event_detail->images = EventImages::where('id_event', $item->id_event)->get();
+        foreach($item->event_detail->images as $image){
+          $image->image_url = Storage::disk('public')->url('event/'.$image->image);
+        }
+        $item->ticket_detail = EventTickets::find($item->id_ticket);
+        $item->seat_detail = EventTicketSeats::find($item->id_seat);
+      }
+      $orders->items = $items;
+      $orders->payment_description = json_decode($orders->payment_description);
+      $orders->payment_expired = '1999-01-01 00:00:00';
+      if($orders->payment_description) {
+        if($orders->payment_description->expiry_date) {
+          $orders->payment_expired = $orders->payment_description->expiry_date;
+        }
+      }
+      $email = (object)array();
+      $email->title = 'E-Ticket';
+      $email->orders = $orders;
+      $data['dEmail'] = $email;
+      $doUpdate = $orders->update($dataUpdate);
+      $dataOrder = $orders->first();
+      $this->sendEmail($orders);
       $res = [
         'data' => $dataOrder,
         'status' => true,

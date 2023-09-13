@@ -98,7 +98,7 @@
                     <h5 class="fs-20 fw-700 text-white" v-text="order.event.name"></h5>
                     <h5 class="fs-20 fw-700 text-white" v-text="order.ticket.name"></h5>
                     <span class="fs-15 fw-400 text-white" v-text="dateIndo(order.selected_date)"></span>
-                    <div class="row g-0 border-top border-bottom border-primary py-10 border-dashed mt-10">
+                    <div class="row g-0 border-top border-bottom border-primary py-10 border-dashed mt-10" v-if="order.seat.section != '-'">
                       <div class="col">
                         <span class="fs-15 fw-400 text-white me-5">SEC:</span>
                         <span class="fs-15 fw-700 text-white" v-text="order.seat.section"></span>

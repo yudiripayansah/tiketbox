@@ -42,4 +42,16 @@ class OrderItems extends Model
         }
         return $res;
     }
+    public function event()
+    {
+      return $this->hasOne(Events::class, 'id', 'id_event');
+    }
+    public function ticket()
+    {
+      return $this->hasOne(EventTickets::class, 'id', 'id_ticket');
+    }
+    public function seat()
+    {
+      return $this->hasOne(EventTicketSeat::class, 'id', 'id_seat');
+    }
 }

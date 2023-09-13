@@ -123,6 +123,10 @@ class EventsController extends Controller
     } else {
       $dataCreate['powered_by_image'] = 'default';
     }
+    if($request->type != 'event'){
+      $dataCreate['date_start'] = '2999-01-01';
+      $dataCreate['date_end'] = '2999-01-01';
+    }
     DB::beginTransaction();
     $validate = Events::validate($dataCreate);
     if ($validate['status']) {

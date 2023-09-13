@@ -104,8 +104,10 @@ class OrdersController extends Controller
       $getData->items = $items;
       $getData->payment_description = json_decode($getData->payment_description);
       $getData->payment_expired = '1999-01-01 00:00:00';
-      if($getData->payment_description->expiry_date) {
-        $getData->payment_expired = $getData->payment_description->expiry_date;
+      if($getData->payment_description) {
+        if($getData->payment_description->expiry_date) {
+          $getData->payment_expired = $getData->payment_description->expiry_date;
+        }
       }
       if ($getData) {
           // $this->sendEmail($getData);

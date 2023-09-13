@@ -26,9 +26,10 @@
                 </div>
                 <div class="d-flex justify-content-between align-items-center px-70 py-25 border-top border-primary">
                   <label class="fw-700 fs-18 text-white">Select Date</label>
-                  <select style="background-color: #929292;" class="text-white fs-18 fw-400 px-30 py-10 br-5" v-model="form.data.date" :est="form.data.date">
+                  <select style="background-color: #929292;" class="text-white fs-18 fw-400 px-30 py-10 br-5" v-model="form.data.date" :est="form.data.date" v-if="event.type == 'event'">
                     <option style="background-color: #929292;" class="text-white" v-for="(date,index) in event_days" :key="index" v-text="dateIndo(date)" :value="date"></option>
                   </select>
+                  <input type="date" name="" id="" v-model="form.data.date" v-else style="background-color: #929292;" class="text-white fs-18 fw-400 px-30 py-10 br-5">
                 </div>
                 <div class="px-70 py-25 border-top border-primary">
                   <div class="ticket-item p-20 border border-secondary br-10 mb-15 d-flex justify-content-between align-items-start" v-for="(ticket,index) in event.tickets" :key="index">
@@ -75,7 +76,7 @@
                   <div class="edbco-item border-bottom border-primary px-20 py-20" v-for="(order,index) in orders" :key="index">
                     <h5 class="fs-20 fw-700 text-white" v-text="order.ticket.name"></h5>
                     <span class="fs-15 fw-400 text-white" v-text="dateIndo(order.selected_date)"></span>
-                    <div class="row g-0 border-top border-bottom border-primary py-10 border-dashed mt-10">
+                    <div class="row g-0 border-top border-bottom border-primary py-10 border-dashed mt-10" v-if="event.type == 'event'">
                       <div class="col">
                         <span class="fs-15 fw-400 text-white me-5">SEC:</span>
                         <span class="fs-15 fw-700 text-white" v-text="order.seat.section"></span>
@@ -114,7 +115,7 @@
               </div>
             </div>
           </div>
-          <div class="edbc-seats br-tl-10 br-tr-10 mt-25" style="background-color:#252525;">
+          <div class="edbc-seats br-tl-10 br-tr-10 mt-25" style="background-color:#252525;" v-if="event.type == 'event'">
             <div class="edb-heading row border-bottom border-primary g-0" style="box-shadow: 0px 8px 27px 0px rgba(0, 0, 0, 0.37);">
               <div class="col text-center py-20 cursor-pointer">
                 <span class="fw-400 fs-17 text-white">Select Seat</span>
@@ -225,7 +226,11 @@
             let { status, msg, data} = req.data
             if(status){
               this.event = data
-              this.form.data.date = data.date_start
+              if(this.event.type == 'event'){
+                this.form.data.date = data.date_start
+              } else {
+                this.form.data.date = this.formatDate(new Date())
+              }
               this.event_date()
             } else {
               this.notify('error','Error',msg)
@@ -239,6 +244,21 @@
           this.ticket.seats.map((seat) => {
             seat.selected_seat = 1
           })
+          if(this.event.type != 'event') {
+            let theSeat = {
+                id: 0,
+                id_event: this.event.id,
+                id_ticket: this.ticket.id,
+                image: 'default',
+                section: '-',
+                row: '-',
+                seat: '-',
+                selected_seat: '-',
+                price: this.ticket.price,
+                status: "active",
+            }
+            this.addTicket(theSeat)
+          }
         },
         addTicket(seat = null) {
           let order  = {

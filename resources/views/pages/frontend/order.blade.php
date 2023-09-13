@@ -21,9 +21,6 @@
               <div class="odb-payment pt-50 px-50">
                 <div class="border border-white d-flex justify-content-between align-items-start py-20 px-30 br-8">
                   <div>
-                    <div class="d-none">
-                      {!! QrCode::size(300)->generate('https://techvblogs.com/blog/generate-qr-code-laravel-8') !!}
-                    </div>
                     <span class="fs-20 fw-600 text-white">Payment</span>
                     <div>
                       <label class="fs-18 fw-400 text-white">Order ID : </label>
@@ -47,7 +44,7 @@
                     <div>
                       <h6 class="fs-20 fw-700" v-text="oi.ticket_detail.name">Ticket Kendaraan Mobil</h6>
                       <span class="fs-14 fw-400" v-text="`${dateIndo(oi.date)}`">Kamis, 15 Desember 2022</span>
-                      <h6 class="fs-14 fw-400 wp-100" v-text="`Section: ${oi.section} | Row: ${oi.row} | Seat: ${oi.seat}`">Kamis, 15 Desember 2022</h6>
+                      <h6 class="fs-14 fw-400 wp-100" v-text="`Section: ${oi.section} | Row: ${oi.row} | Seat: ${oi.seat}`" v-if="order.items[0].event_detail.type == 'event'">Kamis, 15 Desember 2022</h6>
                     </div>
                     <div class="d-flex justify-content-between align-items-center mt-20">
                       <span class="fs-20 fw-700" v-text="`IDR ${thousand(oi.price)}`">IDR 25.000</span>

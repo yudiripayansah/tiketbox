@@ -42,6 +42,6 @@ class TicketEmail extends Mailable
             ->bcc($cc, $name)
             ->replyTo($from, $name)
             ->subject($subject)
-            ->with(['dEmail' => $this->mailData]);;
+            ->with(['dEmail' => $this->mailData,'message' => $this]);;
     }
 }

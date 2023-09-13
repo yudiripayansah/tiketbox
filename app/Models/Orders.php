@@ -49,4 +49,12 @@ class Orders extends Model
         }
         return $res;
     }
+    public function user()
+    {
+      return $this->belongsTo(User::class, 'id_user', 'id');
+    }
+    public function item()
+    {
+      return $this->hasMany(OrderItems::class, 'id_order', 'id');
+    }
 }
