@@ -1,5 +1,6 @@
 const defAxios = axios.create({
   baseURL: "https://demo.tiketbox.com/api/"
+  // baseURL: "http://localhost:8000/api/"
 })
 const tiketboxApi = {
   // event
@@ -48,6 +49,99 @@ const tiketboxApi = {
     };
     return defAxios.post(url, payload, config);
   },
+  // user
+  readUser(payload, token) {
+    let url = '/users'
+    let config = {
+      headers: {
+        token: token,
+      },
+    };
+    return defAxios.post(url, payload, config);
+  },
+  getUser(payload, token) {
+    let url = '/users/get'
+    let config = {
+      headers: {
+        token: token,
+      },
+    };
+    return defAxios.post(url, payload, config);
+  },
+  createUser(payload, token) {
+    let url = '/users/create'
+    let config = {
+      headers: {
+        token: token,
+      },
+    };
+    return defAxios.post(url, payload, config);
+  },
+  updateUser(payload, token) {
+    let url = '/users/update'
+    let config = {
+      headers: {
+        token: token,
+      },
+    };
+    return defAxios.post(url, payload, config);
+  },
+  deleteUser(payload, token) {
+    let url = '/users/delete'
+    let config = {
+      headers: {
+        token: token,
+      },
+    };
+    return defAxios.post(url, payload, config);
+  },
+  // promotion
+  readPromotion(payload, token) {
+    let url = '/promotions'
+    let config = {
+      headers: {
+        token: token,
+      },
+    };
+    return defAxios.post(url, payload, config);
+  },
+  getPromotion(payload, token) {
+    let url = '/promotions/get'
+    let config = {
+      headers: {
+        token: token,
+      },
+    };
+    return defAxios.post(url, payload, config);
+  },
+  createPromotion(payload, token) {
+    let url = '/promotions/create'
+    let config = {
+      headers: {
+        token: token,
+      },
+    };
+    return defAxios.post(url, payload, config);
+  },
+  updatePromotion(payload, token) {
+    let url = '/promotions/update'
+    let config = {
+      headers: {
+        token: token,
+      },
+    };
+    return defAxios.post(url, payload, config);
+  },
+  deletePromotion(payload, token) {
+    let url = '/promotions/delete'
+    let config = {
+      headers: {
+        token: token,
+      },
+    };
+    return defAxios.post(url, payload, config);
+  },
+  // order
   readOrder(payload, token) {
     let url = '/orders'
     let config = {

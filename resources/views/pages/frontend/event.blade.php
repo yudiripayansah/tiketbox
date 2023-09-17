@@ -3,7 +3,21 @@
   <section id="event" class="mt-100">
     <div class="container">
       <div class="event-slider">
-        <img :src="event.images[0].image_url" class="wp-100 br-10" alt="">
+        <div id="event-banner-carousel" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            <div class="carousel-item carousel-item-main" v-for="(image,index) in event.images" :key="index" :class="(index == 0) ? 'active' : '' ">
+              <img :src="image.image_url" class="wp-100 h-450 d-block" style="object-fit:contain;" alt="">
+            </div>
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#event-banner-carousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#event-banner-carousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
       </div>
       <div class="event-details d-flex justify-content-between align-items-start mt-25 mb-50">
         <div class="ed-left wp-70 pe-25">
@@ -167,6 +181,7 @@
       store,
       el: '#event',
       data: {
+        swiper: null,
         form: {
           data: {
             date: null,

@@ -15,13 +15,21 @@ class CreatePromotionsTable extends Migration
     {
         Schema::create('promotions', function (Blueprint $table) {
             $table->id();
+            $table->integer('target_event');
             $table->text('name');
             $table->text('code');
-            $table->text('description');
-            $table->text('date_start');
-            $table->text('date_end');
-            $table->integer('amount');
             $table->text('type');
+            $table->integer('quota');
+            $table->integer('minimum_amount');
+            $table->text('discount_type');
+            $table->integer('amount_percent')->nullable();
+            $table->integer('amount_rupiah')->nullable();
+            $table->integer('maximum_discount');
+            $table->text('description')->nullable();
+            $table->date('date_start');
+            $table->date('date_end');
+            $table->time('time_start');
+            $table->time('time_end');
             $table->text('status')->nullable();
             $table->softDeletes();
             $table->timestamps();

@@ -131,10 +131,12 @@ class XenditController extends Controller
       $dataUpdate['payment_description'] = json_encode($request->all());
       $dataUpdate['payment_date'] = date('Y-m-d',strtotime($request->paid_at));
       $dataUpdate['status'] = 'PAID';
-      $dataUpdate['description'] = '-';
-      // $orders = Orders::where('order_code',$request->external_id);
-      $orders = Orders::find(5);
-      $items = OrderItems::where('id_order', $orders->id)->get();
+      $dataUpdate['description'] = 'Y';
+      $orders = Orders::where('order_code',$request->external_id);
+      $doUpdate = $orders->update($dataUpdate);
+      // $orders = Orders::find(5);
+      $dataOrder = $orders->first();
+      $items = OrderItems::where('id_order', $dataOrder->id)->get();
       foreach($items as $item) {
         $item->event_detail = Events::find($item->id_event);
         $item->event_detail->images = EventImages::where('id_event', $item->id_event)->get();
@@ -144,23 +146,18 @@ class XenditController extends Controller
         $item->ticket_detail = EventTickets::find($item->id_ticket);
         $item->seat_detail = EventTicketSeats::find($item->id_seat);
       }
-      $orders->items = $items;
-      $orders->payment_description = json_decode($orders->payment_description);
-      $orders->payment_expired = '1999-01-01 00:00:00';
-      if($orders->payment_description) {
-        if($orders->payment_description->expiry_date) {
-          $orders->payment_expired = $orders->payment_description->expiry_date;
-        }
-      }
-      $email = (object)array();
-      $email->title = 'E-Ticket';
-      $email->orders = $orders;
-      $data['dEmail'] = $email;
-      $doUpdate = $orders->update($dataUpdate);
-      $dataOrder = $orders->first();
-      $this->sendEmail($orders);
+      $dataOrder->items = $items;
+      $dataOrder->payment_description = json_decode($dataOrder->payment_description);
+      $dataOrder->payment_expired = '1999-01-01 00:00:00';
+      // if($dataOrder->payment_description) {
+      //   if($dataOrder->payment_description->expiry_date) {
+      //     $dataOrder->payment_expired = $dataOrder->payment_description->expiry_date;
+      //   }
+      // }
+      $this->sendEmail($dataOrder);
       $res = [
         'data' => $dataOrder,
+        // 'items' => $items,
         'status' => true,
         'msg' => 'Callback Invoice successfully recieved'
       ];

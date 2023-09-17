@@ -1,6 +1,7 @@
 @extends('layout.layout')
 @section('screen')
   <section id="bhome" class="backoffice">
+    <!-- Title -->
     <div class="row boc-title align-items-center border-bottom border-primary g-0 position-sticky top-72 br-tl-10 br-tr-10">
       <div class="col-6">
         <div class="py-15 px-25 fw-700 fs-14 text-light">
@@ -44,8 +45,10 @@
         </div>
       </div>
     </div>
+    <!-- Main Form -->
     <div class="boc-content px-45 py-35">
       <div class="row">
+        <!-- Images -->
         <div class="col-12">
           <input type="file" @change="previewImage" multiple class="d-none" id="input-poster">
           <div id="event-banner-carousel" class="carousel slide" data-bs-ride="carousel">
@@ -64,9 +67,9 @@
                   </label>
                 </div>
               </div>
-              <div class="carousel-item carousel-item-main" v-for="(poster, index) in form.data.images" :key="index">
-                <img :src="poster" class="d-block wp-100" :alt="form.data.name">
-                <div class="carousel-caption left-0 right-0 top-0 bottom-0 d-flex align-items-center">
+              <div class="carousel-item carousel-item-main" v-for="(poster, index) in images_clone" :key="index" v-show="!poster.deleted">
+                <img :src="(poster.id) ? poster.image_url : poster " class="d-block wp-100" :alt="form.data.name">
+                <div class="carousel-caption left-0 right-0 top-0 bottom-0 d-flex align-items-center flex-column">
                   <label class="wp-100 position-relative image-poster cursor-pointer hp-100" for="input-poster">
                     <div class="d-flex flex-column align-items-center justify-content-center hp-100">
                       <svg width="80" height="63" viewBox="0 0 80 63" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -76,6 +79,7 @@
                       <span class="fs-12 fw-400 text-light text-center max-w-350">Rekomendasi ukuran 798px x 450px, bisa mengupload lebih dari satu gambar.</span>              
                     </div>
                   </label>
+                  <button class="btn btn-danger btn-sm" @click="deleteImage(index)">Hapus</button>
                 </div>
               </div>
             </div>
@@ -89,10 +93,12 @@
             </button>
           </div>
         </div>
+        <!-- Event Name -->
         <div class="col-5 pt-35 pb-5 border-bottom border-primary">
           <label class="fs-20 fw-600 text-light wp-100">Nama</label>
           <input type="text" class="border-0 bg-transparent py-10 text-light wp-100" placeholder="Nama" v-model="form.data.name">
         </div>
+        <!-- Event Category -->
         <div class="col-7 pt-35 pb-5 border-bottom border-primary" data-bs-toggle="modal" data-bs-target="#jenisKategoriModal">
           <label class="fs-20 fw-600 text-light wp-100 cursor-pointer">Jenis & Kategori</label>
           <div class="d-flex align-items-center py-10 cursor-pointer">
@@ -110,16 +116,18 @@
             </div>
           </div>
         </div>
+        <!-- Event Powered By -->
         <div class="col-5 pt-20 pb-20 border-bottom border-primary">
           <label class="fs-20 fw-600 text-light wp-100">Powered By</label>
           <div class="d-flex">
             <label for="input-powered" class="cursor-pointer">
-              <img :src='(form.data.powered_by_image) ? form.data.powered_by_image : "{{ url('assets/images/events/powered.png') }}"' alt="" class="w-60 h-60 br-100 me-15">
+              <img :src='(form.data.powered_by_image && form.data.powered_by_image != "default") ? form.data.powered_by_image : "{{ url('assets/images/events/powered.png') }}"' alt="" class="w-60 h-60 br-100 me-15">
             </label>
             <input type="file" @change="previewImagePowered" class="d-none" id="input-powered">
             <input type="text" class="border-0 bg-transparent py-10 text-light wp-100" placeholder="PT Tiket" v-model="form.data.powered_by">
           </div>
         </div>
+        <!-- Tanggal dan Waktu -->
         <div class="col-7 pt-20 pb-20 border-bottom border-primary">
           <div class="row">
             <div class="col-6" data-bs-toggle="modal" data-bs-target="#tanggalWaktuModal">
@@ -162,6 +170,7 @@
             </div>
           </div>
         </div>
+        <!-- Desc and TOC -->
         <div class="col-12 pt-20 pb-20 border-bottom border-primary">
           <label class="fs-20 fw-600 text-light wp-100">Detil</label>
           <div class="d-flex bg-secondary p-10 mt-15 br-tl-10 br-tr-10">
@@ -177,19 +186,20 @@
             </div>
           </div>
         </div>
+        <!-- Ticket -->
         <div class="col-12 pt-20 pb-20 border-bottom border-primary">
           <div class="row">
             <div class="col-5">
               <label class="fs-20 fw-600 text-light wp-100">Data Tiket</label>
             </div>
             <div class="col-7 text-end">
-              <button class="btn btn-primary fs-16 fw-700 me-20" data-bs-toggle="modal" data-bs-target="#tiketBerbayarModal">
+              <button class="btn btn-primary fs-16 fw-700 me-20" data-bs-toggle="modal" data-bs-target="#tiketBerbayarModal" @click="ticket_index=null;clearTicketForm()">
                 <svg width="18" height="16" viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path id="Vector" d="M17.78 6.2217V2.6657C17.78 1.67891 16.9799 0.887695 16.002 0.887695H1.778C0.8001 0.887695 0.00888999 1.67891 0.00888999 2.6657V6.2217C0.98679 6.2217 1.778 7.0218 1.778 7.9997C1.778 8.9776 0.98679 9.7777 0 9.7777V13.3337C0 14.3116 0.8001 15.1117 1.778 15.1117H16.002C16.9799 15.1117 17.78 14.3116 17.78 13.3337V9.7777C16.8021 9.7777 16.002 8.9776 16.002 7.9997C16.002 7.0218 16.8021 6.2217 17.78 6.2217ZM16.002 4.92376C14.9441 5.53717 14.224 6.69287 14.224 7.9997C14.224 9.30653 14.9441 10.4622 16.002 11.0756V13.3337H1.778V11.0756C2.83591 10.4622 3.556 9.30653 3.556 7.9997C3.556 6.68398 2.8448 5.53717 1.78689 4.92376L1.778 2.6657H16.002V4.92376ZM8.001 10.6667H9.779V12.4447H8.001V10.6667ZM8.001 7.1107H9.779V8.8887H8.001V7.1107ZM8.001 3.5547H9.779V5.3327H8.001V3.5547Z" fill="white"/>
                 </svg>                    
                 Buat Tiket Berbayar
               </button>
-              <button class="btn btn-primary fs-16 fw-700" data-bs-toggle="modal" data-bs-target="#freeGiftModal">
+              <button class="btn btn-primary fs-16 fw-700" data-bs-toggle="modal" data-bs-target="#freeGiftModal" @click="ticket_index=null;clearTicketForm()">
                 <svg width="18" height="16" viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path id="Vector" d="M17.78 6.2217V2.6657C17.78 1.67891 16.9799 0.887695 16.002 0.887695H1.778C0.8001 0.887695 0.00888999 1.67891 0.00888999 2.6657V6.2217C0.98679 6.2217 1.778 7.0218 1.778 7.9997C1.778 8.9776 0.98679 9.7777 0 9.7777V13.3337C0 14.3116 0.8001 15.1117 1.778 15.1117H16.002C16.9799 15.1117 17.78 14.3116 17.78 13.3337V9.7777C16.8021 9.7777 16.002 8.9776 16.002 7.9997C16.002 7.0218 16.8021 6.2217 17.78 6.2217ZM16.002 4.92376C14.9441 5.53717 14.224 6.69287 14.224 7.9997C14.224 9.30653 14.9441 10.4622 16.002 11.0756V13.3337H1.778V11.0756C2.83591 10.4622 3.556 9.30653 3.556 7.9997C3.556 6.68398 2.8448 5.53717 1.78689 4.92376L1.778 2.6657H16.002V4.92376ZM8.001 10.6667H9.779V12.4447H8.001V10.6667ZM8.001 7.1107H9.779V8.8887H8.001V7.1107ZM8.001 3.5547H9.779V5.3327H8.001V3.5547Z" fill="white"/>
                 </svg>                    
@@ -202,7 +212,7 @@
             <p class="text-secondary max-w-350 fs-12 fw-400">Tiket Anda masih kosong, silahkan buat tiket berbayar atau free sekarang! klik tombol di atas.</p>
           </div>
           <div class="py-45 row" v-else>
-            <div class="col-12" v-for="(ticket, index) in form.data.ticket" :key="index">
+            <div class="col-12" v-for="(ticket, index) in form.data.ticket" :key="index" v-show="!ticket.deleted">
               <div class="p-20 d-flex border border-secondary br-10 wp-100 justify-content-between" :class="(index+1 == form.data.ticket.length) ? 'mb-0' : 'mb-20'">
                 <div class="max-wp-70 d-flex flex-column">
                   <h6 class="fs-20 fw-700 text-light" v-text="ticket.name"></h6>
@@ -241,7 +251,7 @@
                       </svg>                                              
                       Sold
                     </button>
-                    <button class="btn btn-sm btn-primary p-10 br-10 ms-5">
+                    <button class="btn btn-sm btn-primary p-10 br-10 ms-5" >
                       <svg width="18" height="16" viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path id="Vector" d="M17.78 6.2217V2.6657C17.78 1.67891 16.9799 0.887695 16.002 0.887695H1.778C0.8001 0.887695 0.00888999 1.67891 0.00888999 2.6657V6.2217C0.98679 6.2217 1.778 7.0218 1.778 7.9997C1.778 8.9776 0.98679 9.7777 0 9.7777V13.3337C0 14.3116 0.8001 15.1117 1.778 15.1117H16.002C16.9799 15.1117 17.78 14.3116 17.78 13.3337V9.7777C16.8021 9.7777 16.002 8.9776 16.002 7.9997C16.002 7.0218 16.8021 6.2217 17.78 6.2217ZM16.002 4.92376C14.9441 5.53717 14.224 6.69287 14.224 7.9997C14.224 9.30653 14.9441 10.4622 16.002 11.0756V13.3337H1.778V11.0756C2.83591 10.4622 3.556 9.30653 3.556 7.9997C3.556 6.68398 2.8448 5.53717 1.78689 4.92376L1.778 2.6657H16.002V4.92376ZM8.001 10.6667H9.779V12.4447H8.001V10.6667ZM8.001 7.1107H9.779V8.8887H8.001V7.1107ZM8.001 3.5547H9.779V5.3327H8.001V3.5547Z" fill="white"/>
                       </svg>
@@ -249,7 +259,7 @@
                     </button>
                   </div>
                   <div class="d-flex align-items-center mt-10">
-                    <a href="#">
+                    <a href="#" title="Update" data-bs-toggle="modal" :data-bs-target="(ticket.type == 'paid') ? '#tiketBerbayarModal' : '#freeGiftModal'" @click="updateTicket(ticket, index)">
                       <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g id="edit" clip-path="url(#clip0_417_1078)">
                         <path id="Vector" d="M11.9801 3.42788L14.6642 6.11196C14.7773 6.22503 14.7773 6.40952 14.6642 6.5226L8.16531 13.0215L5.40386 13.328C5.03487 13.3697 4.72243 13.0572 4.76409 12.6882L5.07058 9.9268L11.5695 3.42788C11.6826 3.3148 11.8671 3.3148 11.9801 3.42788ZM16.8008 2.74645L15.3486 1.29431C14.8963 0.842002 14.1613 0.842002 13.706 1.29431L12.6527 2.3477C12.5396 2.46078 12.5396 2.64527 12.6527 2.75835L15.3367 5.44242C15.4498 5.5555 15.6343 5.5555 15.7474 5.44242L16.8008 4.38903C17.2531 3.93375 17.2531 3.19875 16.8008 2.74645ZM11.4267 11.254V14.2832H1.90444V4.76099H8.74259C8.83781 4.76099 8.92708 4.72231 8.99552 4.65684L10.1858 3.46656C10.412 3.24041 10.2513 2.85655 9.93287 2.85655H1.42833C0.639774 2.85655 0 3.49632 0 4.28488V14.7593C0 15.5479 0.639774 16.1877 1.42833 16.1877H11.9028C12.6913 16.1877 13.3311 15.5479 13.3311 14.7593V10.0637C13.3311 9.74528 12.9472 9.58757 12.7211 9.81074L11.5308 11.001C11.4654 11.0695 11.4267 11.1587 11.4267 11.254Z" fill="white"/>
@@ -261,7 +271,7 @@
                         </defs>
                       </svg>                        
                     </a>
-                    <a href="#" class="ms-10">
+                    <span class="ms-10 cursor-pointer" title="Delete" @click="removeTicket(index)">
                       <svg width="15" height="18" viewBox="0 0 15 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path id="Vector" d="M1.07143 15.5357C1.07143 15.962 1.24075 16.3707 1.54215 16.6721C1.84355 16.9735 2.25233 17.1429 2.67857 17.1429H12.3214C12.7477 17.1429 13.1565 16.9735 13.4578 16.6721C13.7592 16.3707 13.9286 15.962 13.9286 15.5357V4.28572H1.07143V15.5357ZM10.1786 6.96429C10.1786 6.82221 10.235 6.68595 10.3355 6.58548C10.4359 6.48502 10.5722 6.42858 10.7143 6.42858C10.8564 6.42858 10.9926 6.48502 11.0931 6.58548C11.1936 6.68595 11.25 6.82221 11.25 6.96429V14.4643C11.25 14.6064 11.1936 14.7426 11.0931 14.8431C10.9926 14.9436 10.8564 15 10.7143 15C10.5722 15 10.4359 14.9436 10.3355 14.8431C10.235 14.7426 10.1786 14.6064 10.1786 14.4643V6.96429ZM6.96429 6.96429C6.96429 6.82221 7.02073 6.68595 7.12119 6.58548C7.22166 6.48502 7.35792 6.42858 7.5 6.42858C7.64208 6.42858 7.77834 6.48502 7.87881 6.58548C7.97927 6.68595 8.03571 6.82221 8.03571 6.96429V14.4643C8.03571 14.6064 7.97927 14.7426 7.87881 14.8431C7.77834 14.9436 7.64208 15 7.5 15C7.35792 15 7.22166 14.9436 7.12119 14.8431C7.02073 14.7426 6.96429 14.6064 6.96429 14.4643V6.96429ZM3.75 6.96429C3.75 6.82221 3.80644 6.68595 3.90691 6.58548C4.00737 6.48502 4.14363 6.42858 4.28571 6.42858C4.42779 6.42858 4.56406 6.48502 4.66452 6.58548C4.76499 6.68595 4.82143 6.82221 4.82143 6.96429V14.4643C4.82143 14.6064 4.76499 14.7426 4.66452 14.8431C4.56406 14.9436 4.42779 15 4.28571 15C4.14363 15 4.00737 14.9436 3.90691 14.8431C3.80644 14.7426 3.75 14.6064 3.75 14.4643V6.96429ZM14.4643 1.07143H10.4464L10.1317 0.445318C10.065 0.311462 9.96233 0.198864 9.83515 0.120193C9.70798 0.0415218 9.56137 -0.000101383 9.41183 5.87033e-06H5.58482C5.43562 -0.000567697 5.28927 0.0409003 5.16255 0.119659C5.03582 0.198417 4.93385 0.311281 4.8683 0.445318L4.55357 1.07143H0.535714C0.393634 1.07143 0.257373 1.12788 0.156907 1.22834C0.0564412 1.32881 0 1.46507 0 1.60715L0 2.67858C0 2.82066 0.0564412 2.95692 0.156907 3.05738C0.257373 3.15785 0.393634 3.21429 0.535714 3.21429H14.4643C14.6064 3.21429 14.7426 3.15785 14.8431 3.05738C14.9436 2.95692 15 2.82066 15 2.67858V1.60715C15 1.46507 14.9436 1.32881 14.8431 1.22834C14.7426 1.12788 14.6064 1.07143 14.4643 1.07143V1.07143Z" fill="white"/>
                       </svg>                                              
@@ -272,6 +282,7 @@
             </div>
           </div>
         </div>
+        <!-- Form Order Data -->
         <div class="col-12 pt-20 pb-20 border-bottom border-primary">
           <div class="row align-items-center">
             <div class="col-5">
@@ -356,6 +367,7 @@
             </div>
           </div>
         </div>
+        <!-- Ticket Settings -->
         <div class="col-12 pt-20 pb-20">
           <label class="fs-20 fw-600 text-light wp-100">Pengaturan Tiket</label>
           <div class="d-flex align-items-center justify-content-between mt-20">
@@ -415,13 +427,13 @@
               <div class="row">
                 <div class="col-6 border-end border-primary d-flex">
                   <div class="form-check wp-50">
-                    <input class="form-check-input" type="radio" value="true" name="is_public" id="jenis_public" v-model="form.data.is_public">
+                    <input class="form-check-input" type="radio" value="1" name="is_public" id="jenis_public" v-model="form.data.is_public">
                     <label class="form-check-label fs-16 fw-400 text-light" for="jenis_public">
                       Public
                     </label>
                   </div>
                   <div class="form-check wp-50">
-                    <input class="form-check-input" type="radio" value="false" name="is_public" id="jenis_private" v-model="form.data.is_public">
+                    <input class="form-check-input" type="radio" value="0" name="is_public" id="jenis_private" v-model="form.data.is_public">
                     <label class="form-check-label fs-16 fw-400 text-light" for="jenis_private">
                       Private
                     </label>
@@ -429,13 +441,13 @@
                 </div>
                 <div class="col-6 d-flex">
                   <div class="form-check wp-50">
-                    <input class="form-check-input" type="radio" value="true" name="is_offline" id="type_offline" v-model="form.data.is_offline">
+                    <input class="form-check-input" type="radio" value="1" name="is_offline" id="type_offline" v-model="form.data.is_offline">
                     <label class="form-check-label fs-16 fw-400 text-light" for="type_offline">
                       Offline
                     </label>
                   </div>
                   <div class="form-check wp-50">
-                    <input class="form-check-input" type="radio" value="false" name="is_offline" id="type_online" v-model="form.data.is_offline">
+                    <input class="form-check-input" type="radio" value="0" name="is_offline" id="type_online" v-model="form.data.is_offline">
                     <label class="form-check-label fs-16 fw-400 text-light" for="type_online">
                       Online
                     </label>
@@ -561,7 +573,7 @@
             <div class="form-group">
               <label class="fs-20 fw-600 text-light mb-10 form-label">Image</label>
               <label class="d-flex justify-content-center align-items-center bg-primary overflow-hidden br-6 cursor-pointer">
-                <img :src="ticket_paid.image" v-if="ticket_paid.image" class="wp-100">
+                <img :src="ticket_paid.image" v-if="ticket_paid.image && ticket_paid.image != 'default'" class="wp-100">
                 <svg v-else width="200" height="155" viewBox="0 0 80 63" fill="none" xmlns="http://www.w3.org/2000/svg" class="mx-auto my-50">
                   <path id="Vector" d="M66.6667 53.3333V55.5556C66.6667 59.2375 63.6819 62.2222 60 62.2222H6.66667C2.98472 62.2222 0 59.2375 0 55.5556V20C0 16.3181 2.98472 13.3333 6.66667 13.3333H8.88889V42.2222C8.88889 48.3489 13.8733 53.3333 20 53.3333H66.6667ZM80 42.2222V6.66667C80 2.98472 77.0153 0 73.3333 0H20C16.3181 0 13.3333 2.98472 13.3333 6.66667V42.2222C13.3333 45.9042 16.3181 48.8889 20 48.8889H73.3333C77.0153 48.8889 80 45.9042 80 42.2222ZM35.5556 13.3333C35.5556 17.0153 32.5708 20 28.8889 20C25.2069 20 22.2222 17.0153 22.2222 13.3333C22.2222 9.65139 25.2069 6.66667 28.8889 6.66667C32.5708 6.66667 35.5556 9.65139 35.5556 13.3333ZM22.2222 33.3333L29.9326 25.6229C30.5835 24.9721 31.6388 24.9721 32.2897 25.6229L37.7778 31.1111L56.5993 12.2896C57.2501 11.6387 58.3054 11.6387 58.9564 12.2896L71.1111 24.4444V40H22.2222V33.3333Z" fill="white"/>
                 </svg>
@@ -676,7 +688,7 @@
               <div class="row align-items-center py-10 border-bottom border-primary g-0" v-for="(seat,index) in ticket_paid.seats" :key="index" v-show="!seat.deleted">
                 <div class="col">
                   <label class="w-100 d-flex align-items-center justify-content-between bg-primary br-6 cursor-pointer overflow-hidden">
-                    <img :src="seat.image" v-if="seat.image" class="w-100">
+                    <img :src="seat.image" v-if="seat.image && seat.image != 'default'" class="w-100">
                     <svg v-else width="40" height="31" viewBox="0 0 80 63" fill="none" xmlns="http://www.w3.org/2000/svg" class="mx-auto my-15">
                       <path id="Vector" d="M66.6667 53.3333V55.5556C66.6667 59.2375 63.6819 62.2222 60 62.2222H6.66667C2.98472 62.2222 0 59.2375 0 55.5556V20C0 16.3181 2.98472 13.3333 6.66667 13.3333H8.88889V42.2222C8.88889 48.3489 13.8733 53.3333 20 53.3333H66.6667ZM80 42.2222V6.66667C80 2.98472 77.0153 0 73.3333 0H20C16.3181 0 13.3333 2.98472 13.3333 6.66667V42.2222C13.3333 45.9042 16.3181 48.8889 20 48.8889H73.3333C77.0153 48.8889 80 45.9042 80 42.2222ZM35.5556 13.3333C35.5556 17.0153 32.5708 20 28.8889 20C25.2069 20 22.2222 17.0153 22.2222 13.3333C22.2222 9.65139 25.2069 6.66667 28.8889 6.66667C32.5708 6.66667 35.5556 9.65139 35.5556 13.3333ZM22.2222 33.3333L29.9326 25.6229C30.5835 24.9721 31.6388 24.9721 32.2897 25.6229L37.7778 31.1111L56.5993 12.2896C57.2501 11.6387 58.3054 11.6387 58.9564 12.2896L71.1111 24.4444V40H22.2222V33.3333Z" fill="white"/>
                     </svg>
@@ -712,7 +724,7 @@
           </div>
           <div class="modal-footer text-center justify-content-center pt-50 pb-45 border-top-0">
             <button type="button" class="btn btn-secondary max-w-430 wp-100 fs-16 fw-600 py-13" @click="dummyTicket('paid')">Use Dummy</button>
-            <button type="button" class="btn btn-primary max-w-430 wp-100 fs-16 fw-600 py-13" data-bs-dismiss="modal" @click="addTicket('paid')">Save</button>
+            <button type="button" class="btn btn-primary max-w-430 wp-100 fs-16 fw-600 py-13" data-bs-dismiss="modal" @click="addTicket('paid',ticket_index)">Save</button>
           </div>
         </div>
       </div>
@@ -726,6 +738,16 @@
             <button type="button" class="btn-close btn-close-white position-absolute right-30" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body px-30 pt-40">
+            <div class="form-group">
+              <label class="fs-20 fw-600 text-light mb-10 form-label">Image</label>
+              <label class="d-flex justify-content-center align-items-center bg-primary overflow-hidden br-6 cursor-pointer">
+                <img :src="ticket_free.image" v-if="ticket_free.image && ticket_free.image != 'default'" class="wp-100">
+                <svg v-else width="200" height="155" viewBox="0 0 80 63" fill="none" xmlns="http://www.w3.org/2000/svg" class="mx-auto my-50">
+                  <path id="Vector" d="M66.6667 53.3333V55.5556C66.6667 59.2375 63.6819 62.2222 60 62.2222H6.66667C2.98472 62.2222 0 59.2375 0 55.5556V20C0 16.3181 2.98472 13.3333 6.66667 13.3333H8.88889V42.2222C8.88889 48.3489 13.8733 53.3333 20 53.3333H66.6667ZM80 42.2222V6.66667C80 2.98472 77.0153 0 73.3333 0H20C16.3181 0 13.3333 2.98472 13.3333 6.66667V42.2222C13.3333 45.9042 16.3181 48.8889 20 48.8889H73.3333C77.0153 48.8889 80 45.9042 80 42.2222ZM35.5556 13.3333C35.5556 17.0153 32.5708 20 28.8889 20C25.2069 20 22.2222 17.0153 22.2222 13.3333C22.2222 9.65139 25.2069 6.66667 28.8889 6.66667C32.5708 6.66667 35.5556 9.65139 35.5556 13.3333ZM22.2222 33.3333L29.9326 25.6229C30.5835 24.9721 31.6388 24.9721 32.2897 25.6229L37.7778 31.1111L56.5993 12.2896C57.2501 11.6387 58.3054 11.6387 58.9564 12.2896L71.1111 24.4444V40H22.2222V33.3333Z" fill="white"/>
+                </svg>
+                <input type="file" class="d-none" id="image_ticket_free" @change="ticketImage('free',event)">
+              </label>
+            </div>
             <div class="form-group">
               <label class="fs-20 fw-600 text-light mb-10 form-label">Nama Tiket</label>
               <input type="text" class="border-top-0 border-start-0 border-end-0 border-bottom border-primary bg-transparent py-12 text-light fs-16 fw-400 wp-100" placeholder="E.g GA (Standing)" v-model="ticket_free.name">
@@ -798,9 +820,9 @@
                 <div class="col">
                   <label class="fs-14 fw-600 text-light mb-10 form-label">Jumlah Seat</label>
                 </div>
-                <div class="col">
+                <!-- <div class="col">
                   <label class="fs-14 fw-600 text-light mb-10 form-label">Harga</label>
-                </div>
+                </div> -->
                 <div class="col-1">
 
                 </div>
@@ -808,7 +830,7 @@
               <div class="row align-items-center py-10 border-bottom border-primary g-0" v-for="(seat,index) in ticket_free.seats" :key="index" v-show="!seat.deleted">
                 <div class="col">
                   <label class="w-100 d-flex align-items-center justify-content-between bg-primary br-6 cursor-pointer overflow-hidden">
-                    <img :src="seat.image" v-if="seat.image" class="w-100">
+                    <img :src="seat.image" v-if="seat.image && seat.image != 'default'" class="w-100">
                     <svg v-else width="40" height="31" viewBox="0 0 80 63" fill="none" xmlns="http://www.w3.org/2000/svg" class="mx-auto my-15">
                       <path id="Vector" d="M66.6667 53.3333V55.5556C66.6667 59.2375 63.6819 62.2222 60 62.2222H6.66667C2.98472 62.2222 0 59.2375 0 55.5556V20C0 16.3181 2.98472 13.3333 6.66667 13.3333H8.88889V42.2222C8.88889 48.3489 13.8733 53.3333 20 53.3333H66.6667ZM80 42.2222V6.66667C80 2.98472 77.0153 0 73.3333 0H20C16.3181 0 13.3333 2.98472 13.3333 6.66667V42.2222C13.3333 45.9042 16.3181 48.8889 20 48.8889H73.3333C77.0153 48.8889 80 45.9042 80 42.2222ZM35.5556 13.3333C35.5556 17.0153 32.5708 20 28.8889 20C25.2069 20 22.2222 17.0153 22.2222 13.3333C22.2222 9.65139 25.2069 6.66667 28.8889 6.66667C32.5708 6.66667 35.5556 9.65139 35.5556 13.3333ZM22.2222 33.3333L29.9326 25.6229C30.5835 24.9721 31.6388 24.9721 32.2897 25.6229L37.7778 31.1111L56.5993 12.2896C57.2501 11.6387 58.3054 11.6387 58.9564 12.2896L71.1111 24.4444V40H22.2222V33.3333Z" fill="white"/>
                     </svg>
@@ -824,9 +846,9 @@
                 <div class="col">
                   <input type="number" class="border-0 bg-transparent py-10 text-light wp-100" placeholder="E.g: 10" v-model="seat.seat">
                 </div>
-                <div class="col">
+                <!-- <div class="col">
                   <input type="number" class="border-0 bg-transparent py-10 text-light wp-100" placeholder="E.g: 200.000" v-model="seat.price">
-                </div>
+                </div> -->
                 <div class="col-1">
                   <a href="#" @click="removeSeat('free',index)">
                     <svg width="15" height="18" viewBox="0 0 15 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path id="Vector" d="M1.07143 15.5357C1.07143 15.962 1.24075 16.3707 1.54215 16.6721C1.84355 16.9735 2.25233 17.1429 2.67857 17.1429H12.3214C12.7477 17.1429 13.1565 16.9735 13.4578 16.6721C13.7592 16.3707 13.9286 15.962 13.9286 15.5357V4.28572H1.07143V15.5357ZM10.1786 6.96429C10.1786 6.82221 10.235 6.68595 10.3355 6.58548C10.4359 6.48502 10.5722 6.42858 10.7143 6.42858C10.8564 6.42858 10.9926 6.48502 11.0931 6.58548C11.1936 6.68595 11.25 6.82221 11.25 6.96429V14.4643C11.25 14.6064 11.1936 14.7426 11.0931 14.8431C10.9926 14.9436 10.8564 15 10.7143 15C10.5722 15 10.4359 14.9436 10.3355 14.8431C10.235 14.7426 10.1786 14.6064 10.1786 14.4643V6.96429ZM6.96429 6.96429C6.96429 6.82221 7.02073 6.68595 7.12119 6.58548C7.22166 6.48502 7.35792 6.42858 7.5 6.42858C7.64208 6.42858 7.77834 6.48502 7.87881 6.58548C7.97927 6.68595 8.03571 6.82221 8.03571 6.96429V14.4643C8.03571 14.6064 7.97927 14.7426 7.87881 14.8431C7.77834 14.9436 7.64208 15 7.5 15C7.35792 15 7.22166 14.9436 7.12119 14.8431C7.02073 14.7426 6.96429 14.6064 6.96429 14.4643V6.96429ZM3.75 6.96429C3.75 6.82221 3.80644 6.68595 3.90691 6.58548C4.00737 6.48502 4.14363 6.42858 4.28571 6.42858C4.42779 6.42858 4.56406 6.48502 4.66452 6.58548C4.76499 6.68595 4.82143 6.82221 4.82143 6.96429V14.4643C4.82143 14.6064 4.76499 14.7426 4.66452 14.8431C4.56406 14.9436 4.42779 15 4.28571 15C4.14363 15 4.00737 14.9436 3.90691 14.8431C3.80644 14.7426 3.75 14.6064 3.75 14.4643V6.96429ZM14.4643 1.07143H10.4464L10.1317 0.445318C10.065 0.311462 9.96233 0.198864 9.83515 0.120193C9.70798 0.0415218 9.56137 -0.000101383 9.41183 5.87033e-06H5.58482C5.43562 -0.000567697 5.28927 0.0409003 5.16255 0.119659C5.03582 0.198417 4.93385 0.311281 4.8683 0.445318L4.55357 1.07143H0.535714C0.393634 1.07143 0.257373 1.12788 0.156907 1.22834C0.0564412 1.32881 0 1.46507 0 1.60715L0 2.67858C0 2.82066 0.0564412 2.95692 0.156907 3.05738C0.257373 3.15785 0.393634 3.21429 0.535714 3.21429H14.4643C14.6064 3.21429 14.7426 3.15785 14.8431 3.05738C14.9436 2.95692 15 2.82066 15 2.67858V1.60715C15 1.46507 14.9436 1.32881 14.8431 1.22834C14.7426 1.12788 14.6064 1.07143 14.4643 1.07143V1.07143Z" fill="white"></path></svg>
@@ -844,7 +866,7 @@
           </div>
           <div class="modal-footer text-center justify-content-center pt-50 pb-45 border-top-0">
             <button type="button" class="btn btn-secondary max-w-430 wp-100 fs-16 fw-600 py-13" @click="dummyTicket('free')">Use Dummy</button>
-            <button type="button" class="btn btn-primary max-w-430 wp-100 fs-16 fw-600 py-13" data-bs-dismiss="modal" @click="addTicket('free')">Save</button>
+            <button type="button" class="btn btn-primary max-w-430 wp-100 fs-16 fw-600 py-13" data-bs-dismiss="modal" @click="addTicket('free',ticket_index)">Save</button>
           </div>
         </div>
       </div>
@@ -907,7 +929,10 @@
             form_order: []
           }
         },
+        images_clone: [],
+        ticket_index: null,
         ticket_paid: {
+          id: null,
           image: null,
           name: null,
           quota: null,
@@ -921,6 +946,7 @@
           description: null,
           type: 'paid',
           status: 'active',
+          deleted: false,
           seats: [
             {
               id: null,
@@ -934,6 +960,7 @@
           ]
         },
         ticket_free: {
+          id: null,
           image: null,
           name: null,
           quota: null,
@@ -947,6 +974,7 @@
           description: null,
           type: 'free',
           status: 'active',
+          deleted: false,
           seats: [
             {
               id: null,
@@ -954,7 +982,7 @@
               section: null,
               row: null,
               seat: null,
-              price: null,
+              price: 0,
               deleted: false
             }
           ]
@@ -988,6 +1016,29 @@
       },
       methods: {
         ...helper,
+        async doGet() {
+          try {
+            let id = {{ $id }};
+            if(id){
+              let payload = {
+                id: id
+              }
+              let token = 'abcdreUYBH&^*VHGY^&GY'
+                let req = await tiketboxApi.getEvent(payload,token)
+                let { status, msg, data} = req.data
+                if(status){
+                  data.form_order = data.form_order.split(",")
+                  this.form.data = {...data}
+                  this.images_clone = [...data.images]
+                  this.form.data.ticket = [...data.tickets]
+                } else {
+                  this.notify('error','Error',msg)
+                }
+              }
+            } catch (error) {
+            this.notify('error','Error',msg)
+          }
+        },
         onChangeThousand(target, e){
           switch (target) {
             case 'ticketpaid_price':
@@ -1008,7 +1059,18 @@
           payload.status = status
           let token = 'abcdreUYBH&^*VHGY^&GY'
           try {
-            let req = await tiketboxApi.createEvent(payload,token)
+            let req = {
+              data : {
+                status: false,
+                msg: null,
+                data: null
+              }
+            }
+            if(payload.id) {
+              req = await tiketboxApi.updateEvent(payload,token)
+            } else {
+              req = await tiketboxApi.createEvent(payload,token)
+            }
             let { status, msg, data} = req.data
             if(status){
               this.notify('success','Success',msg)
@@ -1022,16 +1084,40 @@
             this.notify('error','Error',error.message)
           }
         },
-        addTicket(type) {
+        updateTicket(ticket,idx) {
+          this.ticket_index = idx
+          if(ticket.type == 'paid'){
+            this.ticket_paid = {...ticket}
+          } else {
+            this.ticket_free = {...ticket}
+          }
+        },
+        addTicket(type,idx=null) {
           let ticket = {...this.ticket_paid}
           if(type == 'free'){
             ticket = {...this.ticket_free}
           }
+          console.log('ticket index',idx)
+          if(idx >= 0 && idx != null){
+            this.form.data.ticket[idx] = {...ticket}
+            console.log('update')
+          } else {
+            console.log('new')
+            this.form.data.ticket.push(ticket)
+          }
+          console.log(ticket)
           this.clearTicketForm()
-          this.form.data.ticket.push(ticket)
+        },
+        removeTicket(idx) {
+          if(this.form.data.ticket[idx].id){
+            this.form.data.ticket[idx].deleted = true
+          } else {
+            this.form.data.ticket.splice(idx,1)
+          }
         },
         clearTicketForm() {
           let empty_ticket = {
+            id: null,
             image: null,
             name: null,
             quota: null,
@@ -1045,6 +1131,7 @@
             description: null,
             type: 'paid',
             status: 'active',
+            deleted: false,
             seats: [
               {
                 id: null,
@@ -1057,8 +1144,8 @@
               }
             ]
           }
-          this.ticket_paid = empty_ticket
-          this.ticket_free = empty_ticket
+          this.ticket_paid = {...empty_ticket}
+          this.ticket_free = {...empty_ticket}
           this.ticket_free.type = 'free'
         },
         addSeat(type) {
@@ -1079,18 +1166,26 @@
         },
         removeSeat(type,idx) {
           if(type == 'free'){
-            if(this.ticket_free.seats[idx]){
+            if(this.ticket_free.seats[idx].id){
               this.ticket_free.seats[idx].deleted = true
             } else {
               this.ticket_free.seats.splice(idx,1)
             }
           } else {
-            if(this.ticket_paid.seats[idx]){
+            if(this.ticket_paid.seats[idx].id){
               this.ticket_paid.seats[idx].deleted = true
             } else {
               this.ticket_paid.seats.splice(idx,1)
             }
           }
+        },
+        deleteImage(idx){
+          if(this.form.data.images[idx].id){
+            this.form.data.images[idx].deleted = true
+          } else {
+            this.form.data.images.splice(idx,1)
+          }
+          this.images_clone.splice(idx,1)
         },
         previewImage(e) {
           let vm = this
@@ -1101,6 +1196,7 @@
             reader.readAsDataURL(files[i]);
             reader.onload = function () {
               vm.form.data.images.push(reader.result)
+              vm.images_clone.push(reader.result)
               inp.type = 'text';
               inp.type = 'file';
             };
@@ -1243,7 +1339,6 @@
               deleted: false
             }]
           }
-          console.log(type,dummy)
           if(type == 'free'){
             let ticketFree = {...this.ticket_free}
             this.ticket_free = {...ticketFree, ...dummy}
@@ -1274,7 +1369,6 @@
             title: title,
             msg: msg
           }
-          console.log(this.alert)
           setTimeout(() => {
             this.alert.show = 'hide'
           }, 2000);
@@ -1282,6 +1376,7 @@
       },
       mounted() {
         // this.getCity()
+        this.doGet()
         this.googleMapInit()
       }
     });

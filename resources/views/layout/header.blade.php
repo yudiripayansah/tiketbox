@@ -40,8 +40,8 @@
               <img src="{{ url('assets/images/layout/user.png') }}" alt="" class="w-40 h-40 br-100">
             </a>
             <ul class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="dropdownAccount">
-              <li><a class="dropdown-item text-light" href="/backoffice">Dashboard</a></li>
-              <li><a class="dropdown-item text-primary border-top border-primary" href="#" @click="doSignOut()">Logout</a></li>
+              <li><a class="dropdown-item text-light bg-dark" href="/backoffice">Dashboard</a></li>
+              <li><a class="dropdown-item text-primary border-top border-primary bg-dark" href="#" @click="doSignOut()">Logout</a></li>
             </ul>
           </li>
           <li class="nav-item" v-if="!users">
@@ -147,7 +147,7 @@
       </div>
     </div>
   </div>
-  {{-- Modal Register --}}
+  <!-- Modal Register -->
   <div class="modal fade" id="modalRegister" tabindex="-1" aria-labelledby="modalRegisterLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered max-w-1000">
       <div class="modal-content">
@@ -217,7 +217,7 @@
       </div>
     </div>
   </div>
-  {{-- Modal Forgot --}}
+  <!-- Modal Forgot -->
   <div class="modal fade" id="modalForgot" tabindex="-1" aria-labelledby="modalForgotLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered max-w-1000">
       <div class="modal-content">
@@ -352,6 +352,7 @@
         } catch (error) {
           console.log(error)
           this.form.loading = false
+          window.location.href = '/'
         }
       },
       async doSignUp() {

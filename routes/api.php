@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EventsController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\PromotionsController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\XenditController;
 
@@ -35,6 +36,20 @@ Route::prefix('orders')->group(function () {
     Route::post('/create', [OrdersController::class, 'create']);
     Route::post('/update', [OrdersController::class, 'update']);
     Route::post('/delete', [OrdersController::class, 'delete']);
+});
+Route::prefix('users')->group(function () {
+    Route::post('/', [UsersController::class, 'read']);
+    Route::post('/get', [UsersController::class, 'get']);
+    Route::post('/create', [UsersController::class, 'create']);
+    Route::post('/update', [UsersController::class, 'update']);
+    Route::post('/delete', [UsersController::class, 'delete']);
+});
+Route::prefix('promotions')->group(function () {
+    Route::post('/', [PromotionsController::class, 'read']);
+    Route::post('/get', [PromotionsController::class, 'get']);
+    Route::post('/create', [PromotionsController::class, 'create']);
+    Route::post('/update', [PromotionsController::class, 'update']);
+    Route::post('/delete', [PromotionsController::class, 'delete']);
 });
 Route::prefix('xendit')->group(function () {
     Route::post('/createVA', [XenditController::class, 'createVA']);

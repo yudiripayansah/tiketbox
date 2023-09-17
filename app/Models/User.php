@@ -37,8 +37,10 @@ class User extends Authenticatable implements JWTSubject
           'domicile' => 'required',
           'status' => 'required',
           'type' => 'required',
-
         ];
+        if($validate['id']){
+          unset($rule['password']);
+        }
         $validator = Validator::make($validate, $rule);
         if ($validator->fails()) {
             $errors =  $validator->errors()->all();

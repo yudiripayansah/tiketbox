@@ -56,14 +56,14 @@
   background-color: #252525;
   box-shadow: 0px 8px 27px 0px rgba(0, 0, 0, 0.37);
 }
-#sidemenu .sm-menu > ul > li > a:hover, #sidemenu .sm-menu > ul > li > a.active {
+#sidemenu .sm-menu ul > li > a:hover, #sidemenu .sm-menu ul > li > a.active {
   background: linear-gradient(90deg, #3E63F9 0%, #8CA2FE 100%);
   color: black !important;
 }
-#sidemenu .sm-menu > ul > li > a:hover .svg-stroke path, #sidemenu .sm-menu > ul > li > a.active .svg-stroke path {
+#sidemenu .sm-menu ul > li > a:hover .svg-stroke path, #sidemenu .sm-menu ul > li > a.active .svg-stroke path {
   stroke: black;
 }
-#sidemenu .sm-menu > ul > li > a:hover .svg-fill path, #sidemenu .sm-menu > ul > li > a.active .svg-fill path {
+#sidemenu .sm-menu ul > li > a:hover .svg-fill path, #sidemenu .sm-menu ul > li > a.active .svg-fill path {
   fill: black;
 }
 

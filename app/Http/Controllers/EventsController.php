@@ -83,10 +83,17 @@ class EventsController extends Controller
       $images = EventImages::where('id_event', $getData->id)->get();
       $tickets = EventTickets::where('id_event', $getData->id)->get();
       foreach($tickets as $ticket){
+        $ticket->image = ($ticket->image && $ticket->image != 'default') ? Storage::disk('public')->url('event/'.$ticket->image) : 'default';
+        $ticket->deleted = false;
         $ticket->seats = EventTicketSeats::where('id_ticket', $ticket->id)->get();
+        foreach($ticket->seats as $seat){
+          $seat->image = ($seat->image && $seat->image != 'default') ? Storage::disk('public')->url('event/'.$seat->image) : 'default';
+          $seat->deleted = false;
+        }
       }
       foreach($images as $image){
         $image->image_url = Storage::disk('public')->url('event/'.$image->image);
+        $image->deleted = false;
       }
       $getData->images = $images;
       $getData->tickets = $tickets;
@@ -162,7 +169,14 @@ class EventsController extends Controller
   public function update(Request $request) {
     $dataUpdate = $request->all();
     $dataFind = Events::find($request->id);
-    $validate = Promo::validate($dataUpdate);
+    $validate = Events::validate($dataUpdate);
+    $dataUpdate['form_order'] = implode(',',$dataUpdate['form_order']);
+    unset($dataUpdate['images']);
+    unset($dataUpdate['ticket']);
+    unset($dataUpdate['tickets']);
+    unset($dataUpdate['created_at']);
+    unset($dataUpdate['updated_at']);
+    unset($dataUpdate['deleted']);
     if (basename($request->powered_by_image) != basename($dataFind->powered_by_image)) {
       $filename = uniqid().time().'-'. '-event-powered-by.png';
       $filePath = 'event/' .$filename;
@@ -175,6 +189,8 @@ class EventsController extends Controller
     if ($validate['status']) {
       try {
         $du = Events::where('id',$request->id)->update($dataUpdate);
+        $this->handleTicket($request->id,$request->ticket);
+        $this->handleImage($request->id,$request->images);
         $dg = Events::find($request->id);
         $res = array(
                 'status' => true,
@@ -202,7 +218,7 @@ class EventsController extends Controller
   public function delete(Request $request) {
     $id = $request->id;
     if ($id) {
-      $delData = Promo::find($id);
+      $delData = Events::find($id);
       try {
         $delData->delete();
         $res = array(
@@ -242,6 +258,10 @@ class EventsController extends Controller
           } else {
             $ticket['image'] = 'default';
           }
+          unset($ticket['seats']);
+          unset($ticket['deleted']);
+          unset($ticket['created_at']);
+          unset($ticket['updated_at']);
           $doProcess->update($ticket);
         }
         $id_ticket = $ticket['id'];
@@ -277,6 +297,7 @@ class EventsController extends Controller
     DB::beginTransaction();
     foreach($seats as $seat) {
       if($seat['section']){
+        $seat['price'] = ($seat['price']) ? $seat['price'] : 0;
         if(isset($seat['id'])) {
           $doProcess = EventTicketSeats::where('id',$seat['id']);
           if($seat['deleted']){
@@ -291,6 +312,9 @@ class EventsController extends Controller
             } else {
               $seat['image'] = 'default';
             }
+            unset($seat['deleted']);
+            unset($seat['created_at']);
+            unset($seat['updated_at']);
             $doProcess->update($seat);
           }
         } else {
