@@ -13,6 +13,7 @@ use App\Models\Orders;
 use App\Models\OrderItems;
 use App\Models\User;
 use App\Mail\TicketEmail;
+use App\Mail\WelcomeEmail;
 use Illuminate\Support\Facades\Mail;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Facades\Hash;
@@ -263,11 +264,12 @@ class OrdersController extends Controller
     return json_decode($response);
   }
   public function createUser($data) {
+    $pass = uniqid();
     $dataCreate = [
-      'username' => $data['name'].uniqid(),
+      'username' => $data['name'].$pass,
       'email' => $data['email'],
       'name' => $data['name'],
-      'password' => Hash::make(uniqid()),
+      'password' => Hash::make($pass),
       'phone' => $data['phone'],
       'address' => $data['domicile'],
       'gender' => $data['gender'],
@@ -278,6 +280,7 @@ class OrdersController extends Controller
     ];
     $user = User::where('email',$data['email'])->get();
     if(count($user) < 1){
+      $this->sendEmailWelcome($data['name'],$data['email'],$pass);
       return User::create($dataCreate);
     } else {
       return 'User already exist';
@@ -326,5 +329,23 @@ class OrdersController extends Controller
     $mailInfo->orders = $order;
     Mail::to($order->email)
         ->send(new TicketEmail($mailInfo));
+  }
+  function sendEmailWelcome($name,$email,$password) {
+    $mailInfo = new \stdClass();
+    $mailInfo->recieverName = $name;
+    $mailInfo->sender = "Tiketbox";
+    $mailInfo->senderCompany = "Tiketbox.com";
+    $mailInfo->to = $email;
+    $mailInfo->subject = "Welcome to tiketbox.com";
+    $mailInfo->name = "Tiketbox";
+    $mailInfo->cc = "tiket@tiketbox.com";
+    $mailInfo->bcc = "crew@tiketbox.com";
+    $mailInfo->from = "ticket@tiketbox.com";
+    $mailInfo->title = 'Welcome to tiketbox.com';
+    $mailInfo->name = $name;
+    $mailInfo->email = $email;
+    $mailInfo->password = $password;
+    Mail::to($email)
+        ->send(new WelcomeEmail($mailInfo));
   }
 }

@@ -26,12 +26,16 @@ class EventsController extends Controller
     $totalPage = 1;
     $id_user = ($request->id_user) ? $request->id_user : null;
     $type = ($request->type) ? $request->type : null;
+    $category = ($request->category) ? $request->category : null;
     $listData = Events::select('events.*')->orderBy($sortBy, $sortDir);
     if ($perPage != '~') {
-        $listData->skip($offset)->take($perPage);
+      $listData->skip($offset)->take($perPage);
     }
     if ($search != null) {
-        $listData->whereRaw('(events.name LIKE "%'.$search.'%")');
+      $listData->whereRaw('(events.name LIKE "%'.$search.'%" OR events.keyword LIKE "%'.$search.'%")');
+    }
+    if ($category != null) {
+      $listData->where('category',$category);
     }
     $listData = $listData->get();
     foreach($listData as $ld) {
@@ -49,10 +53,13 @@ class EventsController extends Controller
       $ld->images = $images;
       $ld->tickets = $tickets;
     }
-    if ($search || $id_user || $type) {
+    if ($search || $id_user || $type || $category) {
         $total = Events::orderBy($sortBy, $sortDir);
         if ($search) {
-            $total->whereRaw('(events.name LIKE "%'.$search.'%")');
+            $total->whereRaw('(events.name LIKE "%'.$search.'%" OR events.keyword LIKE "%'.$search.'%")');
+        }
+        if ($category) {
+            $total->where('category',$category);
         }
         $total = $total->count();
     } else {

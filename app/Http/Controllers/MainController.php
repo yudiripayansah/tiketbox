@@ -10,6 +10,7 @@ use App\Models\EventTickets;
 use App\Models\EventTicketSeats;
 use App\Models\EventImages;
 use App\Mail\TicketEmail;
+use App\Mail\WelcomeEmail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
@@ -21,9 +22,27 @@ class MainController extends Controller
   public function index() {
     return view('pages/frontend/home');
   }
+  public function promotions() {
+    return view('pages/frontend/promotions');
+  }
+  public function events() {
+    return view('pages/frontend/events');
+  }
   public function event($id) {
     $data['id'] = $id;
-    return view('pages/frontend/event',$data);
+    return view('pages/frontend/eventDetail',$data);
+  }
+  public function category($category = null) {
+    $data['category'] = $category;
+    return view('pages/frontend/events',$data);
+  }
+  public function search($search = null) {
+    $data['search'] = $search;
+    return view('pages/frontend/events',$data);
+  }
+  public function promotion($id) {
+    $data['id'] = $id;
+    return view('pages/frontend/promotionDetail',$data);
   }
   public function order($code) {
     $data['code'] = $code;
@@ -59,8 +78,9 @@ class MainController extends Controller
     $email->title = 'E-Ticket';
     $email->orders = $orders;
     $data['dEmail'] = $email;
-    $this->sendEmail($orders);
-    return view('email/ticketEmail',$data);
+    // return $this->sendEmail($orders);
+    $this->sendEmailWelcome('Yudi','yudiripayansah@gmail.com','123');
+    // return view('email/ticketEmail',$data);
   }
   function sendEmail($order) {
     $mailInfo = new \stdClass();
@@ -77,5 +97,23 @@ class MainController extends Controller
     $mailInfo->orders = $order;
     Mail::to($order->email)
         ->send(new TicketEmail($mailInfo));
+  }
+  function sendEmailWelcome($name,$email,$password) {
+    $mailInfo = new \stdClass();
+    $mailInfo->recieverName = $name;
+    $mailInfo->sender = "Tiketbox";
+    $mailInfo->senderCompany = "Tiketbox.com";
+    $mailInfo->to = $email;
+    $mailInfo->subject = "Welcome to tiketbox.com";
+    $mailInfo->name = "Tiketbox";
+    $mailInfo->cc = "tiket@tiketbox.com";
+    $mailInfo->bcc = "crew@tiketbox.com";
+    $mailInfo->from = "ticket@tiketbox.com";
+    $mailInfo->title = 'Welcome to tiketbox.com';
+    $mailInfo->name = $name;
+    $mailInfo->email = $email;
+    $mailInfo->password = $password;
+    Mail::to($email)
+        ->send(new WelcomeEmail($mailInfo));
   }
 }

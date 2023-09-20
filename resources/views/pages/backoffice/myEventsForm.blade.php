@@ -988,7 +988,7 @@
           ]
         },
         opt: {
-          category: ["Konser","Atraksi","Standup Comedy","Reality Show"],
+          category: ["Concert","Attraction","Free Gifts","Sports","Amusement Park","Exhibition","Talent Show"],
           subcategory: ["Musik","Drama","Cosplay","Teater"],
           city: ["Jakarta","Bandung","Bogor","Bekasi","Tanggerang","Semarang","Jogja","Surabaya"],
           max_ticket: [1,5,10,15,20]
@@ -1075,7 +1075,7 @@
             if(status){
               this.notify('success','Success',msg)
               setTimeout(() => {
-                window.location.reload()
+                // window.location.reload()
               }, 2000)
             } else {
               this.notify('error','Error',msg)

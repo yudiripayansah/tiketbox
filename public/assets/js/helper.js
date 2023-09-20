@@ -38,6 +38,16 @@ const helper = {
     let y = theDate.getFullYear()
     return `${day[dy]}, ${d} ${month[m]} ${y}`
   },
+  dateIndoShort(date) {
+    let theDate = new Date(date)
+    let month = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus','September','Oktober','November','Desember']
+    let day = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu']
+    let dy = theDate.getDay()
+    let d = theDate.getDate()
+    let m = theDate.getMonth()
+    let y = theDate.getFullYear()
+    return `${d}-${[m+1]}-${y}`
+  },
   timeIndo(time) {
     let theTime = new Date(time)
     let h = theTime.getHours()

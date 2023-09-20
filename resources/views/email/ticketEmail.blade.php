@@ -118,7 +118,10 @@
               </td>
               <td class="right wp-20 text-light" width="20%">
                 <p class="text-center fs-12 fw-700 mb-10" style="color:white;font-size:12px;font-weight:700;text-align:center;">Tunjukan QR code di pintu login</p>
-                <img src="{!! QrCode::size(150)->format('png')->generate('TXB-'.$items->id.'-'.date('dmY',strtotime($items->date))) !!}" alt="">
+                @php 
+                $qr = QrCode::size(150)->format('png')->generate('TXB-'.$items->id.'-'.date('dmY',strtotime($items->date)));
+                @endphp
+                <img src="{!!$message->embedData($qr, 'QrCode.png', 'image/png')!!}" alt="">
               </td>
             </tr>
           </table>
