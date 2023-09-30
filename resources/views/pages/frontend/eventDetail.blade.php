@@ -43,7 +43,7 @@
                   <select style="background-color: #929292;" class="text-white fs-18 fw-400 px-30 py-10 br-5" v-model="form.data.date" :est="form.data.date" v-if="event.type == 'event'">
                     <option style="background-color: #929292;" class="text-white" v-for="(date,index) in event_days" :key="index" v-text="dateIndo(date)" :value="date"></option>
                   </select>
-                  <input type="date" name="" id="" v-model="form.data.date" v-else style="background-color: #929292;" class="text-white fs-18 fw-400 px-30 py-10 br-5">
+                  <input type="date" name="" id="" v-model="form.data.date" v-else style="background-color: #929292;" class="flatpickr text-white fs-18 fw-400 px-30 py-10 br-5">
                 </div>
                 <div class="px-70 py-25 border-top border-primary">
                   <div class="ticket-item p-20 border border-secondary br-10 mb-15 d-flex justify-content-between align-items-start" v-for="(ticket,index) in event.tickets" :key="index">
@@ -259,7 +259,7 @@
           this.ticket.seats.map((seat) => {
             seat.selected_seat = 1
           })
-          if(this.event.type != 'event') {
+          if(this.event.type != 'event' || this.ticket.seats.length == 0) {
             let theSeat = {
                 id: 0,
                 id_event: this.event.id,
@@ -303,12 +303,19 @@
         event_date() {
           let start = new Date(this.event.date_start)
           let end = new Date(this.event.date_end)
-          let days = end.getDate() - start.getDate() + 1
+          let days = end.getTime() - start.getTime()
+          days = (days / (1000 * 3600 * 24)) + 1
+          console.log('date:',days,start,end)
           for(let i = 0; i < days; i++) {
             let dDay = new Date(this.event.date_start)
             let day = this.formatDate(dDay.setDate(dDay.getDate() + i));
             this.event_days.push(day)
           }
+        },
+        initDatePicker() {
+          flatpickr(".flatpickr", {
+            minDate: 'today'
+          });
         },
         notify(type,title,msg){
           let bg = 'bg-primary'
@@ -339,6 +346,7 @@
       },
       mounted() {
         this.detailEvent()
+        this.initDatePicker()
       }
     });
   </script>

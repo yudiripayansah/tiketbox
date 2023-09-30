@@ -95,6 +95,98 @@ const tiketboxApi = {
     };
     return defAxios.post(url, payload, config);
   },
+  // banner
+  readBanner(payload, token) {
+    let url = '/banners'
+    let config = {
+      headers: {
+        token: token,
+      },
+    };
+    return defAxios.post(url, payload, config);
+  },
+  getBanner(payload, token) {
+    let url = '/banners/get'
+    let config = {
+      headers: {
+        token: token,
+      },
+    };
+    return defAxios.post(url, payload, config);
+  },
+  createBanner(payload, token) {
+    let url = '/banners/create'
+    let config = {
+      headers: {
+        token: token,
+      },
+    };
+    return defAxios.post(url, payload, config);
+  },
+  updateBanner(payload, token) {
+    let url = '/banners/update'
+    let config = {
+      headers: {
+        token: token,
+      },
+    };
+    return defAxios.post(url, payload, config);
+  },
+  deleteBanner(payload, token) {
+    let url = '/banners/delete'
+    let config = {
+      headers: {
+        token: token,
+      },
+    };
+    return defAxios.post(url, payload, config);
+  },
+  // category
+  readCategory(payload, token) {
+    let url = '/category'
+    let config = {
+      headers: {
+        token: token,
+      },
+    };
+    return defAxios.post(url, payload, config);
+  },
+  getCategory(payload, token) {
+    let url = '/category/get'
+    let config = {
+      headers: {
+        token: token,
+      },
+    };
+    return defAxios.post(url, payload, config);
+  },
+  createCategory(payload, token) {
+    let url = '/category/create'
+    let config = {
+      headers: {
+        token: token,
+      },
+    };
+    return defAxios.post(url, payload, config);
+  },
+  updateCategory(payload, token) {
+    let url = '/category/update'
+    let config = {
+      headers: {
+        token: token,
+      },
+    };
+    return defAxios.post(url, payload, config);
+  },
+  deleteCategory(payload, token) {
+    let url = '/category/delete'
+    let config = {
+      headers: {
+        token: token,
+      },
+    };
+    return defAxios.post(url, payload, config);
+  },
   // promotion
   readPromotion(payload, token) {
     let url = '/promotions'

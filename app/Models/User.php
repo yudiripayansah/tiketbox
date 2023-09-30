@@ -14,55 +14,68 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use HasFactory, Notifiable;
-    use SoftDeletes;
-    protected $table = 'users';
-    protected $fillable = [
-      'username','email','name','password','phone','image','address','gender','dob','domicile','status','type',
+  use HasFactory, Notifiable;
+  use SoftDeletes;
+  protected $table = 'users';
+  protected $fillable = [
+    'username',
+    'email',
+    'name',
+    'password',
+    'phone',
+    'image',
+    'address',
+    'gender',
+    'dob',
+    'domicile',
+    'status',
+    'type',
+    'promotor_logo',
+    'promotor_banner',
+    'promotor_name',
+    'promotor_link',
+    'promotor_phone',
+    'promotor_email',
+    'promotor_address',
+    'promotor_about',
+    'promotor_social_media',
+  ];
+  protected $hidden = ['password'];
+  public static function validate($validate)
+  {
+    $rule = [
+      'username' => 'required',
+      'email' => 'required',
+      'name' => 'required',
+      'password' => 'required',
+      'phone' => 'required',
+      'type' => 'required',
     ];
-    protected $hidden = [
-      'password',
-    ];
-    public static function validate($validate)
-    {
-        $rule = [
-          'username' => 'required',
-          'email' => 'required',
-          'name' => 'required',
-          'password' => 'required',
-          'phone' => 'required',
-          'address' => 'required',
-          'gender' => 'required',
-          'dob' => 'required',
-          'domicile' => 'required',
-          'status' => 'required',
-          'type' => 'required',
-        ];
-        if($validate['id']){
-          unset($rule['password']);
-        }
-        $validator = Validator::make($validate, $rule);
-        if ($validator->fails()) {
-            $errors =  $validator->errors()->all();
-            $res = array(
-                    'status' => false,
-                    'error' => $errors,
-                    'msg' => 'Error on Validation'
-                  );
-        } else {
-            $res = array(
-                    'status' => true,
-                    'msg' => 'Validation Ok'
-                  );
-        }
-        return $res;
+    if ($validate['id']) {
+      unset($rule['password']);
     }
-    public function getJWTIdentifier()
-    {
-        return $this->getKey();
+    $validator = Validator::make($validate, $rule);
+    if ($validator->fails()) {
+      $errors = $validator->errors()->all();
+      $res = [
+        'status' => false,
+        'error' => $errors,
+        'msg' => 'Error on Validation',
+      ];
+    } else {
+      $res = [
+        'status' => true,
+        'msg' => 'Validation Ok',
+      ];
     }
-    public function getJWTCustomClaims()
-    {
-        return [];
-    }
+    return $res;
+  }
+  public function getJWTIdentifier()
+  {
+    return $this->getKey();
+  }
+  public function getJWTCustomClaims()
+  {
+    return [];
+  }
 }

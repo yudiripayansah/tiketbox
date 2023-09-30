@@ -63,10 +63,11 @@
                     <input type="date" class="bg-transparent border-0 fs-18 fw-400 text-white wp-100" placeholder="dd-mm-yyyy" v-model="form.data.dob">
                   </div>
                   <div class="d-flex align-items-center border-bottom border-white pb-10 flex-wrap mt-30 wp-48 ms-auto">   
-                    <label class="wp-100 fs-14 fw-400 text-white mb-15">Domisili</label>               
-                    <select class="bg-transparent border-0 fs-18 fw-400 text-white wp-100" placeholder="Jakarta" v-model="form.data.domicile">
+                    <label class="wp-100 fs-14 fw-400 text-white mb-15">Domisili</label>       
+                    <input type="text" class="bg-transparent border-0 fs-18 fw-400 text-white wp-100" placeholder="Eg: Jakarta" v-model="form.data.domicile">        
+                    {{-- <select class="bg-transparent border-0 fs-18 fw-400 text-white wp-100" placeholder="Jakarta" v-model="form.data.domicile">
                       <option value="Jakarta">Jakarta</option>
-                    </select>
+                    </select> --}}
                   </div>
                 </div>
                 <div class="form-check mt-30">

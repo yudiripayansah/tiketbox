@@ -19,16 +19,16 @@
           </li>
         </ul>
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item me-30" v-if="users">
-            <a class="nav-link text-light" href="{{ url('backoffice/my-events/form') }}">
+          <li class="nav-item me-30" v-if="users && users.type == 'promotor'">
+            <a class="nav-link text-light" href="{{ url('promotor/my-events/form') }}">
               <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg" class="me-5">
                 <path id="Vector" d="M12.1094 0C5.41992 0 0 5.41992 0 12.1094C0 18.7988 5.41992 24.2188 12.1094 24.2188C18.7988 24.2188 24.2188 18.7988 24.2188 12.1094C24.2188 5.41992 18.7988 0 12.1094 0ZM19.1406 13.4766C19.1406 13.7988 18.877 14.0625 18.5547 14.0625H14.0625V18.5547C14.0625 18.877 13.7988 19.1406 13.4766 19.1406H10.7422C10.4199 19.1406 10.1562 18.877 10.1562 18.5547V14.0625H5.66406C5.3418 14.0625 5.07812 13.7988 5.07812 13.4766V10.7422C5.07812 10.4199 5.3418 10.1562 5.66406 10.1562H10.1562V5.66406C10.1562 5.3418 10.4199 5.07812 10.7422 5.07812H13.4766C13.7988 5.07812 14.0625 5.3418 14.0625 5.66406V10.1562H18.5547C18.877 10.1562 19.1406 10.4199 19.1406 10.7422V13.4766Z" fill="#3E63F9"/>
               </svg>              
               Create Events
             </a>
           </li>
-          <li class="nav-item me-30" v-if="users">
-            <a class="nav-link text-light" href="#">
+          <li class="nav-item me-30" v-if="users && (users.type == 'promotor' || users.type == 'user')">
+            <a class="nav-link text-light" href="{{ url('audience/my-tickets') }}">
               <svg width="25" height="17" viewBox="0 0 25 17" fill="none" xmlns="http://www.w3.org/2000/svg" class="me-5">
                 <path id="Vector" d="M5.55556 4.16667H19.4444V12.5H5.55556V4.16667ZM22.9167 8.33333C22.9167 9.48394 23.8494 10.4167 25 10.4167V14.5833C25 15.7339 24.0673 16.6667 22.9167 16.6667H2.08333C0.932726 16.6667 0 15.7339 0 14.5833V10.4167C1.15061 10.4167 2.08333 9.48394 2.08333 8.33333C2.08333 7.18273 1.15061 6.25 0 6.25V2.08333C0 0.932726 0.932726 0 2.08333 0H22.9167C24.0673 0 25 0.932726 25 2.08333V6.25C23.8494 6.25 22.9167 7.18273 22.9167 8.33333ZM20.8333 3.81944C20.8333 3.24414 20.367 2.77778 19.7917 2.77778H5.20833C4.63303 2.77778 4.16667 3.24414 4.16667 3.81944V12.8472C4.16667 13.4225 4.63303 13.8889 5.20833 13.8889H19.7917C20.367 13.8889 20.8333 13.4225 20.8333 12.8472V3.81944Z" fill="#3E63F9"/>
               </svg>
@@ -36,13 +36,47 @@
             </a>
           </li>
           <li class="nav-item dropdown" v-if="users">
-            <a href="/backoffice" data-bs-toggle="dropdown" id="dropdownAccount">
+            <a href="/backoffice" @click="dropDown($event)">
               <img src="{{ url('assets/images/layout/user.png') }}" alt="" class="w-40 h-40 br-100">
             </a>
-            <ul class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="dropdownAccount">
-              <li><a class="dropdown-item text-light bg-dark" href="/backoffice">Dashboard</a></li>
-              <li><a class="dropdown-item text-primary border-top border-primary bg-dark" href="#" @click="doSignOut()">Logout</a></li>
-            </ul>
+            <div class="br-10 right-0 position-absolute w-250 bg-dark" aria-labelledby="dropdownAccount" v-show="dropdown">
+              <div v-if="users.type == 'user'">
+                <div class="d-flex align-items-center justify-content-between">
+                  <div @click="active = 'audience'" class="cusrsor-pointer sm-title pb-15 pt-10 text-center fw-700 fs-14 text-light border-bottom wp-50" :class="(active == 'audience') ? 'border-primary' : 'border-transparent'">
+                    Audience
+                  </div>
+                  <div @click="active = 'promotor'" class="cusrsor-pointer sm-title pb-15 pt-10 text-center fw-700 fs-14 text-light border-bottom wp-50"  :class="(active == 'promotor') ? 'border-primary' : 'border-transparent'">
+                    Promotor
+                  </div>
+                </div>
+                <div v-if="active == 'audience'">
+                  <ul class="list-unstyled">
+                    <li class="pt-20 pb-10 px-15"><a class="dropdown-item text-light" href="/audience/my-tickets">My Tickets</a></li>
+                    <li class="pb-20 pt-10 px-15"><a class="dropdown-item text-light" href="/category">Search Ticket</a></li>
+                    <li class="pt-20 pb-10 px-15 border-top border-primary"><a class="dropdown-item text-light" href="/audience/profile">Profile</a></li>
+                    <li class="py-10 px-15"><a class="dropdown-item text-light" href="/audience/order-data">Order Data</a></li>
+                    <li class="pb-20 pt-10 px-15"><a class="dropdown-item text-light" href="/audience/password">Password</a></li>
+                    <li class="py-10 px-15 border-top border-primary"><a class="dropdown-item text-primary" href="#" @click="doSignOut()">Logout</a></li>
+                  </ul>
+                </div>
+                <div v-if="active == 'promotor'">
+                  <ul class="list-unstyled">
+                    <li class="pt-20 pb-10 px-15"><a class="dropdown-item text-light" href="/promotor">Dashboard</a></li>
+                    <li class="pb-20 pt-10 px-15"><a class="dropdown-item text-light" href="/promotor">My Events</a></li>
+                    <li class="pt-20 pb-10 px-15 border-top border-primary"><a class="dropdown-item text-light" href="/promotor/profile">Profile</a></li>
+                    <li class="py-10 px-15"><a class="dropdown-item text-light" href="/promotor/bank-account">Bank Account</a></li>
+                    <li class="pb-20 pt-10 px-15"><a class="dropdown-item text-light" href="/promotor/password">Password</a></li>
+                    <li class="py-10 px-15 border-top border-primary"><a class="dropdown-item text-primary" href="#" @click="doSignOut()">Logout</a></li>
+                  </ul>
+                </div>
+              </div>
+              <div v-else>
+                <ul class="list-unstyled">
+                  <li class="py-10 px-15"><a class="dropdown-item text-light" href="/backoffice">Dashboard</a></li>
+                  <li class="py-10 px-15 border-top border-primary"><a class="dropdown-item text-primary" href="#" @click="doSignOut()">Logout</a></li>
+                </ul>
+              </div>
+            </div>
           </li>
           <li class="nav-item" v-if="!users">
             <a class="btn btn-primary br-20 py-10 px-35 fs-14" href="#" data-bs-toggle="modal" data-bs-target="#modalLogin">Login</a>
@@ -281,6 +315,8 @@
         },
         loading: false
       },
+      active: '@if(request()->segment(1) == "audience" || request()->segment(1) == "promotor"){{ request()->segment(1) }}@else{{"audience"}}@endif',
+      dropdown: false,
       alert: {
         msg: null,
         show: false
@@ -293,6 +329,10 @@
     },
     methods: {
       ...helper,
+      dropDown(e){
+        e.preventDefault()
+        this.dropdown = !this.dropdown
+      },
       async doSignIn() {
         this.alert = {
           show: false,

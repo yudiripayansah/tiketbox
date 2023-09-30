@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePromotionsTable extends Migration
+class CreateEventTicketpriceTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,12 @@ class CreatePromotionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('promotions', function (Blueprint $table) {
+        Schema::create('event_ticket_price', function (Blueprint $table) {
             $table->id();
-            $table->text('icon')->nullable();
-            $table->text('image')->nullable();
-            $table->text('id_parent')->nullable();
-            $table->text('name');
-            $table->text('description')->nullable();
+            $table->integer('id_event');
+            $table->integer('price');
+            $table->text('days')->nullable();
+            $table->text('date')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
@@ -32,6 +31,6 @@ class CreatePromotionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('promotions');
+        Schema::dropIfExists('event_ticket_price');
     }
 }

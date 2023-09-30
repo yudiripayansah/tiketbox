@@ -31,7 +31,7 @@
   const vueSideMenu = new Vue( {
     el: '#sidemenu',
     data: {
-      active: 'audience'
+      active: '{{ request()->segment(1) }}'
     },
     computed: {
       users() {

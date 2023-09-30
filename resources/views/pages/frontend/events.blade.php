@@ -218,6 +218,11 @@
             this.notify('error','Error',error.message)
           }
         },
+        initDatePicker() {
+          flatpickr(".flatpickr", {
+            minDate: 'today'
+          });
+        },
         notify(type,title,msg){
           let bg = 'bg-primary'
           switch (bg) {

@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BannersController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\EventsController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\UsersController;
@@ -50,6 +52,20 @@ Route::prefix('promotions')->group(function () {
     Route::post('/create', [PromotionsController::class, 'create']);
     Route::post('/update', [PromotionsController::class, 'update']);
     Route::post('/delete', [PromotionsController::class, 'delete']);
+});
+Route::prefix('banners')->group(function () {
+    Route::post('/', [BannersController::class, 'read']);
+    Route::post('/get', [BannersController::class, 'get']);
+    Route::post('/create', [BannersController::class, 'create']);
+    Route::post('/update', [BannersController::class, 'update']);
+    Route::post('/delete', [BannersController::class, 'delete']);
+});
+Route::prefix('category')->group(function () {
+    Route::post('/', [CategoryController::class, 'read']);
+    Route::post('/get', [CategoryController::class, 'get']);
+    Route::post('/create', [CategoryController::class, 'create']);
+    Route::post('/update', [CategoryController::class, 'update']);
+    Route::post('/delete', [CategoryController::class, 'delete']);
 });
 Route::prefix('xendit')->group(function () {
     Route::post('/createVA', [XenditController::class, 'createVA']);

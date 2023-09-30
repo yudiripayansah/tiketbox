@@ -4,7 +4,35 @@
     <div class="container">
       {{-- Banner --}}
       <div class="home-banner position-relative mb-30 br-10 overflow-hidden">
-        <img src="{{ url('https://tiketbox.com/resources/images/main-banner.jpg') }}" alt="" class="wp-100">
+        <div id="homeCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            <div class="carousel-item" v-for="(b,index) in banner" :key="index" :class="(index == 0) ? 'active' : ''">
+              <img :src="b.image" class="d-block wp-100" alt="...">
+              <div class="position-absolute hb-caption d-flex flex-column justify-content-center ps-35 pe-35 text-light">
+                <h1 class="fw-700 fs-50" v-text="b.title"></h1>
+                <h6 class="fw-500 fs-20" v-text="b.text"></h6>
+                <form @submit.prevent="doSearch()" class="hbc-input-search d-flex align-items-center ps-30 pe-30 br-20 mt-24">
+                  <input type="text" class="border-0 bg-transparent text-light fs-18" placeholder="Search, other places, event or tickets..." v-model="search">
+                  <button class="border-0 bg-transparent" type="submit">
+                    <svg width="41" height="41" viewBox="0 0 41 41" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <g id="Frame" opacity="0.5">
+                      <path id="Vector" d="M31.408 18.5622C31.408 21.1632 30.6345 23.7059 29.1853 25.8686C27.7361 28.0314 25.6762 29.7171 23.2662 30.7126C20.8562 31.7081 18.2043 31.9686 15.6458 31.4614C13.0873 30.9541 10.7371 29.7018 8.89232 27.8627C7.04759 26.0236 5.79119 23.6805 5.28198 21.1294C4.77278 18.5784 5.03364 15.9341 6.03158 13.5309C7.02952 11.1277 8.71972 9.07351 10.8885 7.62809C13.0572 6.18267 15.6071 5.41094 18.2157 5.41046C19.948 5.41015 21.6635 5.75009 23.264 6.41089C24.8645 7.07168 26.3189 8.04038 27.5439 9.26166C28.769 10.4829 29.7407 11.9329 30.4037 13.5287C31.0668 15.1245 31.408 16.8349 31.408 18.5622V18.5622Z" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path id="Vector_2" d="M27.5459 27.8636L35.1778 35.4735" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                      </g>
+                    </svg>                
+                  </button>
+                </form>
+                <div class="hbc-tags mt-20 fs-18">
+                  <a class="text-light text-decoration-none me-10" :href="`search/${t}`" v-for="(t,index) in b.tags" :key="index" v-text="t"></a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-indicators">
+            <button type="button" data-bs-target="#homeCarousel" :data-bs-slide-to="index" :class="(index == 0) ? 'active' : ''" aria-current="true" aria-label="Slide 1" v-for="(b,index) in banner" :key="index"></button>
+          </div>
+        </div>
+        {{-- <img src="{{ url('https://tiketbox.com/resources/images/main-banner.jpg') }}" alt="" class="wp-100">
         <div class="position-absolute hb-caption d-flex flex-column justify-content-center ps-35 pe-35 text-light">
           <h1 class="fw-700 fs-50">Book Yourself Your Fun</h1>
           <h6 class="fw-500 fs-20">Best events near you to get your 2023 started</h6>
@@ -24,7 +52,7 @@
             <a class="text-light text-decoration-none me-10" href="search/soundofunity">#soundofunity</a>
             <a class="text-light text-decoration-none me-10" href="search/jisphoria">#jisphoria</a>
           </div>
-        </div>
+        </div> --}}
       </div>
       {{-- Category --}}
       <div class="home-category pb-50">
@@ -609,50 +637,13 @@
 @endsection
 @section('script')
   <script>
-    const homeBestDeals = new Swiper('.swiper-hbd', {
-      // Optional parameters
-      autoplay: true,
-      delay: 2000,
-      slidesPerView: 1,
-      spaceBetween: 30,
-      loop: true,
-      // Navigation arrows
-      navigation: {
-        nextEl: '.swiper-next',
-        prevEl: '.swiper-prev',
-      },
-      breakpoints: {
-        768: {
-          slidesPerView: 3
-        },
-      }
-    });
-    const homePlaceBestDeals = new Swiper('.swiper-hpbd', {
-      // Optional parameters
-      autoplay: true,
-      delay: 2000,
-      slidesPerView: 1,
-      spaceBetween: 30,
-      loop: true,
-      // Navigation arrows
-      navigation: {
-        nextEl: '.swiper-next',
-        prevEl: '.swiper-prev',
-      },
-      breakpoints: {
-        768: {
-          slidesPerView: 3
-        },
-      }
-    });
-  </script>
-  <script>
     const vueHome = new Vue( {
       el: '#home',
       data: {
         search: null,
         popular: [],
         bestDeals: [],
+        banner: [],
         alert: {
           show: 'hide',
           bg: 'bg-primary',
@@ -710,6 +701,69 @@
             this.notify('error','Error',error.message)
           }
         },
+        async getBanner() {
+          let payload = {
+            perPage: 5,
+            page: 1,
+            sortDir: 'desc',
+            sortBy: 'id',
+            search: null
+          }
+          let token = 'abcdreUYBH&^*VHGY^&GY'
+          try {
+            let req = await tiketboxApi.readBanner(payload,token)
+            let { status, msg, data} = req.data
+            if(status){
+              data.map((item) => {
+                item.tags = item.tags.split(';')
+              })
+              console.log('banner',data)
+              this.banner = data
+            } else {
+              this.notify('error','Error',msg)
+            }
+          } catch (error) {
+            this.notify('error','Error',error.message)
+          }
+        },
+        initSwiper() {
+          const homeBestDeals = new Swiper('.swiper-hbd', {
+            // Optional parameters
+            autoplay: true,
+            delay: 2000,
+            slidesPerView: 1,
+            spaceBetween: 30,
+            loop: true,
+            // Navigation arrows
+            navigation: {
+              nextEl: '.swiper-next',
+              prevEl: '.swiper-prev',
+            },
+            breakpoints: {
+              768: {
+                slidesPerView: 3
+              },
+            }
+          });
+          const homePlaceBestDeals = new Swiper('.swiper-hpbd', {
+            // Optional parameters
+            autoplay: true,
+            delay: 2000,
+            slidesPerView: 1,
+            spaceBetween: 30,
+            loop: true,
+            // Navigation arrows
+            navigation: {
+              nextEl: '.swiper-next',
+              prevEl: '.swiper-prev',
+            },
+            breakpoints: {
+              768: {
+                slidesPerView: 3
+              },
+            }
+          });
+        },
         notify(type,title,msg){
           let bg = 'bg-primary'
           switch (bg) {
@@ -741,6 +795,8 @@
       mounted() {
         this.getPopular()
         this.getBestDeals()
+        this.getBanner()
+        this.initSwiper();
       }
     });
   </script>

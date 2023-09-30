@@ -8,6 +8,9 @@
   <link rel="shortcut icon" href="{{ url('assets/images/layout/logo-only.png') }}" type="image/x-icon">
   <link rel="stylesheet" href="{{ url('assets/plugin/bootstrap/bootstrap.min.css') }}">
   <link rel="stylesheet" href="{{ url('assets/plugin/swiper/swiper.min.css') }}">
+  <link rel="stylesheet" href="{{ url('assets/plugin/flatpickr/flatpickr.css') }}">
+
+  <script src="{{ url('assets/plugin/flatpickr/flatpickr.js') }}"></script>
   <script src="{{ url('assets/plugin/bootstrap/bootstrap.min.js') }}"></script>
   <script src="{{ url('assets/plugin/swiper/swiper.min.js') }}"></script>
   <script src="{{ url('assets/plugin/vue/vue.global.js') }}"></script>
@@ -16,6 +19,7 @@
   <script src="{{ url('assets/plugin/vue/vue.js') }}"></script>
   <script src="{{ url('assets/plugin/vuex/vuex.js') }}"></script>
   <script src="{{ url('assets/plugin/axios/axios.js') }}"></script>
+  <script src="{{ url('assets/plugin/chart/chartjs.js') }}"></script>
   <script src="{{ url('assets/js/services.js') }}"></script>
   <script src="{{ url('assets/js/helper.js') }}"></script>
   <script src="{{ url('assets/js/store.js') }}"></script>
@@ -24,7 +28,7 @@
 </head>
 <body>
   @include('layout.header')
-  @if(request()->segment(1) == 'backoffice')
+  @if(request()->segment(1) == 'backoffice' || request()->segment(1) == 'audience' || request()->segment(1) == 'promotor')
     <section id="backoffice" class="mt-100">
       <div class="container">
         <div class="row">
@@ -40,7 +44,7 @@
   @else
     @yield('screen')
   @endif
-  @if(request()->segment(1) != 'backoffice')
+  @if(request()->segment(1) != 'backoffice' && request()->segment(1) != 'audience' && request()->segment(1) != 'promotor')
   @include('layout.footer')
   @endif
 </body>

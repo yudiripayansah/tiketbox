@@ -189,98 +189,98 @@ class BackOfficeController extends Controller
     $menuPromotor = [
       [
         'label' => 'Dashboard',
-        'url' => url('/backoffice'),
+        'url' => url('/promotor'),
         'icon' => 'dashboard'
       ],
       [
         'label' => 'POS (Point Of Sales)',
-        'url' => url('/backoffice/pos'),
+        'url' => url('/promotor/pos'),
         'icon' => 'pos'
       ],
       [
         'label' => 'My Events',
-        'url' => url('/backoffice/my-events'),
+        'url' => url('/promotor/my-events'),
         'icon' => 'myevents'
       ],
       [
         'label' => 'Promotion/ Voucher',
-        'url' => url('/backoffice/promotion-and-voucher'),
+        'url' => url('/promotor/promotion-and-voucher'),
         'icon' => 'promotion'
       ],
       [
         'label' => 'Withdraw',
-        'url' => url('/backoffice/withdraw'),
+        'url' => url('/promotor/withdraw'),
         'icon' => 'money'
       ],
       [
         'label' => 'Report',
-        'url' => url('/backoffice/report'),
+        'url' => url('/promotor/report'),
         'icon' => 'papper-roll'
       ],
       [
         'label' => 'Custom Form',
-        'url' => url('/backoffice/custom-form'),
+        'url' => url('/promotor/custom-form'),
         'icon' => 'custom-form'
       ],
     ];
     $menuPromotorBot = [
       [
         'label' => 'Profile',
-        'url' => url('/backoffice/profile'),
+        'url' => url('/promotor/profile'),
         'icon' => 'profile-cog'
       ],
       [
         'label' => 'Legal Information',
-        'url' => url('/backoffice/legal-information'),
+        'url' => url('/promotor/legal-information'),
         'icon' => 'scales'
       ],
       [
         'label' => 'Bank Account',
-        'url' => url('/backoffice/bank-account'),
+        'url' => url('/promotor/bank-account'),
         'icon' => 'credit-card'
       ],
       [
         'label' => 'Password',
-        'url' => url('/backoffice/password'),
+        'url' => url('/promotor/password'),
         'icon' => 'lock'
       ],
     ];
     $menuAudience = [
       [
         'label' => 'My Tickets',
-        'url' => url('/backoffice/my-tickets'),
+        'url' => url('/audience/my-tickets'),
         'icon' => 'ticket'
       ],
       [
         'label' => 'Explore',
-        'url' => url('/backoffice/explore'),
+        'url' => url('/category'),
         'icon' => 'explore'
       ],
       [
         'label' => 'Referral/ Commission',
-        'url' => url('/backoffice/referral-and-commission'),
+        'url' => url('/audience/referral-and-commission'),
         'icon' => 'money'
       ]
     ];
     $menuAudienceBot = [
       [
         'label' => 'Profile',
-        'url' => url('/backoffice/profile'),
+        'url' => url('/audience/profile'),
         'icon' => 'profile-cog'
       ],
       [
         'label' => 'Order data',
-        'url' => url('/backoffice/order-data'),
+        'url' => url('/audience/order-data'),
         'icon' => 'list'
       ],
       [
         'label' => 'Bank Account',
-        'url' => url('/backoffice/bank-account'),
+        'url' => url('/audience/bank-account'),
         'icon' => 'credit-card'
       ],
       [
         'label' => 'Password',
-        'url' => url('/backoffice/password'),
+        'url' => url('/audience/password'),
         'icon' => 'lock'
       ],
     ];

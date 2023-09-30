@@ -6,30 +6,30 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateEventImagesTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
-        Schema::create('event_images', function (Blueprint $table) {
-            $table->id();
-            $table->integer('id_event');
-            $table->text('title');
-            $table->text('image');
-            $table->softDeletes();
-            $table->timestamps();
-        });
-    }
+  /**
+   * Run the migrations.
+   *
+   * @return void
+   */
+  public function up()
+  {
+    Schema::create('event_images', function (Blueprint $table) {
+      $table->id();
+      $table->integer('id_event');
+      $table->text('title')->nullable();
+      $table->text('image');
+      $table->softDeletes();
+      $table->timestamps();
+    });
+  }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::dropIfExists('event_images');
-    }
+  /**
+   * Reverse the migrations.
+   *
+   * @return void
+   */
+  public function down()
+  {
+    Schema::dropIfExists('event_images');
+  }
 }

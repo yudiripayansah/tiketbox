@@ -29,24 +29,24 @@
             <thead>
               <tr>
                 <th class="text-center">No</th>
-                <th class="text-center">Name</th>
-                <th class="text-center">Email</th>
-                <th class="text-center">Phone</th>
-                <th class="text-center">Gender</th>
-                <th class="text-center">Type</th>
+                <th class="text-center wp-15">Image</th>
+                <th class="text-center">Title</th>
+                <th class="text-center">Text</th>
+                <th class="text-center">Tags</th>
                 <th class="text-center"></th>
               </tr>
               <tr v-if="list.data.length < 1">
                 <td colspan="7" class="text-center">No data available</td>
               </tr>
               <tr v-else v-for="(d,index) in list.data" :key="index">
-                <td class="text-center" v-text="(paging.perPage * (paging.page-1))+(index+1)"></td>
-                <td v-text="d.name"></td>
-                <td v-text="d.email"></td>
-                <td v-text="d.phone"></td>
-                <td v-text="d.gender"></td>
-                <td v-text="d.type"></td>
-                <td class="text-center">
+                <td class="text-center align-top" v-text="(paging.perPage * (paging.page-1))+(index+1)"></td>
+                <td class="align-top">
+                  <img :src="d.image" alt="" class="wp-100 img-thumbnail">
+                </td>
+                <td class="align-top" v-text="d.title"></td>
+                <td class="align-top" v-text="d.text"></td>
+                <td class="align-top" v-text="d.tags"></td>
+                <td class="text-center align-top">
                   <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"  @click="doDelete(d.id,false)">
                     @include('svg.trash')
                   </button>
@@ -89,7 +89,7 @@
           </div>
         </div>
       </div>
-      {{-- Modal Delete --}}
+      {{-- Modal Form --}}
       <div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-bg-black-choco max-w-1000 modal-lg">
           <div class="modal-content">
@@ -99,84 +99,42 @@
             </div>
             <div class="modal-body px-30 pt-40">
               <div class="row">
-                <div class="col-4">
+                <div class="col-12">
                   <div class="form-group">
-                    <label class="fs-20 fw-600 text-light mb-10 form-label">Profile Image</label>
+                    <label class="fs-20 fw-600 text-light mb-10 form-label">Image</label>
                     <label class="d-flex justify-content-center align-items-center bg-primary overflow-hidden br-6 cursor-pointer">
                       <img :src="form.data.image" v-if="form.data.image && form.data.image != 'default'" class="wp-100">
                       <svg v-else width="200" height="155" viewBox="0 0 80 63" fill="none" xmlns="http://www.w3.org/2000/svg" class="mx-auto my-50">
                         <path id="Vector" d="M66.6667 53.3333V55.5556C66.6667 59.2375 63.6819 62.2222 60 62.2222H6.66667C2.98472 62.2222 0 59.2375 0 55.5556V20C0 16.3181 2.98472 13.3333 6.66667 13.3333H8.88889V42.2222C8.88889 48.3489 13.8733 53.3333 20 53.3333H66.6667ZM80 42.2222V6.66667C80 2.98472 77.0153 0 73.3333 0H20C16.3181 0 13.3333 2.98472 13.3333 6.66667V42.2222C13.3333 45.9042 16.3181 48.8889 20 48.8889H73.3333C77.0153 48.8889 80 45.9042 80 42.2222ZM35.5556 13.3333C35.5556 17.0153 32.5708 20 28.8889 20C25.2069 20 22.2222 17.0153 22.2222 13.3333C22.2222 9.65139 25.2069 6.66667 28.8889 6.66667C32.5708 6.66667 35.5556 9.65139 35.5556 13.3333ZM22.2222 33.3333L29.9326 25.6229C30.5835 24.9721 31.6388 24.9721 32.2897 25.6229L37.7778 31.1111L56.5993 12.2896C57.2501 11.6387 58.3054 11.6387 58.9564 12.2896L71.1111 24.4444V40H22.2222V33.3333Z" fill="white"/>
                       </svg>
-                      <input type="file" class="d-none" id="image_profile" @change="previewImage(event)">
+                      <input type="file" class="d-none" id="image_banner" @change="previewImage(event)">
                     </label>
                   </div>
                 </div>
-                <div class="col-8">
-                  <div class="row">
-                    <div class="col-6">
-                      <div class="form-group">
-                        <label class="fs-20 fw-600 text-light mb-10 form-label">Bannername</label>
-                        <input type="text" class="border-top-0 border-start-0 border-end-0 border-bottom border-primary bg-transparent py-12 text-light fs-16 fw-400 wp-100" placeholder="E.g johndoe" v-model="form.data.bannername">
-                      </div>
-                    </div>
-                    <div class="col-6">
-                      <div class="form-group">
-                        <label class="fs-20 fw-600 text-light mb-10 form-label">Email</label>
-                        <input type="text" class="border-top-0 border-start-0 border-end-0 border-bottom border-primary bg-transparent py-12 text-light fs-16 fw-400 wp-100" placeholder="E.g johndoe@email.com" v-model="form.data.email">
-                      </div>
-                    </div>
-                    <div class="col-6">
-                      <div class="form-group mt-20">
-                        <label class="fs-20 fw-600 text-light mb-10 form-label">Name</label>
-                        <input type="text" class="border-top-0 border-start-0 border-end-0 border-bottom border-primary bg-transparent py-12 text-light fs-16 fw-400 wp-100" placeholder="E.g John Doe" v-model="form.data.name">
-                      </div>
-                    </div>
-                    <div class="col-6">
-                      <div class="form-group mt-20">
-                        <label class="fs-20 fw-600 text-light mb-10 form-label">Password</label>
-                        <input type="password" class="border-top-0 border-start-0 border-end-0 border-bottom border-primary bg-transparent py-12 text-light fs-16 fw-400 wp-100" v-model="form.data.password">
-                      </div>
-                    </div>
+                <div class="col-6">
+                  <div class="form-group mt-20">
+                    <label class="fs-20 fw-600 text-light mb-10 form-label">Title</label>
+                    <input type="text" class="border-top-0 border-start-0 border-end-0 border-bottom border-primary bg-transparent py-12 text-light fs-16 fw-400 wp-100" v-model="form.data.title">
                   </div>
                 </div>
-              </div>
-              <div class="form-group mt-20">
-                <label class="fs-20 fw-600 text-light mb-10 form-label">Phone</label>
-                <input type="text" class="border-top-0 border-start-0 border-end-0 border-bottom border-primary bg-transparent py-12 text-light fs-16 fw-400 wp-100" placeholder="E.g John Doe" v-model="form.data.phone">
-              </div>
-              <div class="form-group mt-20">
-                <label class="fs-20 fw-600 text-light mb-10 form-label">Address</label>
-                <textarea rows="5" class="border-top-0 border-start-0 border-end-0 border-bottom border-primary bg-transparent py-12 text-light fs-16 fw-400 wp-100" placeholder="E.g berlaku untuk tiket tertentu" v-model="form.data.address"></textarea>
-              </div>
-              <div class="form-group mt-20">
-                <label class="fs-20 fw-600 text-light mb-10 form-label">Gender</label>
-                <select class="border-top-0 border-start-0 border-end-0 border-bottom border-primary bg-transparent py-12 text-light fs-16 fw-400 wp-100" v-model="form.data.gender">
-                  <option value="Laki-Laki">Laki-Laki</option>
-                  <option value="Perempuan">Perempuan</option>
-                </select>
-              </div>
-              <div class="form-group mt-20">
-                <label class="fs-20 fw-600 text-light mb-10 form-label">DOB</label>
-                <input type="date" class="border-top-0 border-start-0 border-end-0 border-bottom border-primary bg-transparent py-12 text-light fs-16 fw-400 wp-100" v-model="form.data.dob">
-              </div>
-              <div class="form-group mt-20">
-                <label class="fs-20 fw-600 text-light mb-10 form-label">Domicile</label>
-                <input type="text" class="border-top-0 border-start-0 border-end-0 border-bottom border-primary bg-transparent py-12 text-light fs-16 fw-400 wp-100" v-model="form.data.domicile">
-              </div>
-              <div class="form-group mt-20">
-                <label class="fs-20 fw-600 text-light mb-10 form-label">Status</label>
-                <select class="border-top-0 border-start-0 border-end-0 border-bottom border-primary bg-transparent py-12 text-light fs-16 fw-400 wp-100" v-model="form.data.status">
-                  <option value="Active">Active</option>
-                  <option value="Inactive">Inactive</option>
-                </select>
-              </div>
-              <div class="form-group mt-20">
-                <label class="fs-20 fw-600 text-light mb-10 form-label">Type</label>
-                <select class="border-top-0 border-start-0 border-end-0 border-bottom border-primary bg-transparent py-12 text-light fs-16 fw-400 wp-100" v-model="form.data.type">
-                  <option value="Banner">Banner</option>
-                  <option value="Admin">Admin</option>
-                  <option value="Scanner">Scanner</option>
-                </select>
+                <div class="col-6">
+                  <div class="form-group mt-20">
+                    <label class="fs-20 fw-600 text-light mb-10 form-label">Text</label>
+                    <input type="text" class="border-top-0 border-start-0 border-end-0 border-bottom border-primary bg-transparent py-12 text-light fs-16 fw-400 wp-100" v-model="form.data.text">
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group mt-20">
+                    <label class="fs-20 fw-600 text-light mb-10 form-label">Tags</label>
+                    <input type="text" class="border-top-0 border-start-0 border-end-0 border-bottom border-primary bg-transparent py-12 text-light fs-16 fw-400 wp-100" v-model="form.data.tags">
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group mt-20">
+                    <label class="fs-20 fw-600 text-light mb-10 form-label">Target</label>
+                    <input type="text" class="border-top-0 border-start-0 border-end-0 border-bottom border-primary bg-transparent py-12 text-light fs-16 fw-400 wp-100" v-model="form.data.target">
+                  </div>
+                </div>
               </div>
             </div>
             <div class="modal-footer text-center justify-content-center pt-50 pb-45 border-top-0">
@@ -186,7 +144,7 @@
           </div>
         </div>
       </div>
-      {{-- Modal Form --}}
+      {{-- Modal Delete --}}
       <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-bg-black-choco max-w-400 modal-lg">
           <div class="modal-content">
@@ -228,18 +186,11 @@
       form: {
         data: {
           id: null,
-          bannername: null,
-          email: null,
-          name: null,
-          password: null,
-          phone: null,
           image: null,
-          address: null,
-          gender: null,
-          dob: null,
-          domicile: null,
-          status: null,
-          type: null
+          title: null,
+          text: null,
+          tags: null,
+          target: null,
         },
         deleteId: null,
         loading: false
@@ -276,7 +227,6 @@
       async doGet() {
         this.list.loading = true
         let payload = {...this.paging}
-        payload.status = status
         let token = 'abcdreUYBH&^*VHGY^&GY'
         try {
           let req = await tiketboxApi.readBanner(payload,token)
@@ -391,18 +341,11 @@
       clearForm() {
         this.form.data = {
           id: null,
-          bannername: null,
-          email: null,
-          name: null,
-          password: null,
-          phone: null,
           image: null,
-          address: null,
-          gender: null,
-          dob: null,
-          domicile: null,
-          status: null,
-          type: null
+          title: null,
+          text: null,
+          tags: null,
+          target: null,
         }
       },
       notify(type,title,msg){
