@@ -43,7 +43,7 @@
               </td>
               <td class="right fs-12 fw-400 d-flex justify-content-between wp-60" style="text-align: right;" width="60%">
                 <a class="text-light" href="mailto:support@tiketbox.com" style="color:white;font-size:12px;font-weight:400;margin-right:25px;">support@tiketbox.com</a>
-                <a class="text-light" href="wa.me/+628128882220" style="color:white;font-size:12px;font-weight:400;margin-right:25px;">+62 812 888 2220</a>
+                <a class="text-light" href="https://wa.me/+628128882220" style="color:white;font-size:12px;font-weight:400;margin-right:25px;">+62 812 888 2220</a>
                 <a class="text-light" href="https://instagram.com/ticketboxcom" style="color:white;font-size:12px;font-weight:400;">ticketboxcom</a>
               </td>
             </tr>

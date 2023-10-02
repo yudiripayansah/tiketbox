@@ -160,7 +160,7 @@
       },
       notify(type,title,msg){
         let bg = 'bg-primary'
-        switch (bg) {
+        switch (type) {
           case 'error':
             bg = 'bg-danger'
             break;
@@ -180,7 +180,6 @@
           title: title,
           msg: msg
         }
-        console.log(this.alert)
         setTimeout(() => {
           this.alert.show = 'hide'
         }, 2000);

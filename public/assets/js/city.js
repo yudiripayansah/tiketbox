@@ -1,4 +1,4 @@
-[
+const city = [
   {
     "provinsi":"Aceh",
     "kota":[

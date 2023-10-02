@@ -872,7 +872,7 @@
       </div>
     </div>
     <!-- Toaster -->
-    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
       <div id="liveToast" class="toast" :class="alert.show" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-header" :class="alert.bg">
           <strong class="me-auto text-white" v-text="alert.title"></strong>
@@ -1097,15 +1097,11 @@
           if(type == 'free'){
             ticket = {...this.ticket_free}
           }
-          console.log('ticket index',idx)
           if(idx >= 0 && idx != null){
             this.form.data.ticket[idx] = {...ticket}
-            console.log('update')
           } else {
-            console.log('new')
             this.form.data.ticket.push(ticket)
           }
-          console.log(ticket)
           this.clearTicketForm()
         },
         removeTicket(idx) {
@@ -1354,7 +1350,7 @@
         },
         notify(type,title,msg){
           let bg = 'bg-primary'
-          switch (bg) {
+          switch (type) {
             case 'error':
               bg = 'bg-danger'
               break;

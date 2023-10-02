@@ -92,7 +92,7 @@ class BannersController extends Controller
       $dataCreate['image'] = $filename;
       Storage::disk('public')->put($filePath, file_get_contents($request->image));
     } else {
-      $dataCreate['image'] = 'default';
+      $dataCreate['image'] = null;
     }
     DB::beginTransaction();
     $validate = Banners::validate($dataCreate);

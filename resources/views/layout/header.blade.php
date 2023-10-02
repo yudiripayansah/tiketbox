@@ -104,7 +104,7 @@
               <div class="form-group text-secondary mt-40">
                 <label for="" class="control-label fs-16 fw-400 mb-10">Email</label>
                 <div class="d-flex align-items-center justify-content-between bg-white br-8">
-                  <input type="text" class="border-0 bg-transparent px-15 fs-14 fw-400" v-model="form.signin.email">
+                  <input type="text" class="wp-100 border-0 bg-transparent px-15 fs-14 fw-400" v-model="form.signin.email">
                   <span class="bg-primary w-50 h-50 d-flex justify-content-center align-items-center br-8 p-15">
                     <svg width="26" height="25" viewBox="0 0 26 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <g id="Frame" clip-path="url(#clip0_179_17526)">
@@ -122,7 +122,7 @@
               <div class="form-group text-secondary mt-10">
                 <label for="" class="control-label fs-16 fw-400 mb-10">Password</label>
                 <div class="d-flex align-items-center justify-content-between bg-white br-8">
-                  <input type="password" class="border-0 bg-transparent px-15 fs-14 fw-400" v-model="form.signin.password">
+                  <input type="password" class="wp-100 border-0 bg-transparent px-15 fs-14 fw-400" v-model="form.signin.password">
                   <span class="bg-primary w-50 h-50 d-flex justify-content-center align-items-center br-8 p-15">
                     <svg width="26" height="25" viewBox="0 0 26 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <g id="Frame" clip-path="url(#clip0_179_17534)">
@@ -199,7 +199,7 @@
                   <div class="form-group text-secondary">
                     <label for="" class="control-label fs-16 fw-400 mb-10">Full Name</label>
                     <div class="d-flex align-items-center justify-content-between bg-white br-8">
-                      <input type="text" class="border-0 bg-transparent px-15 py-15 fs-14 fw-400">
+                      <input type="text" class="wp-100 border-0 bg-transparent px-15 py-15 fs-14 fw-400" v-model="form.signup.name">
                     </div>
                   </div>
                 </div>
@@ -207,7 +207,7 @@
                   <div class="form-group text-secondary">
                     <label for="" class="control-label fs-16 fw-400 mb-10">Email</label>
                     <div class="d-flex align-items-center justify-content-between bg-white br-8">
-                      <input type="text" class="border-0 bg-transparent px-15 py-15 fs-14 fw-400">
+                      <input type="text" class="wp-100 border-0 bg-transparent px-15 py-15 fs-14 fw-400" v-model="form.signup.email">
                     </div>
                   </div>
                 </div>
@@ -215,7 +215,7 @@
                   <div class="form-group text-secondary">
                     <label for="" class="control-label fs-16 fw-400 mb-10">Phone</label>
                     <div class="d-flex align-items-center justify-content-between bg-white br-8">
-                      <input type="text" class="border-0 bg-transparent px-15 py-15 fs-14 fw-400">
+                      <input type="text" class="wp-100 border-0 bg-transparent px-15 py-15 fs-14 fw-400" v-model="form.signup.phone">
                     </div>
                   </div>
                 </div>
@@ -223,7 +223,7 @@
                   <div class="form-group text-secondary">
                     <label for="" class="control-label fs-16 fw-400 mb-10">Password</label>
                     <div class="d-flex align-items-center justify-content-between bg-white br-8">
-                      <input type="password" class="border-0 bg-transparent px-15 py-15 fs-14 fw-400">
+                      <input type="password" class="wp-100 border-0 bg-transparent px-15 py-15 fs-14 fw-400" v-model="form.signup.password">
                     </div>
                   </div>
                 </div>
@@ -270,7 +270,7 @@
               <div class="form-group text-secondary mt-100">
                 <label for="" class="control-label fs-16 fw-400 mb-10">Email</label>
                 <div class="d-flex align-items-center justify-content-between bg-white br-8">
-                  <input type="text" class="border-0 bg-transparent px-15 fs-14 fw-400">
+                  <input type="text" class="border-0 bg-transparent px-15 fs-14 fw-400 wp-100">
                   <span class="bg-primary w-50 h-50 d-flex justify-content-center align-items-center br-8 p-15">
                     <svg width="26" height="25" viewBox="0 0 26 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <g id="Frame" clip-path="url(#clip0_179_17526)">
@@ -292,6 +292,43 @@
       </div>
     </div>
   </div>
+  {{-- Modal Info --}}
+  <div class="modal fade" id="modalInfo" tabindex="-1" aria-labelledby="modalInfoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered max-w-1000">
+      <div class="modal-content">
+        <div class="modal-body p-0 position-relative">
+          <div class="cursor-pointer position-absolute top-40 left-50" data-bs-dismiss="modal" aria-label="Close">
+            <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path id="Vector" d="M11.0998 8.36667L15.676 3.60955C16.2376 3.02579 16.2376 2.07931 15.676 1.49507L14.659 0.437824C14.0974 -0.145941 13.1869 -0.145941 12.6249 0.437824L8.04861 5.19494L3.47234 0.437824C2.91076 -0.145941 2.00026 -0.145941 1.43823 0.437824L0.42118 1.49507C-0.140393 2.07883 -0.140393 3.02531 0.42118 3.60955L4.99746 8.36667L0.42118 13.1238C-0.140393 13.7075 -0.140393 14.654 0.42118 15.2383L1.43823 16.2955C1.99981 16.8793 2.91076 16.8793 3.47234 16.2955L8.04861 11.5384L12.6249 16.2955C13.1865 16.8793 14.0974 16.8793 14.659 16.2955L15.676 15.2383C16.2376 14.6545 16.2376 13.708 15.676 13.1238L11.0998 8.36667Z" fill="white"/>
+            </svg>            
+          </div>
+          <div class="d-flex align-items-center justify-content-between br-10 overflow-hidden">
+            <div class="ml-left max-w-670 wp-60">
+              <img src="{{ url('assets/images/auth/authbanner.png') }}" alt="" class="wp-100">
+            </div>
+            <div class="ml-right max-w-480 wp-40 p-25">
+              <img src="{{ url('assets/images/auth/ticketboxlogo.png') }}" alt="" class="mx-auto d-block">
+              <div class="text-center text-light mt-50">
+                <h3 class="fs-20 fw-700" v-text="info.title"></h3>
+                <p class="fs-12 fw-400 mt-15" v-text="info.text"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Toaster -->
+  <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
+    <div id="headerToast" class="toast" :class="alert.show" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-header" :class="alert.bg">
+        <strong class="me-auto text-white" v-text="alert.title"></strong>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+      <div class="toast-body" v-text="alert.msg">
+      </div>
+    </div>
+  </div>
 </div>
 <script>
   Vue.use( CKEditor );
@@ -308,18 +345,31 @@
           email: null,
           phone: null,
           password: null,
-          toc: false
+          toc: false,
+          type: 'user'
         },
         forgot: {
           email: null
         },
         loading: false
       },
+      modal: {
+        signup: null,
+        signin: null,
+        forgot: null,
+        info: null
+      },
       active: '@if(request()->segment(1) == "audience" || request()->segment(1) == "promotor"){{ request()->segment(1) }}@else{{"audience"}}@endif',
       dropdown: false,
       alert: {
-        msg: null,
-        show: false
+        show: 'hide',
+        bg: 'bg-primary',
+        title: null,
+        msg: null
+      },
+      info: {
+        title: null,
+        text: null
       }
     },
     computed: {
@@ -347,27 +397,18 @@
               let {data,msg,status} = req.data
               if(status) {
                 store.dispatch('setUsers', data)
-                window.location.href = '/'
+                this.modal.signin.hide()
               } else {
-                this.alert = {
-                  show: true,
-                  msg: msg
-                }
+                this.notify('error','Error',msg)
               }
             } else {
-              this.alert = {
-                show: true,
-                msg: 'Signing in failed, Pleasy try again'
-              }
+              this.notify('error','Error','Signing in failed, Pleasy try again')
             }
             this.form.loading = false
           } catch (error) {
             this.form.loading = false
             console.log(error)
-            this.alert = {
-              show: true,
-              msg: error.message
-            }
+            this.notify('error','Error',error.message)
           }
         } else {
           this.alert = {
@@ -387,23 +428,91 @@
         try {
           let payload = null
           let req = await tiketboxApi.signOut(payload,token)
-          window.location.href = '/'
           this.form.loading = false
         } catch (error) {
           console.log(error)
           this.form.loading = false
-          window.location.href = '/'
         }
       },
       async doSignUp() {
-
+        this.alert = {
+          show: false,
+          msg: null
+        }
+        if(this.form.signup.name && this.form.signup.email && this.form.signup.phone && this.form.signup.password && this.form.signup.toc) {
+          this.form.loading = true
+          try {
+            let payload = {...this.form.signup}
+            let req = await tiketboxApi.createUser(payload)
+            if(req.status == 200) {
+              let {data,msg,status} = req.data
+              if(status) {
+                store.dispatch('setUsers', data)
+                this.modal.signup.hide()
+                this.info = {
+                  title: 'Registrasi Berhasil',
+                  text: 'Registrasi berhasil. Detil informasi akun anda telah dikirimkan ke email.'
+                }
+                this.modal.info.show()
+              } else {
+                this.notify('error','Error',msg)
+              }
+            } else {
+              this.notify('error','Error','Signup in failed, Pleasy try again')
+            }
+            this.form.loading = false
+          } catch (error) {
+            this.form.loading = false
+            console.log(error)
+            this.notify('error','Error',error.message)
+          }
+        } else {
+          this.alert = {
+            show: true,
+            msg: 'Please enter name, email, phone and password. Also check terms and conditions'
+          }
+        }
       },
       async doForgot() {
 
+      },
+      initModal() {
+        this.modal = {
+          signup: new bootstrap.Modal(document.getElementById('modalRegister')),
+          signin: new bootstrap.Modal(document.getElementById('modalLogin')),
+          forgot: new bootstrap.Modal(document.getElementById('modalForgot')),
+          info: new bootstrap.Modal(document.getElementById('modalInfo')),
+        }
+      },
+      notify(type,title,msg){
+        let bg = 'bg-primary'
+        switch (type) {
+          case 'error':
+            bg = 'bg-danger'
+            break;
+          case 'success':
+            bg = 'bg-success'
+            break;
+          case 'warning':
+            bg = 'bg-warning'
+            break;
+          case 'info':
+            bg = 'bg-info'
+            break;
+        }
+        this.alert = {
+          show: 'show',
+          bg: bg,
+          title: title,
+          msg: msg
+        }
+        setTimeout(() => {
+          this.alert.show = 'hide'
+        }, 2000);
       }
     },
     mounted() {
-      console.log(this.users)
+      this.initModal()
     }
   });
 </script>

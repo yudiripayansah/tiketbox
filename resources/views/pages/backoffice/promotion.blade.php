@@ -130,7 +130,7 @@
       </div>
     </div>
     <!-- Toaster -->
-    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
       <div id="liveToast" class="toast" :class="alert.show" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-header" :class="alert.bg">
           <strong class="me-auto text-white" v-text="alert.title"></strong>
@@ -190,11 +190,9 @@
             this.notify('error','Error',msg)
           }
           this.list.loading = false
-          console.log('loading ok: ',this.list.loading)
         } catch (error) {
           this.notify('error','Error',error.message)
           this.list.loading = false
-          console.log('loading error: ',this.list.loading)
         }
       },
       async doDelete(id,state) {
@@ -225,7 +223,7 @@
       },
       notify(type,title,msg){
         let bg = 'bg-primary'
-        switch (bg) {
+        switch (type) {
           case 'error':
             bg = 'bg-danger'
             break;

@@ -163,7 +163,7 @@
       </div>
     </div>
     <!-- Toaster -->
-    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
       <div id="liveToast" class="toast" :class="alert.show" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-header" :class="alert.bg">
           <strong class="me-auto text-white" v-text="alert.title"></strong>
@@ -305,7 +305,6 @@
           let end = new Date(this.event.date_end)
           let days = end.getTime() - start.getTime()
           days = (days / (1000 * 3600 * 24)) + 1
-          console.log('date:',days,start,end)
           for(let i = 0; i < days; i++) {
             let dDay = new Date(this.event.date_start)
             let day = this.formatDate(dDay.setDate(dDay.getDate() + i));

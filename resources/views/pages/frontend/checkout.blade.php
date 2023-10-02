@@ -18,20 +18,12 @@
                   <h4 class="fs-16 fw-600 text-white">Contact</h4>
                   <p class="fs-12 fw-300 text-secondary">e-Ticket & Account information will be sent to email or whatsapp</p>
                   <div class="d-flex align-items-center border-bottom border-white pb-10">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <g id="Icon">
-                      <path id="Vector" d="M22 6C22 4.9 21.1 4 20 4H4C2.9 4 2 4.9 2 6V18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6ZM20 6L12 11L4 6H20ZM20 18H4V8L12 13L20 8V18Z" fill="#D5D5D5"/>
-                      </g>
-                    </svg>                      
-                    <input type="text" class="bg-transparent border-0 ms-15 fs-18 fw-400 text-white" placeholder="example@tiketbox.com" v-model="form.data.email">
+                    @include('svg.envelope')
+                    <input type="text" class="wp-100 bg-transparent border-0 ms-15 fs-18 fw-400 text-white" placeholder="example@tiketbox.com" v-model="form.data.email">
                   </div>
                   <div class="d-flex align-items-center border-bottom border-white pb-10 mt-30">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <g id="Icon">
-                      <path id="Vector" d="M20.9999 15.46L15.7299 14.85L13.2099 17.37C10.3799 15.93 8.0599 13.62 6.6199 10.78L9.1499 8.25L8.5399 3H3.0299C2.4499 13.18 10.8199 21.55 20.9999 20.97V15.46Z" fill="#D5D5D5"/>
-                      </g>
-                    </svg>                                          
-                    <input type="text" class="bg-transparent border-0 ms-15 fs-18 fw-400 text-white" placeholder="+62 812 1234 5678" v-model="form.data.phone">
+                    @include('svg.phone')
+                    <input type="text" class="wp-100 bg-transparent border-0 ms-15 fs-18 fw-400 text-white" placeholder="+62 812 1234 5678" v-model="form.data.phone">
                   </div>
                 </div>
                 <div class="border border-white p-30 br-6 d-flex flex-wrap mt-30">
@@ -39,7 +31,7 @@
                   <p class="fs-12 fw-300 text-secondary">Make sure the data is filled in correctly</p>
                   <div class="d-flex align-items-center border-bottom border-white pb-10 flex-wrap wp-100">   
                     <label class="wp-100 fs-14 fw-400 text-white mb-15">Full Name</label>               
-                    <input type="text" class="bg-transparent border-0 fs-18 fw-400 text-white" placeholder="John Doe" v-model="form.data.name">
+                    <input type="text" class="wp-100 bg-transparent border-0 fs-18 fw-400 text-white" placeholder="John Doe" v-model="form.data.name">
                   </div>
                   <div class="d-flex align-items-center border-bottom border-white pb-10 flex-wrap mt-30 wp-100">   
                     <label class="wp-100 fs-14 fw-400 text-white mb-15">Gender</label>
@@ -60,19 +52,19 @@
                   </div>
                   <div class="d-flex align-items-center border-bottom border-white pb-10 flex-wrap mt-30 wp-48">   
                     <label class="wp-100 fs-14 fw-400 text-white mb-15">Date of Birth</label>               
-                    <input type="date" class="bg-transparent border-0 fs-18 fw-400 text-white wp-100" placeholder="dd-mm-yyyy" v-model="form.data.dob">
+                    <input type="date" class="flatpickr wp-100 bg-transparent border-0 fs-18 fw-400 text-white wp-100" placeholder="dd-mm-yyyy" v-model="form.data.dob">
                   </div>
                   <div class="d-flex align-items-center border-bottom border-white pb-10 flex-wrap mt-30 wp-48 ms-auto">   
                     <label class="wp-100 fs-14 fw-400 text-white mb-15">Domisili</label>       
-                    <input type="text" class="bg-transparent border-0 fs-18 fw-400 text-white wp-100" placeholder="Eg: Jakarta" v-model="form.data.domicile">        
+                    <input type="text" class="wp-100 bg-transparent border-0 fs-18 fw-400 text-white wp-100" placeholder="Eg: Jakarta" v-model="form.data.domicile" id="autoCompleteCity">        
                     {{-- <select class="bg-transparent border-0 fs-18 fw-400 text-white wp-100" placeholder="Jakarta" v-model="form.data.domicile">
                       <option value="Jakarta">Jakarta</option>
                     </select> --}}
                   </div>
                 </div>
                 <div class="form-check mt-30">
-                  <input class="form-check-input" type="checkbox" id="toc" v-model="form.data.toc">
-                  <label class="form-check-label fs-16 fw-400 text-light" for="toc">
+                  <input class="form-check-input" type="checkbox" id="agree-toc" v-model="form.data.toc">
+                  <label class="form-check-label fs-16 fw-400 text-light" for="agree-toc">
                     Saya setuju terhadap Peraturan Concert, Syarat dan Ketentuan, dan Privacy Policy Setujui dan tekan tombol continue untuk memproses pesanan Anda.
                   </label>
                 </div>
@@ -139,7 +131,7 @@
       </div>
     </div>
     <!-- Toaster -->
-    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
       <div id="liveToast" class="toast" :class="alert.show" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-header" :class="alert.bg">
           <strong class="me-auto text-white" v-text="alert.title"></strong>
@@ -152,6 +144,7 @@
   </section>
 @endsection
 @section('script')
+  <script src="{{ asset('assets/js/city.js') }}"></script>
   <script>
     const vuecheckout = new Vue( {
       store,
@@ -159,6 +152,7 @@
       data: {
         form: {
           data: {
+            id_user: null,
             email: null,
             phone: null,
             name: null,
@@ -171,6 +165,24 @@
             order_items: []
           }
         },
+        autocomplete: {
+          city: {
+            el: null,
+            config: {
+              selector: "#autoCompleteCity",
+              placeHolder: "Nama Kota/ Kabupaten...",
+              data: {
+                src: []
+              },
+              resultItem: {
+                highlight: true,
+              }
+            }
+          }
+        },
+        opt: {
+          city: city
+        },
         alert: {
           show: 'hide',
           bg: 'bg-primary',
@@ -179,6 +191,9 @@
         }
       },
       computed: {
+        users() {
+          return store.getters.users
+        },
         orders() {
           return store.getters.orders
         },
@@ -203,6 +218,9 @@
         ...helper,
         async processOrder() {
           let payload = {...this.form.data}
+          if(this.users){
+            payload.id_user = this.users.id 
+          }
           payload.order_items = []
           payload.total_items = this.total.amount
           payload.total_amount = this.total.price
@@ -231,8 +249,8 @@
             let { status, msg, data} = req.data
             if(status){
               this.notify('success','Success',msg)
-              store.dispatch('setOrders', [])
-              window.location.href = '/order/'+data.order_code
+              // store.dispatch('setOrders', [])
+              // window.location.href = '/order/'+data.order_code
             } else {
               this.notify('error','Error',msg)
             }
@@ -258,6 +276,22 @@
             toc: true,
             order_items: []
           }
+        },
+        initDatePicker() {
+          flatpickr(".flatpickr");
+        },
+        initAutocomplete() {
+          this.autocomplete.city.config.data.src = []
+          let cities = []
+          this.opt.city.map((item) => {
+            cities = [...cities, ...item.kota];
+          })
+          this.autocomplete.city.config.data.src = cities
+          let vm = this
+          document.querySelector("#autoCompleteCity").addEventListener("selection", function (event) {
+              vm.form.data.domicile = event.detail.selection.value;
+          });
+          this.autocomplete.city.el = new autoComplete(this.autocomplete.city.config);
         },
         notify(type,title,msg){
           let bg = 'bg-primary'
@@ -287,6 +321,8 @@
         }
       },
       mounted() {
+        this.initDatePicker()
+        this.initAutocomplete()
       }
     });
   </script>

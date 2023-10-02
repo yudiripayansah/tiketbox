@@ -7,6 +7,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\EventsController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\UserOrderDataController;
 use App\Http\Controllers\PromotionsController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\XenditController;
@@ -45,6 +46,13 @@ Route::prefix('users')->group(function () {
     Route::post('/create', [UsersController::class, 'create']);
     Route::post('/update', [UsersController::class, 'update']);
     Route::post('/delete', [UsersController::class, 'delete']);
+});
+Route::prefix('userOrderData')->group(function () {
+    Route::post('/', [UserOrderDataController::class, 'read']);
+    Route::post('/get', [UserOrderDataController::class, 'get']);
+    Route::post('/create', [UserOrderDataController::class, 'create']);
+    Route::post('/update', [UserOrderDataController::class, 'update']);
+    Route::post('/delete', [UserOrderDataController::class, 'delete']);
 });
 Route::prefix('promotions')->group(function () {
     Route::post('/', [PromotionsController::class, 'read']);

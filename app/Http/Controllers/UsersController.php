@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use JWTAuth;
 use Illuminate\Support\Facades\Hash;
+use App\Mail\WelcomeEmail;
+use Illuminate\Support\Facades\Mail;
 
 class UsersController extends Controller
 {
@@ -89,18 +91,23 @@ class UsersController extends Controller
     return response()->json($res, 200);
   }
   public function create(Request $request) {
+    $request->username = ($request->username) ? $request->username : trim($request->name);
     $checkAccount = $this->checkAccount($request);
     $dataCreate = $request->all();
+    $dataCreate['username'] = $request->username;
+    $dataCreate['id'] = null;
     if($request->image){
       $filename = uniqid().time().'-'. '-user.png';
       $filePath = 'user/' .$filename;
       $dataCreate['image'] = $filename;
       Storage::disk('public')->put($filePath, file_get_contents($request->image));
     } else {
-      $dataCreate['image'] = 'default';
+      $dataCreate['image'] = null;
     }
     $dataCreate['password'] = Hash::make($request->password);
-    $dataCreate['dob'] = date('Y-m-d',strtotime($request->dob));
+    if($request->dob) {
+      $dataCreate['dob'] = date('Y-m-d',strtotime($request->dob));
+    }
     if($checkAccount['status']){
       DB::beginTransaction();
       $validate = User::validate($dataCreate);
@@ -108,6 +115,7 @@ class UsersController extends Controller
         try {
           $dc = User::create($dataCreate);
           $dg = User::find($dc->id);
+          $this->sendEmailWelcome($request->name,$request->email,$request->password);
           $res = array(
                   'status' => true,
                   'data' => $dg,
@@ -254,5 +262,23 @@ class UsersController extends Controller
       'data' => '',
     );
     return response()->json($res, 200);
+  }
+  function sendEmailWelcome($name,$email,$password) {
+    $mailInfo = new \stdClass();
+    $mailInfo->recieverName = $name;
+    $mailInfo->sender = "Tiketbox";
+    $mailInfo->senderCompany = "Tiketbox.com";
+    $mailInfo->to = $email;
+    $mailInfo->subject = "Welcome to tiketbox.com";
+    $mailInfo->name = "Tiketbox";
+    $mailInfo->cc = "ripayansahyudi@gmail.com";
+    $mailInfo->bcc = "yudiripayansah@gmail.com";
+    $mailInfo->from = "info@tiketbox.com";
+    $mailInfo->title = 'Welcome to tiketbox.com';
+    $mailInfo->name = $name;
+    $mailInfo->email = $email;
+    $mailInfo->password = $password;
+    Mail::to($email)
+        ->send(new WelcomeEmail($mailInfo));
   }
 }

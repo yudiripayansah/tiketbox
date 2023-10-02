@@ -85,7 +85,7 @@
           </div>
         </div>
       </div>
-      {{-- Modal Delete --}}
+      {{-- Modal Form --}}
       <div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-bg-black-choco max-w-1000 modal-lg">
           <div class="modal-content">
@@ -137,7 +137,7 @@
           </div>
         </div>
       </div>
-      {{-- Modal Form --}}
+      {{-- Modal Delete --}}
       <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-bg-black-choco max-w-400 modal-lg">
           <div class="modal-content">
@@ -158,7 +158,7 @@
         </div>
       </div>
       <!-- Toaster -->
-      <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+      <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
         <div id="liveToast" class="toast" :class="alert.show" role="alert" aria-live="assertive" aria-atomic="true">
           <div class="toast-header" :class="alert.bg">
             <strong class="me-auto text-white" v-text="alert.title"></strong>
@@ -243,7 +243,7 @@
               })
             })
           } else {
-            console.log(req.data)
+            console.log(msg)
           }
         } catch (error) {
           console.log(error)
@@ -261,7 +261,7 @@
             this.list.total = total
             this.list.totalPage = totalPage
           } else {
-            console.log(req.data)
+            console.log(msg)
           }
           this.list.loading = false
         } catch (error) {
@@ -376,7 +376,7 @@
       },
       notify(type,title,msg){
         let bg = 'bg-primary'
-        switch (bg) {
+        switch (type) {
           case 'error':
             bg = 'bg-danger'
             break;
@@ -396,7 +396,6 @@
           title: title,
           msg: msg
         }
-        console.log(this.alert)
         setTimeout(() => {
           this.alert.show = 'hide'
         }, 2000);

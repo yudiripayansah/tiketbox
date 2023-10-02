@@ -1,6 +1,5 @@
 const defAxios = axios.create({
-  baseURL: "https://demo.tiketbox.com/api/"
-  // baseURL: "http://localhost:8000/api/"
+  baseURL: apiBaseUrl
 })
 const tiketboxApi = {
   // event
@@ -134,6 +133,52 @@ const tiketboxApi = {
   },
   deleteBanner(payload, token) {
     let url = '/banners/delete'
+    let config = {
+      headers: {
+        token: token,
+      },
+    };
+    return defAxios.post(url, payload, config);
+  },
+  // userOrderData
+  readUserOrderData(payload, token) {
+    let url = '/userOrderData'
+    let config = {
+      headers: {
+        token: token,
+      },
+    };
+    return defAxios.post(url, payload, config);
+  },
+  getUserOrderData(payload, token) {
+    let url = '/userOrderData/get'
+    let config = {
+      headers: {
+        token: token,
+      },
+    };
+    return defAxios.post(url, payload, config);
+  },
+  createUserOrderData(payload, token) {
+    let url = '/userOrderData/create'
+    let config = {
+      headers: {
+        token: token,
+      },
+    };
+    return defAxios.post(url, payload, config);
+  },
+  updateUserOrderData(payload, token) {
+    let url = '/userOrderData/update'
+    let config = {
+      headers: {
+        token: token,
+      },
+    };
+    return defAxios.post(url, payload, config);
+  },
+  deleteUserOrderData(payload, token) {
+    let url = '/userOrderData/delete'
     let config = {
       headers: {
         token: token,

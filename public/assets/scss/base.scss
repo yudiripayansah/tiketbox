@@ -226,3 +226,9 @@ input, select, textarea {
 a {
   text-decoration: none;
 }
+.autoComplete_wrapper {
+  width: 100%;
+  >input {
+    padding: 0;
+  }
+}

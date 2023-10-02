@@ -9,8 +9,12 @@
   <link rel="stylesheet" href="{{ url('assets/plugin/bootstrap/bootstrap.min.css') }}">
   <link rel="stylesheet" href="{{ url('assets/plugin/swiper/swiper.min.css') }}">
   <link rel="stylesheet" href="{{ url('assets/plugin/flatpickr/flatpickr.css') }}">
-
+  <link rel="stylesheet" href="{{ url('assets/plugin/autocomplete/autocomplete.css') }}">
+  <script>
+    const apiBaseUrl = "{{ env('APP_URL') }}/api";
+  </script>
   <script src="{{ url('assets/plugin/flatpickr/flatpickr.js') }}"></script>
+  <script src="{{ url('assets/plugin/autocomplete/autocomplete.js') }}"></script>
   <script src="{{ url('assets/plugin/bootstrap/bootstrap.min.js') }}"></script>
   <script src="{{ url('assets/plugin/swiper/swiper.min.js') }}"></script>
   <script src="{{ url('assets/plugin/vue/vue.global.js') }}"></script>

@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use App\Models\Category;
+use App\Models\UserOrderData;
 
-class CategoryController extends Controller
+class UserOrderDataController extends Controller
 {
   public function __construct() {
     
@@ -21,33 +21,25 @@ class CategoryController extends Controller
     $search = ($request->search) ? $request->search : null;
     $total = 0;
     $totalPage = 1;
-    $id_parent = ($request->id_parent > -1) ? $request->id_parent : -1;
-    $listData = Category::select('category.*')->orderBy($sortBy, $sortDir);
+    $listData = UserOrderData::select('user_order_data.*')->orderBy($sortBy, $sortDir);
     if ($perPage != '~') {
         $listData->skip($offset)->take($perPage);
     }
     if ($search != null) {
-        $listData->whereRaw('(category.name LIKE "%'.$search.'%" OR category.description LIKE "%'.$search.'%")');
-    }
-    if ($id_parent > -1) {
-        $listData->where('id_parent',$id_parent);
+        $listData->whereRaw('(user_order_data.name LIKE "%'.$search.'%" OR user_order_data.email LIKE "%'.$search.'%" OR user_order_data.phone LIKE "%'.$search.'%")');
     }
     $listData = $listData->get();
     foreach($listData as $ld) {
-      $ld->parent = ($ld->id_parent > 0) ? Category::find($ld->id_parent)->name : 'Main Category';
-      $ld->image = ($ld->image && $ld->image != 'default') ? Storage::disk('public')->url('category/'.$ld->image) : null;
+
     }
-    if ($search || $id_parent > -1) {
-        $total = Category::orderBy($sortBy, $sortDir);
+    if ($search) {
+        $total = UserOrderData::orderBy($sortBy, $sortDir);
         if ($search) {
-            $total->whereRaw('(category.name LIKE "%'.$search.'%" OR category.description LIKE "%'.$search.'%")');
-        }
-        if ($id_parent > -1) {
-            $total->where('id_parent',$id_parent);
+            $total->whereRaw('(user_order_data.name LIKE "%'.$search.'%" OR user_order_data.email LIKE "%'.$search.'%" OR user_order_data.phone LIKE "%'.$search.'%")');
         }
         $total = $total->count();
     } else {
-        $total = Category::all()->count();
+        $total = UserOrderData::all()->count();
     }
     if ($perPage != '~') {
         $totalPage = ceil($total / $perPage);
@@ -63,18 +55,15 @@ class CategoryController extends Controller
           'perPage' => $perPage,
           'sortDir' => $sortDir,
           'sortBy' => $sortBy,
-          'search' => $search,
-          'id_parent' => $id_parent
+          'search' => $search
         )
     );
     return response()->json($res, 200);
   }
   public function get(Request $request) {
     if ($request->id) {
-      $getData = Category::find($request->id);
+      $getData = UserOrderData::find($request->id);
       if ($getData) {
-        $getData->parent = ($getData->id_parent > 0) ? Category::find($getData->id_parent)->name : 'Main Category';
-        $getData->image = ($getData->image && $getData->image != 'default') ? Storage::disk('public')->url('category/'.$getData->image) : null;
         $res = array(
                 'status' => true,
                 'data' => $getData,
@@ -96,20 +85,12 @@ class CategoryController extends Controller
   }
   public function create(Request $request) {
     $dataCreate = $request->all();
-    if($request->image){
-      $filename = uniqid().time().'-'. '-category.png';
-      $filePath = 'category/' .$filename;
-      $dataCreate['image'] = $filename;
-      Storage::disk('public')->put($filePath, file_get_contents($request->image));
-    } else {
-      $dataCreate['image'] = null;
-    }
     DB::beginTransaction();
-    $validate = Category::validate($dataCreate);
+    $validate = UserOrderData::validate($dataCreate);
     if ($validate['status']) {
       try {
-        $dc = Category::create($dataCreate);
-        $dg = Category::find($dc->id);
+        $dc = UserOrderData::create($dataCreate);
+        $dg = UserOrderData::find($dc->id);
         $res = array(
                 'status' => true,
                 'data' => $dg,
@@ -136,23 +117,15 @@ class CategoryController extends Controller
   }
   public function update(Request $request) {
     $dataUpdate = $request->all();
-    $dataFind = Category::find($request->id);
-    $validate = Category::validate($dataUpdate);
+    $dataFind = UserOrderData::find($request->id);
+    $validate = UserOrderData::validate($dataUpdate);
     unset($dataUpdate['created_at']);
     unset($dataUpdate['updated_at']);
-    if (basename($request->image) != basename($dataFind->image)) {
-      $filename = uniqid().time().'-'. '-category.png';
-      $filePath = 'category/' .$filename;
-      $dataUpdate['image'] = $filename;
-      Storage::disk('public')->put($filePath, file_get_contents($request->image));
-    } else {
-      unset($dataUpdate['image']);
-    }
     DB::beginTransaction();
     if ($validate['status']) {
       try {
-        $du = Category::where('id',$request->id)->update($dataUpdate);
-        $dg = Category::find($request->id);
+        $du = UserOrderData::where('id',$request->id)->update($dataUpdate);
+        $dg = UserOrderData::find($request->id);
         $res = array(
                 'status' => true,
                 'data' => $dg,
@@ -179,7 +152,7 @@ class CategoryController extends Controller
   public function delete(Request $request) {
     $id = $request->id;
     if ($id) {
-      $delData = Category::find($id);
+      $delData = UserOrderData::find($id);
       try {
         $delData->delete();
         $res = array(

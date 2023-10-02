@@ -90,11 +90,11 @@ class EventsController extends Controller
       $images = EventImages::where('id_event', $getData->id)->get();
       $tickets = EventTickets::where('id_event', $getData->id)->get();
       foreach($tickets as $ticket){
-        $ticket->image = ($ticket->image && $ticket->image != 'default') ? Storage::disk('public')->url('event/'.$ticket->image) : 'default';
+        $ticket->image = ($ticket->image && $ticket->image != 'default') ? Storage::disk('public')->url('event/'.$ticket->image) : null;
         $ticket->deleted = false;
         $ticket->seats = EventTicketSeats::where('id_ticket', $ticket->id)->get();
         foreach($ticket->seats as $seat){
-          $seat->image = ($seat->image && $seat->image != 'default') ? Storage::disk('public')->url('event/'.$seat->image) : 'default';
+          $seat->image = ($seat->image && $seat->image != 'default') ? Storage::disk('public')->url('event/'.$seat->image) : null;
           $seat->deleted = false;
         }
       }
@@ -135,7 +135,7 @@ class EventsController extends Controller
       $dataCreate['powered_by_image'] = $filename;
       Storage::disk('public')->put($filePath, file_get_contents($request->powered_by_image));
     } else {
-      $dataCreate['powered_by_image'] = 'default';
+      $dataCreate['powered_by_image'] = null;
     }
     if($request->type != 'event'){
       $dataCreate['date_start'] = '2999-01-01';
@@ -263,7 +263,7 @@ class EventsController extends Controller
             $ticket['image'] = $filename;
             Storage::disk('public')->put($filePath, file_get_contents($ticket['image']));
           } else {
-            $ticket['image'] = 'default';
+            $ticket['image'] = null;
           }
           unset($ticket['seats']);
           unset($ticket['deleted']);
@@ -279,7 +279,7 @@ class EventsController extends Controller
           Storage::disk('public')->put($filePath, file_get_contents($ticket['image']));
           $ticket['image'] = $filename;
         } else {
-          $ticket['image'] = 'default';
+          $ticket['image'] = null;
         }
         $ticket['id_event'] = $id_event;
         $ticket['status'] = 'active';
@@ -317,7 +317,7 @@ class EventsController extends Controller
               $seat['image'] = $filename;
               Storage::disk('public')->put($filePath, file_get_contents($seat['image']));
             } else {
-              $seat['image'] = 'default';
+              $seat['image'] = null;
             }
             unset($seat['deleted']);
             unset($seat['created_at']);
@@ -331,7 +331,7 @@ class EventsController extends Controller
             Storage::disk('public')->put($filePath, file_get_contents($seat['image']));
             $seat['image'] = $filename;
           } else {
-            $seat['image'] = 'default';
+            $seat['image'] = null;
           }
           $seat['id_event'] = $id_event;
           $seat['id_ticket'] = $id_ticket;

@@ -80,7 +80,6 @@ const Scanner = ({navigation}) => {
   }, [])
   
   const details = (param) => {
-    console.log(param)
     navigation.push('Detail')
   }
   const TheCamera = () => {

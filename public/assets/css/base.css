@@ -214678,4 +214678,11 @@ a {
   text-decoration: none;
 }
 
+.autoComplete_wrapper {
+  width: 100%;
+}
+.autoComplete_wrapper > input {
+  padding: 0;
+}
+
 /*# sourceMappingURL=base.css.map */

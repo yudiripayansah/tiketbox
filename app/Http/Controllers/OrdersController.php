@@ -12,6 +12,7 @@ use App\Models\EventImages;
 use App\Models\Orders;
 use App\Models\OrderItems;
 use App\Models\User;
+use App\Models\UserOrderData;
 use App\Mail\TicketEmail;
 use App\Mail\WelcomeEmail;
 use Illuminate\Support\Facades\Mail;
@@ -133,7 +134,6 @@ class OrdersController extends Controller
   }
   public function create(Request $request) {
     $dataCreate = $request->all();
-    $dataCreate['id_user'] = 0;
     $dataCreate['order_code'] = 'TXB-'.uniqid().'-'.date('ymdHi');
     $dataCreate['payment_method'] = 'none';
     $dataCreate['payment_status'] = 'UNPAID';
@@ -278,13 +278,33 @@ class OrdersController extends Controller
       'status' => 'active',
       'type' => 'user',
     ];
-    $user = User::where('email',$data['email'])->get();
-    if(count($user) < 1){
+    $user = User::where('email',$data['email']);
+    if(count($user->get()) < 1){
       $this->sendEmailWelcome($data['name'],$data['email'],$pass);
-      return User::create($dataCreate);
+      $dc = User::create($dataCreate);
+      $user = User::find($dc->id);
+      $res = $dc;
     } else {
-      return 'User already exist';
+      $user = $user->first();
+      $res = 'User already exist';
     }
+    $orderData = UserOrderData::where('id_user',$user->id)
+                ->where('email',$data['email'])
+                ->where('name',$data['name'])
+                ->where('phone',$data['phone'])->get();
+    if(count($orderData) < 1) {
+      $dataCreateOrderData = [
+        'id_user' => $user->id,
+        'email' => $data['email'],
+        'phone' => $data['phone'],
+        'name' => $data['name'],
+        'gender' => $data['gender'],
+        'dob' => date('Y-m-d',strtotime($data['dob'])),
+        'domicile' => $data['domicile']
+      ];
+      $dcOd = UserOrderData::create($dataCreateOrderData);
+    }
+    return $res;
   }
   public function checkTicket(Request $request) {
     
@@ -322,8 +342,8 @@ class OrdersController extends Controller
     $mailInfo->to = $order->email;
     $mailInfo->subject = "E-Ticket from tiketbox.com";
     $mailInfo->name = "Tiketbox";
-    $mailInfo->cc = "tiket@tiketbox.com";
-    $mailInfo->bcc = "crew@tiketbox.com";
+    $mailInfo->cc = "ripayansahyudi@gmail.com";
+    $mailInfo->bcc = "yudiripayansah@gmail.com";
     $mailInfo->from = "ticket@tiketbox.com";
     $mailInfo->title = 'E-Ticket from tiketbox.com';
     $mailInfo->orders = $order;
@@ -338,9 +358,9 @@ class OrdersController extends Controller
     $mailInfo->to = $email;
     $mailInfo->subject = "Welcome to tiketbox.com";
     $mailInfo->name = "Tiketbox";
-    $mailInfo->cc = "tiket@tiketbox.com";
-    $mailInfo->bcc = "crew@tiketbox.com";
-    $mailInfo->from = "ticket@tiketbox.com";
+    $mailInfo->cc = "ripayansahyudi@gmail.com";
+    $mailInfo->bcc = "yudiripayansah@gmail.com";
+    $mailInfo->from = "info@tiketbox.com";
     $mailInfo->title = 'Welcome to tiketbox.com';
     $mailInfo->name = $name;
     $mailInfo->email = $email;
