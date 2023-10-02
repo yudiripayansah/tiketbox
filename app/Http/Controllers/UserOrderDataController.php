@@ -19,6 +19,7 @@ class UserOrderDataController extends Controller
     $sortDir = ($request->sortDir) ? $request->sortDir : 'DESC';
     $sortBy = ($request->sortBy) ? $request->sortBy : 'updated_at';
     $search = ($request->search) ? $request->search : null;
+    $id_user = ($request->id_user) ? $request->id_user : null;
     $total = 0;
     $totalPage = 1;
     $listData = UserOrderData::select('user_order_data.*')->orderBy($sortBy, $sortDir);
@@ -28,14 +29,20 @@ class UserOrderDataController extends Controller
     if ($search != null) {
         $listData->whereRaw('(user_order_data.name LIKE "%'.$search.'%" OR user_order_data.email LIKE "%'.$search.'%" OR user_order_data.phone LIKE "%'.$search.'%")');
     }
+    if ($id_user != null) {
+        $listData->where('id_user',$id_user);
+    }
     $listData = $listData->get();
     foreach($listData as $ld) {
 
     }
-    if ($search) {
+    if ($search || $id_user) {
         $total = UserOrderData::orderBy($sortBy, $sortDir);
         if ($search) {
             $total->whereRaw('(user_order_data.name LIKE "%'.$search.'%" OR user_order_data.email LIKE "%'.$search.'%" OR user_order_data.phone LIKE "%'.$search.'%")');
+        }
+        if ($id_user != null) {
+            $total->where('id_user',$id_user);
         }
         $total = $total->count();
     } else {
