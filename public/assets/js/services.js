@@ -85,6 +85,15 @@ const tiketboxApi = {
     };
     return defAxios.post(url, payload, config);
   },
+  updateUserPassword(payload, token) {
+    let url = '/users/updatePassword'
+    let config = {
+      headers: {
+        token: token,
+      },
+    };
+    return defAxios.post(url, payload, config);
+  },
   deleteUser(payload, token) {
     let url = '/users/delete'
     let config = {
@@ -179,6 +188,52 @@ const tiketboxApi = {
   },
   deleteUserOrderData(payload, token) {
     let url = '/userOrderData/delete'
+    let config = {
+      headers: {
+        token: token,
+      },
+    };
+    return defAxios.post(url, payload, config);
+  },
+  // userLegal
+  readUserLegal(payload, token) {
+    let url = '/userLegal'
+    let config = {
+      headers: {
+        token: token,
+      },
+    };
+    return defAxios.post(url, payload, config);
+  },
+  getUserLegal(payload, token) {
+    let url = '/userLegal/get'
+    let config = {
+      headers: {
+        token: token,
+      },
+    };
+    return defAxios.post(url, payload, config);
+  },
+  createUserLegal(payload, token) {
+    let url = '/userLegal/create'
+    let config = {
+      headers: {
+        token: token,
+      },
+    };
+    return defAxios.post(url, payload, config);
+  },
+  updateUserLegal(payload, token) {
+    let url = '/userLegal/update'
+    let config = {
+      headers: {
+        token: token,
+      },
+    };
+    return defAxios.post(url, payload, config);
+  },
+  deleteUserLegal(payload, token) {
+    let url = '/userLegal/delete'
     let config = {
       headers: {
         token: token,

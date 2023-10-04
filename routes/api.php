@@ -8,6 +8,7 @@ use App\Http\Controllers\EventsController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\UserOrderDataController;
+use App\Http\Controllers\UserLegalController;
 use App\Http\Controllers\PromotionsController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\XenditController;
@@ -45,6 +46,7 @@ Route::prefix('users')->group(function () {
     Route::post('/get', [UsersController::class, 'get']);
     Route::post('/create', [UsersController::class, 'create']);
     Route::post('/update', [UsersController::class, 'update']);
+    Route::post('/updatePassword', [UsersController::class, 'updatePassword']);
     Route::post('/delete', [UsersController::class, 'delete']);
 });
 Route::prefix('userOrderData')->group(function () {
@@ -53,6 +55,13 @@ Route::prefix('userOrderData')->group(function () {
     Route::post('/create', [UserOrderDataController::class, 'create']);
     Route::post('/update', [UserOrderDataController::class, 'update']);
     Route::post('/delete', [UserOrderDataController::class, 'delete']);
+});
+Route::prefix('userLegal')->group(function () {
+    Route::post('/', [UserLegalController::class, 'read']);
+    Route::post('/get', [UserLegalController::class, 'get']);
+    Route::post('/create', [UserLegalController::class, 'create']);
+    Route::post('/update', [UserLegalController::class, 'update']);
+    Route::post('/delete', [UserLegalController::class, 'delete']);
 });
 Route::prefix('promotions')->group(function () {
     Route::post('/', [PromotionsController::class, 'read']);

@@ -8,7 +8,7 @@
     <h3 class="fs-20 fw-600">Let's save order data now!</h3>
     <div class="d-flex justify-content-between align-items-start mt-20">
       <p class="wp-100 max-wp-60 fs-12 fw-400">To be selected when ordering later so that the ordering process is faster and simpler. You can save a maximum of 5 profiles.</p>
-      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#formModal">Add Order Data</button>
+      <button class="btn btn-primary" @click="modal.form.show();clearForm()">Add Order Data</button>
     </div>
     <div class="bg-dark br-10 mt-25" v-for="(ld,index) in list.data" :key="index" v-if="list.data.length > 0">
       <div class="d-flex justify-content-between align-items-start p-25 border-bottom border-primary">
@@ -64,6 +64,10 @@
             <div class="d-flex align-items-center border-bottom border-white pb-10 flex-wrap wp-100">   
               <label class="wp-100 fs-14 fw-400 text-white mb-15">Full Name</label>               
               <input type="text" class="wp-100 bg-transparent border-0 fs-18 fw-400 text-white" placeholder="John Doe" v-model="form.data.name">
+            </div>
+            <div class="d-flex align-items-center border-bottom border-white pb-10 flex-wrap mt-30 wp-100">   
+              <label class="wp-100 fs-14 fw-400 text-white mb-15">Nik</label>               
+              <input type="text" class="wp-100 bg-transparent border-0 fs-18 fw-400 text-white" placeholder="Eg: 8765432378906655" v-model="form.data.nik">
             </div>
             <div class="d-flex align-items-center border-bottom border-white pb-10 flex-wrap mt-30 wp-100">   
               <label class="wp-100 fs-14 fw-400 text-white mb-15">Gender</label>
@@ -175,7 +179,7 @@
         msg: null
       },
       opt: {
-        city: []
+        city: city
       },
       modal: {
         delete: null,
@@ -235,6 +239,7 @@
       async doSave() {
         this.notify('info','Processing','Menyimpan data...')
         let payload = {...this.form.data}
+        payload.id_user = this.users.id
         let token = 'abcdreUYBH&^*VHGY^&GY'
         try {
           let req = {
@@ -307,6 +312,7 @@
           }
         } else {
           this.form.deleteId = id
+          this.modal.delete.show()
         }
       },
       previewImage(e) {
@@ -392,7 +398,7 @@
     },
     mounted() {
       this.doGet()
-      // this.initModal()
+      this.initModal()
       this.initDatePicker()
       this.initAutocomplete()
     },

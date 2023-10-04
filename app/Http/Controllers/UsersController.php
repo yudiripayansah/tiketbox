@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Mail;
 class UsersController extends Controller
 {
   public function __construct() {
-    $this->middleware('auth:api', ['except' => ['login', 'register','read','get','create','update','delete']]);
+    $this->middleware('auth:api', ['except' => ['login', 'register','read','get','create','update','delete','updatePassword']]);
   }
   public function read(Request $request) {
     $page = ($request->page) ? $request->page : 1;
@@ -250,6 +250,25 @@ class UsersController extends Controller
         'status' => true,
         'msg' => 'Login successful',
         'data' => $data,
+      );
+    }
+    return response()->json($res, 200);
+  }
+  public function updatePassword(Request $request) {
+    $credentials = $request->only('email', 'password');
+    if (!$token = auth()->attempt($credentials)) {
+      $res = array(
+        'status' => false,
+        'msg' => 'Password lama salah, silahkan coba lagi'
+      );
+    } else {
+      $du = User::find($request->id);
+      $du->password = Hash::make($request->new_password);
+      $du = $du->save();
+      $res = array(
+        'status' => true,
+        'msg' => 'Password telah diubah',
+        'du' => $du
       );
     }
     return response()->json($res, 200);
