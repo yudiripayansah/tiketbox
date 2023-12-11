@@ -1,8 +1,18 @@
 @extends('layout.layout')
 @section('screen')
   <section id="bhome" class="br-tl-10 br-tr-10 overflow-hidden backoffice">
-      <div class="boc-title py-15 px-25 fw-700 fs-14 text-light border-bottom border-primary">
-        My Events
+      <div class="boc-title py-15 px-25 fw-700 fs-14 text-light border-bottom border-primary d-flex justify-content-between align-items-center">
+        <span>
+          My Events
+        </span>
+        <a href="{{ url('/'.request()->segment(1).'/my-events/form')}}" class="d-inline-flex align-items-center text-decoration-none" v-if="!list.loading">
+          <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path id="Vector" d="M12.1094 0C5.41992 0 0 5.41992 0 12.1094C0 18.7988 5.41992 24.2188 12.1094 24.2188C18.7988 24.2188 24.2188 18.7988 24.2188 12.1094C24.2188 5.41992 18.7988 0 12.1094 0ZM19.1406 13.4766C19.1406 13.7988 18.877 14.0625 18.5547 14.0625H14.0625V18.5547C14.0625 18.877 13.7988 19.1406 13.4766 19.1406H10.7422C10.4199 19.1406 10.1562 18.877 10.1562 18.5547V14.0625H5.66406C5.3418 14.0625 5.07812 13.7988 5.07812 13.4766V10.7422C5.07812 10.4199 5.3418 10.1562 5.66406 10.1562H10.1562V5.66406C10.1562 5.3418 10.4199 5.07812 10.7422 5.07812H13.4766C13.7988 5.07812 14.0625 5.3418 14.0625 5.66406V10.1562H18.5547C18.877 10.1562 19.1406 10.4199 19.1406 10.7422V13.4766Z" fill="#3E63F9"/>
+          </svg>
+          <span class="ms-10 fs-14 fw-500 text-light">
+            Create Events/ Amusement Park
+          </span>
+        </a>
       </div>
       <div class="boc-content">
         <div class="d-flex align-items-center py-15 px-25 border-bottom border-primary justify-content-between">
@@ -37,7 +47,7 @@
                   <div class="d-flex align-items-center justify-content-between">
                     <h3 class="fw-700 fs-20 text-white" v-text="`${ld.name} - ${ld.location_name}`"></h3>
                     <div>
-                      <a :href="`{{ url('/backoffice/my-events/form/${ld.id}') }}`" class="btn br-10 btn-sm btn-info text-light">
+                      <a :href="`{{ url('/'.request()->segment(1).'/my-events/form/${ld.id}') }}`" class="btn br-10 btn-sm btn-info text-light">
                         <svg width="18" height="16" viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path id="Vector" d="M17.78 6.2217V2.6657C17.78 1.67891 16.9799 0.887695 16.002 0.887695H1.778C0.8001 0.887695 0.00888999 1.67891 0.00888999 2.6657V6.2217C0.98679 6.2217 1.778 7.0218 1.778 7.9997C1.778 8.9776 0.98679 9.7777 0 9.7777V13.3337C0 14.3116 0.8001 15.1117 1.778 15.1117H16.002C16.9799 15.1117 17.78 14.3116 17.78 13.3337V9.7777C16.8021 9.7777 16.002 8.9776 16.002 7.9997C16.002 7.0218 16.8021 6.2217 17.78 6.2217ZM16.002 4.92376C14.9441 5.53717 14.224 6.69287 14.224 7.9997C14.224 9.30653 14.9441 10.4622 16.002 11.0756V13.3337H1.778V11.0756C2.83591 10.4622 3.556 9.30653 3.556 7.9997C3.556 6.68398 2.8448 5.53717 1.78689 4.92376L1.778 2.6657H16.002V4.92376ZM8.001 10.6667H9.779V12.4447H8.001V10.6667ZM8.001 7.1107H9.779V8.8887H8.001V7.1107ZM8.001 3.5547H9.779V5.3327H8.001V3.5547Z" fill="white"></path></svg>                       
                         Update
                       </a>
@@ -48,6 +58,7 @@
                     </div>
                   </div>
                   <p class="fw-700 fs-12 text-white m-0" v-text="ld.status"></p>
+                  <p class="fw-400 fs-12 text-white m-0">Created By <span v-text="ld.creator_name"></span></p>
                 </div>
                 <div class="row wp-100 ">
                   <div class="col">
@@ -96,7 +107,7 @@
               <h4 class="text-light text-center fs-20 fw-600 mb-15">Memuat Data...</h4>
               <p class="text-light fs-12 fw-400">Mohon tunggu sedang memuat data.</p>
             </div>
-            <a href="{{ url('backoffice/my-events/form')}}" class="d-inline-flex align-items-center mt-45 text-decoration-none" v-if="!list.loading">
+            <a href="{{ url('/'.request()->segment(1).'/my-events/form')}}" class="d-inline-flex align-items-center mt-45 text-decoration-none" v-if="!list.loading">
               <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path id="Vector" d="M12.1094 0C5.41992 0 0 5.41992 0 12.1094C0 18.7988 5.41992 24.2188 12.1094 24.2188C18.7988 24.2188 24.2188 18.7988 24.2188 12.1094C24.2188 5.41992 18.7988 0 12.1094 0ZM19.1406 13.4766C19.1406 13.7988 18.877 14.0625 18.5547 14.0625H14.0625V18.5547C14.0625 18.877 13.7988 19.1406 13.4766 19.1406H10.7422C10.4199 19.1406 10.1562 18.877 10.1562 18.5547V14.0625H5.66406C5.3418 14.0625 5.07812 13.7988 5.07812 13.4766V10.7422C5.07812 10.4199 5.3418 10.1562 5.66406 10.1562H10.1562V5.66406C10.1562 5.3418 10.4199 5.07812 10.7422 5.07812H13.4766C13.7988 5.07812 14.0625 5.3418 14.0625 5.66406V10.1562H18.5547C18.877 10.1562 19.1406 10.4199 19.1406 10.7422V13.4766Z" fill="#3E63F9"/>
               </svg>
@@ -126,7 +137,8 @@
         page: 1,
         sortDir: 'desc',
         sortBy: 'id',
-        search: null
+        search: null,
+        id_user: null
       },
       alert: {
         show: 'hide',
@@ -135,10 +147,18 @@
         msg: null
       }
     },
+    computed: {
+      users() {
+        return store.getters.users
+      },
+    },
     methods: {
       async doGet() {
         this.list.loading = true
         let payload = {...this.paging}
+        if(this.users.type != 'admin'){
+          payload.id_user = this.users.id
+        }
         payload.status = status
         let token = 'abcdreUYBH&^*VHGY^&GY'
         try {
@@ -187,6 +207,9 @@
     },
     mounted() {
       this.doGet()
+      if(this.users.type == 'user') {
+        window.location.href = "{{ url('/promotor') }}"
+      }
     }
   });
 </script>

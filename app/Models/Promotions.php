@@ -11,6 +11,7 @@ class Promotions extends Model
   use SoftDeletes;
   protected $table = 'promotions';
   protected $fillable = [
+    'id_user',
     'id_event',
     'target_event',
     'name',

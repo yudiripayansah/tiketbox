@@ -1,5 +1,5 @@
 <section id="sidemenu" class="br-tl-10 br-tr-10 overflow-hidden" :data-role="users.type">
-  <div v-if="users.type == 'user'">
+  <div v-if="users.type != 'admin'">
     <div class="d-flex align-items-center justify-content-between">
       <div @click="active = 'audience'" class="cusrsor-pointer sm-title py-15 text-center fw-700 fs-14 text-light border-bottom wp-50" :class="(active == 'audience') ? 'border-primary' : 'border-transparent'">
         Audience

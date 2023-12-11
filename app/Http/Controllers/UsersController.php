@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\UserLegal;
 use JWTAuth;
 use Illuminate\Support\Facades\Hash;
 use App\Mail\WelcomeEmail;
@@ -37,6 +38,14 @@ class UsersController extends Controller
     }
     $listData = $listData->get();
     foreach($listData as $ld) {
+      $ld->image = ($ld->image) ? Storage::disk('public')->url('user/'.$ld->image) : null;
+      $ld->promotor_logo = ($ld->promotor_logo) ? Storage::disk('public')->url('user/'.$ld->promotor_logo) : null;
+      $ld->promotor_banner = ($ld->promotor_banner) ? Storage::disk('public')->url('user/'.$ld->promotor_banner) : null;
+      $ld->legal = null;
+      $legal = UserLegal::where('id_user', $ld->id);
+      if(count($legal->get()) > 0){
+        $ld->legal = $legal->first();
+      }
     }
     if ($search || $id_user || $type) {
         $total = User::orderBy($sortBy, $sortDir);
@@ -71,6 +80,8 @@ class UsersController extends Controller
       $getData = User::find($request->id);
       if ($getData) {
         $getData->image = ($getData->image) ? Storage::disk('public')->url('user/'.$getData->image) : null;
+        $getData->promotor_logo = ($getData->promotor_logo) ? Storage::disk('public')->url('user/'.$getData->promotor_logo) : null;
+        $getData->promotor_banner = ($getData->promotor_banner) ? Storage::disk('public')->url('user/'.$getData->promotor_banner) : null;
         $res = array(
                 'status' => true,
                 'data' => $getData,
@@ -104,6 +115,22 @@ class UsersController extends Controller
     } else {
       $dataCreate['image'] = null;
     }
+    if($request->promotor_logo){
+      $filename = uniqid().time().'-'. '-promotor-logo.png';
+      $filePath = 'user/' .$filename;
+      $dataCreate['promotor_logo'] = $filename;
+      Storage::disk('public')->put($filePath, file_get_contents($request->promotor_logo));
+    } else {
+      $dataCreate['image'] = null;
+    }
+    if($request->promotor_banner){
+      $filename = uniqid().time().'-'. '-promotor-banner.png';
+      $filePath = 'user/' .$filename;
+      $dataCreate['promotor_banner'] = $filename;
+      Storage::disk('public')->put($filePath, file_get_contents($request->promotor_banner));
+    } else {
+      $dataCreate['promotor_banner'] = null;
+    }
     $dataCreate['password'] = Hash::make($request->password);
     if($request->dob) {
       $dataCreate['dob'] = date('Y-m-d',strtotime($request->dob));
@@ -115,7 +142,7 @@ class UsersController extends Controller
         try {
           $dc = User::create($dataCreate);
           $dg = User::find($dc->id);
-          $this->sendEmailWelcome($request->name,$request->email,$request->password);
+          // $this->sendEmailWelcome($request->name,$request->email,$request->password);
           $res = array(
                   'status' => true,
                   'data' => $dg,
@@ -159,6 +186,22 @@ class UsersController extends Controller
       $filePath = 'user/' .$filename;
       $dataUpdate['image'] = $filename;
       Storage::disk('public')->put($filePath, file_get_contents($request->image));
+    } else {
+      unset($dataUpdate['image']);
+    }
+    if (basename($request->promotor_logo) != basename($dataFind->promotor_logo)) {
+      $filename = uniqid().time().'-'. '-promotor-logo.png';
+      $filePath = 'user/' .$filename;
+      $dataUpdate['promotor_logo'] = $filename;
+      Storage::disk('public')->put($filePath, file_get_contents($request->promotor_logo));
+    } else {
+      unset($dataUpdate['image']);
+    }
+    if (basename($request->promotor_banner) != basename($dataFind->promotor_banner)) {
+      $filename = uniqid().time().'-'. '-promotor-banner.png';
+      $filePath = 'user/' .$filename;
+      $dataUpdate['promotor_banner'] = $filename;
+      Storage::disk('public')->put($filePath, file_get_contents($request->promotor_banner));
     } else {
       unset($dataUpdate['image']);
     }

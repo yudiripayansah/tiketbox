@@ -40,7 +40,7 @@
               <img src="{{ url('assets/images/layout/user.png') }}" alt="" class="w-40 h-40 br-100">
             </a>
             <div class="br-10 right-0 position-absolute w-250 bg-dark" aria-labelledby="dropdownAccount" v-show="dropdown">
-              <div v-if="users.type == 'user'">
+              <div v-if="users.type != 'admin'">
                 <div class="d-flex align-items-center justify-content-between">
                   <div @click="active = 'audience'" class="cusrsor-pointer sm-title pb-15 pt-10 text-center fw-700 fs-14 text-light border-bottom wp-50" :class="(active == 'audience') ? 'border-primary' : 'border-transparent'">
                     Audience
@@ -429,6 +429,7 @@
           let payload = null
           let req = await tiketboxApi.signOut(payload,token)
           this.form.loading = false
+          window.location.href = '{{ url("/") }}'
         } catch (error) {
           console.log(error)
           this.form.loading = false

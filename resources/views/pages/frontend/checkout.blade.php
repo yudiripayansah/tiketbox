@@ -50,16 +50,18 @@
                       </div>
                     </div>            
                   </div>
-                  <div class="d-flex align-items-center border-bottom border-white pb-10 flex-wrap mt-30 wp-48">   
-                    <label class="wp-100 fs-14 fw-400 text-white mb-15">Date of Birth</label>               
-                    <input type="date" class="flatpickr wp-100 bg-transparent border-0 fs-18 fw-400 text-white wp-100" placeholder="dd-mm-yyyy" v-model="form.data.dob">
-                  </div>
-                  <div class="d-flex align-items-center border-bottom border-white pb-10 flex-wrap mt-30 wp-48 ms-auto">   
-                    <label class="wp-100 fs-14 fw-400 text-white mb-15">Domisili</label>       
-                    <input type="text" class="wp-100 bg-transparent border-0 fs-18 fw-400 text-white wp-100" placeholder="Eg: Jakarta" v-model="form.data.domicile" id="autoCompleteCity">        
-                    {{-- <select class="bg-transparent border-0 fs-18 fw-400 text-white wp-100" placeholder="Jakarta" v-model="form.data.domicile">
-                      <option value="Jakarta">Jakarta</option>
-                    </select> --}}
+                  <div class="row g-0">
+                    <div class="d-flex align-items-center border-bottom border-white pb-10 flex-wrap mt-30 col-12 col-sm-6 pe-sm-3">   
+                      <label class="wp-100 fs-14 fw-400 text-white mb-15">Date of Birth</label>               
+                      <input type="date" class="flatpickr wp-100 bg-transparent border-0 fs-18 fw-400 text-white wp-100" placeholder="dd-mm-yyyy" v-model="form.data.dob">
+                    </div>
+                    <div class="d-flex align-items-center border-bottom border-white pb-10 flex-wrap mt-30 col-12 col-sm-6 ms-auto">   
+                      <label class="wp-100 fs-14 fw-400 text-white mb-15">Domisili</label>       
+                      <input type="text" class="wp-100 bg-transparent border-0 fs-18 fw-400 text-white wp-100" placeholder="Eg: Jakarta" v-model="form.data.domicile" id="autoCompleteCity">        
+                      {{-- <select class="bg-transparent border-0 fs-18 fw-400 text-white wp-100" placeholder="Jakarta" v-model="form.data.domicile">
+                        <option value="Jakarta">Jakarta</option>
+                      </select> --}}
+                    </div>
                   </div>
                 </div>
                 <div class="form-check mt-30">
@@ -70,7 +72,7 @@
                 </div>
                 <div class="d-flex justify-content-between align-items-center mt-30">
                   <a href="{{ url('/') }}" class="btn btn-light wp-30">Back</a>
-                  <button type="button" class="btn btn-secondary wp-30" @click="useDummy()">Use Dummy</button>
+                  {{-- <button type="button" class="btn btn-secondary wp-30" @click="useDummy()">Use Dummy</button> --}}
                   <button type="button" class="btn btn-primary wp-30" @click="processOrder()">Continue</button>
                 </div>
               </div>
@@ -106,12 +108,14 @@
                       </div>
                     </div>
                     <div class="d-flex justify-content-between align-items-center mt-25">
-                      <span class="fs-18 fw-700 text-white wp-50" v-text="`IDR ${thousand((order.seat) ? order.seat.price: order.ticket.price)}`"></span>
-                      <span class="cursor-pointer" @click="removeTicket(index)">
-                        <svg width="15" height="18" viewBox="0 0 15 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path id="Vector" d="M1.07143 15.5357C1.07143 15.962 1.24075 16.3707 1.54215 16.6721C1.84355 16.9735 2.25233 17.1429 2.67857 17.1429H12.3214C12.7477 17.1429 13.1565 16.9735 13.4578 16.6721C13.7592 16.3707 13.9286 15.962 13.9286 15.5357V4.28572H1.07143V15.5357ZM10.1786 6.96429C10.1786 6.82221 10.235 6.68595 10.3355 6.58548C10.4359 6.48502 10.5722 6.42858 10.7143 6.42858C10.8564 6.42858 10.9926 6.48502 11.0931 6.58548C11.1936 6.68595 11.25 6.82221 11.25 6.96429V14.4643C11.25 14.6064 11.1936 14.7426 11.0931 14.8431C10.9926 14.9436 10.8564 15 10.7143 15C10.5722 15 10.4359 14.9436 10.3355 14.8431C10.235 14.7426 10.1786 14.6064 10.1786 14.4643V6.96429ZM6.96429 6.96429C6.96429 6.82221 7.02073 6.68595 7.12119 6.58548C7.22166 6.48502 7.35792 6.42858 7.5 6.42858C7.64208 6.42858 7.77834 6.48502 7.87881 6.58548C7.97927 6.68595 8.03571 6.82221 8.03571 6.96429V14.4643C8.03571 14.6064 7.97927 14.7426 7.87881 14.8431C7.77834 14.9436 7.64208 15 7.5 15C7.35792 15 7.22166 14.9436 7.12119 14.8431C7.02073 14.7426 6.96429 14.6064 6.96429 14.4643V6.96429ZM3.75 6.96429C3.75 6.82221 3.80644 6.68595 3.90691 6.58548C4.00737 6.48502 4.14363 6.42858 4.28571 6.42858C4.42779 6.42858 4.56406 6.48502 4.66452 6.58548C4.76499 6.68595 4.82143 6.82221 4.82143 6.96429V14.4643C4.82143 14.6064 4.76499 14.7426 4.66452 14.8431C4.56406 14.9436 4.42779 15 4.28571 15C4.14363 15 4.00737 14.9436 3.90691 14.8431C3.80644 14.7426 3.75 14.6064 3.75 14.4643V6.96429ZM14.4643 1.07143H10.4464L10.1317 0.445318C10.065 0.311462 9.96233 0.198864 9.83515 0.120193C9.70798 0.0415218 9.56137 -0.000101383 9.41183 5.87033e-06H5.58482C5.43562 -0.000567697 5.28927 0.0409003 5.16255 0.119659C5.03582 0.198417 4.93385 0.311281 4.8683 0.445318L4.55357 1.07143H0.535714C0.393634 1.07143 0.257373 1.12788 0.156907 1.22834C0.0564412 1.32881 0 1.46507 0 1.60715L0 2.67858C0 2.82066 0.0564412 2.95692 0.156907 3.05738C0.257373 3.15785 0.393634 3.21429 0.535714 3.21429H14.4643C14.6064 3.21429 14.7426 3.15785 14.8431 3.05738C14.9436 2.95692 15 2.82066 15 2.67858V1.60715C15 1.46507 14.9436 1.32881 14.8431 1.22834C14.7426 1.12788 14.6064 1.07143 14.4643 1.07143V1.07143Z" fill="white"/>
-                          </svg>                          
+                      <span class="fs-18 fw-700 text-white wp-50" v-text="`IDR ${thousand((order.seat.section != '-') ? order.seat.price: order.ticket.price)}`"></span>
+                      <span class="cursor-pointer text-light" @click="removeTicket(index)">
+                        <i class="fa-solid fa-trash"></i>                       
                       </span>
+                    </div>
+                    <div v-if="order.seat.section == '-'">
+                      <span class="fs-18 fw-700 text-white wp-100 d-block" v-text="`X ${order.amount}`"></span>
+                      <span class="fs-18 fw-700 text-white" v-text="`IDR ${thousand((order.seat.section != '-') ? order.seat.price: order.ticket.price * order.amount)}`"></span>
                     </div>
                   </div>
                 </div>
@@ -142,6 +146,26 @@
       </div>
     </div>
   </section>
+@endsection
+@section('styles')
+  <style>
+    @media screen and (max-width: 768px){
+      .checkout-details {
+        flex-direction: column-reverse;
+      }
+      .ed-left {
+        width: 100% !important;
+        padding-right: 0 !important; 
+        margin-top: 20px; 
+      }
+      .ed-right {
+        width: 100% !important;
+      }
+      .edb-content > div {
+        padding: 20px 15px !important;
+      }
+    }
+  </style>
 @endsection
 @section('script')
   <script src="{{ asset('assets/js/city.js') }}"></script>
@@ -204,12 +228,13 @@
             amount: 0
           }
           orders.map((order) => {
-            let price = order.ticket.price
-            if(order.seat) {
+            console.log(order.ticket)
+            let price = order.ticket.price * order.amount
+            if(order.seat.section != '-') {
               price = order.seat.price
             }
             total.price += price
-            total.amount ++
+            total.amount += order.amount
           })
           return total
         }
@@ -226,15 +251,15 @@
           payload.total_amount = this.total.price
           let orders = store.getters.orders
           orders.map((item) => {
-            let price = (item.seat) ? item.seat.price : item.ticket.price
+            let price = (item.seat.section != '-') ? item.seat.price : item.ticket.price
             let order_item = {
               date: item.selected_date,
               id_event: item.event.id,
               id_ticket: item.ticket.id,
               id_seat: item.seat.id,
-              section: (item.seat) ? item.seat.section: 'default',
-              row: (item.seat) ? item.seat.row: 'default',
-              seat: (item.seat) ? item.seat.selected_seat: 'default',
+              section: (item.seat.section != '-') ? item.seat.section: 'default',
+              row: (item.seat.section != '-') ? item.seat.row: 'default',
+              seat: (item.seat.section != '-') ? item.seat.selected_seat: 'default',
               price: price,
               amount: item.amount,
               total: item.amount * price,
@@ -249,8 +274,8 @@
             let { status, msg, data} = req.data
             if(status){
               this.notify('success','Success',msg)
-              // store.dispatch('setOrders', [])
-              // window.location.href = '/order/'+data.order_code
+              store.dispatch('setOrders', [])
+              window.location.href = '/order/'+data.order_code
             } else {
               this.notify('error','Error',msg)
             }

@@ -241,6 +241,52 @@ const tiketboxApi = {
     };
     return defAxios.post(url, payload, config);
   },
+  // userBank
+  readUserBank(payload, token) {
+    let url = '/userBank'
+    let config = {
+      headers: {
+        token: token,
+      },
+    };
+    return defAxios.post(url, payload, config);
+  },
+  getUserBank(payload, token) {
+    let url = '/userBank/get'
+    let config = {
+      headers: {
+        token: token,
+      },
+    };
+    return defAxios.post(url, payload, config);
+  },
+  createUserBank(payload, token) {
+    let url = '/userBank/create'
+    let config = {
+      headers: {
+        token: token,
+      },
+    };
+    return defAxios.post(url, payload, config);
+  },
+  updateUserBank(payload, token) {
+    let url = '/userBank/update'
+    let config = {
+      headers: {
+        token: token,
+      },
+    };
+    return defAxios.post(url, payload, config);
+  },
+  deleteUserBank(payload, token) {
+    let url = '/userBank/delete'
+    let config = {
+      headers: {
+        token: token,
+      },
+    };
+    return defAxios.post(url, payload, config);
+  },
   // category
   readCategory(payload, token) {
     let url = '/category'

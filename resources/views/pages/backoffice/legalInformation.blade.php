@@ -9,7 +9,7 @@
         <h3 class="m-0 text-light">Legal Information</h3>
         <h3 class="m-0 text-danger ms-15" v-if="form.data.status == 'PENDING'">Belum Diverifikasi</h3>
         <h3 class="m-0 text-success ms-15" v-if="form.data.status == 'APPROVED'">Terverifikasi</h3>
-        <h3 class="m-0 text-danger ms-15" v-if="form.data.status == 'DECILINED'">Ditolak</h3>
+        <h3 class="m-0 text-danger ms-15" v-if="form.data.status == 'REJECTED'">Ditolak</h3>
       </div>
       <p class="fs-12 fw-400 mt-20">Dokumen yang sudah diunggah hanya dapat dichange dengan cara menghubungi tim kami. Hubungi kami.</p>
       <div style="background-color:#636363;" class="br-10 mt-30">
@@ -30,10 +30,10 @@
             <div class="d-flex align-items-end justify-content-between mt-15 pb-15 border-bottom border-secondary">
               <div class="mx-wp-50 fs-12 fw-400">
                 <span class="fw-600">Dokumen KTP</span>
-                <p class="m-0 p-0" v-if="!form.data.status">Upload dokumen KTP, <br>
+                <p class="m-0 p-0" v-if="!form.data.status || form.data.status == 'REJECTED'">Upload dokumen KTP, <br>
                 max. 2MB</p>
               </div>
-              <label for="ktp_image" class="btn btn-primary fs-12 fw-700"  v-if="!form.data.status">
+              <label for="ktp_image" class="btn btn-primary fs-12 fw-700"  v-if="!form.data.status || form.data.status == 'REJECTED'">
                 <input type="file" name="ktp_image" id="ktp_image" class="hide d-none" @change="previewImage(event)">
                 <span class="me-10">
                   @include('svg.upload')
@@ -43,15 +43,15 @@
             </div>
             <div class="mt-15 pb-15 border-bottom border-secondary">
               <label for="" class="fs-12 fw-600">Nomor KTP</label>
-              <input :disabled="(!form.data.status) ? false: true" type="text" class="fs-12 fw-400 wp-100 d-block bg-transparent border-0 mt-10 text-light" v-model="form.data.ktp_no" placeholder="Eg: 1234345678901122">
+              <input :disabled="(!form.data.status || form.data.status == 'REJECTED') ? false: true" type="text" class="fs-12 fw-400 wp-100 d-block bg-transparent border-0 mt-10 text-light" v-model="form.data.ktp_no" placeholder="Eg: 1234345678901122">
             </div>
             <div class="mt-15 pb-15 border-bottom border-secondary">
               <label for="" class="fs-12 fw-600">Name sesuai ( KTP )</label>
-              <input :disabled="(!form.data.status) ? false: true" type="text" class="fs-12 fw-400 wp-100 d-block bg-transparent border-0 mt-10 text-light" v-model="form.data.ktp_name" placeholder="Eg: John Doe">
+              <input :disabled="(!form.data.status || form.data.status == 'REJECTED') ? false: true" type="text" class="fs-12 fw-400 wp-100 d-block bg-transparent border-0 mt-10 text-light" v-model="form.data.ktp_name" placeholder="Eg: John Doe">
             </div>
             <div class="mt-15 pb-15 border-bottom border-secondary">
               <label for="" class="fs-12 fw-600">Alamat sesuai ( KTP )</label>
-              <input :disabled="(!form.data.status) ? false: true" type="text" class="fs-12 fw-400 wp-100 d-block bg-transparent border-0 mt-10 text-light" v-model="form.data.ktp_address" placeholder="Eg: Jl. Bersih Kec. Cerah Kab. Indah 11234">
+              <input :disabled="(!form.data.status || form.data.status == 'REJECTED') ? false: true" type="text" class="fs-12 fw-400 wp-100 d-block bg-transparent border-0 mt-10 text-light" v-model="form.data.ktp_address" placeholder="Eg: Jl. Bersih Kec. Cerah Kab. Indah 11234">
             </div>
           </div>
           <div class="col-12 col-md-6 py-20 px-30">
@@ -62,10 +62,10 @@
             <div class="d-flex align-items-end justify-content-between mt-15 pb-15 border-bottom border-secondary">
               <div class="mx-wp-50 fs-12 fw-400">
                 <span class="fw-600">Dokumen NPWP</span>
-                <p class="m-0 p-0" v-if="!form.data.status">Upload dokumen NPWP, <br>
+                <p class="m-0 p-0" v-if="!form.data.status || form.data.status == 'REJECTED'">Upload dokumen NPWP, <br>
                 max. 2MB</p>
               </div>
-              <label for="npwp_image" class="btn btn-primary fs-12 fw-700" v-if="!form.data.status">
+              <label for="npwp_image" class="btn btn-primary fs-12 fw-700" v-if="!form.data.status || form.data.status == 'REJECTED'">
                 <input type="file" name="npwp_image" id="npwp_image" class="hide d-none" @change="previewImage(event)">
                 <span class="me-10">
                   @include('svg.upload')
@@ -75,20 +75,20 @@
             </div>
             <div class="mt-15 pb-15 border-bottom border-secondary">
               <label for="" class="fs-12 fw-600">Nomor NPWP</label>
-              <input :disabled="(!form.data.status) ? false: true" type="text" class="fs-12 fw-400 wp-100 d-block bg-transparent border-0 mt-10 text-light" v-model="form.data.npwp_no" placeholder="Eg: 1234345678901122">
+              <input :disabled="(!form.data.status || form.data.status == 'REJECTED') ? false: true" type="text" class="fs-12 fw-400 wp-100 d-block bg-transparent border-0 mt-10 text-light" v-model="form.data.npwp_no" placeholder="Eg: 1234345678901122">
             </div>
             <div class="mt-15 pb-15 border-bottom border-secondary">
               <label for="" class="fs-12 fw-600">Name sesuai ( NPWP )</label>
-              <input :disabled="(!form.data.status) ? false: true" type="text" class="fs-12 fw-400 wp-100 d-block bg-transparent border-0 mt-10 text-light" v-model="form.data.npwp_name" placeholder="Eg: John Doe">
+              <input :disabled="(!form.data.status || form.data.status == 'REJECTED') ? false: true" type="text" class="fs-12 fw-400 wp-100 d-block bg-transparent border-0 mt-10 text-light" v-model="form.data.npwp_name" placeholder="Eg: John Doe">
             </div>
             <div class="mt-15 pb-15 border-bottom border-secondary">
               <label for="" class="fs-12 fw-600">Alamat sesuai ( NPWP )</label>
-              <input :disabled="(!form.data.status) ? false: true" type="text" class="fs-12 fw-400 wp-100 d-block bg-transparent border-0 mt-10 text-light" v-model="form.data.npwp_address" placeholder="Eg: Jl. Bersih Kec. Cerah Kab. Indah 11234">
+              <input :disabled="(!form.data.status || form.data.status == 'REJECTED') ? false: true" type="text" class="fs-12 fw-400 wp-100 d-block bg-transparent border-0 mt-10 text-light" v-model="form.data.npwp_address" placeholder="Eg: Jl. Bersih Kec. Cerah Kab. Indah 11234">
             </div>
           </div>
         </div>
       </div>
-      <div v-if="!form.data.status">
+      <div v-if="!form.data.status || form.data.status == 'REJECTED'">
         <p class="fs-12 fw-400 mt-20">
           Harap perhatikan kesesuaian antara identitas pada KTP dan NPWP. Dalam hal terdapat ketidaksesuaian antara KTP dan NPWP, faktur tax akan diterbitkan sesuai dengan identitas pada NPWP. Dalam hal dokumen NPWP tidak diunggah, kamu dianggap tidak memiliki NPWP.
         </p>
@@ -100,7 +100,7 @@
         </div>
         <button class="btn btn-primary mx-auto fs-16 fw-600 mt-25 px-40 d-block" @click="doSave()" :disabled="form.loading" v-text="(form.loading) ? 'Processing...' : 'Kirim Dokumen'">Kirim Dokumen</button>
       </div>
-      <div class="mt-20" v-else>
+      <div class="mt-20" v-if="form.data.status == 'Pending'">
         <p class="fs-14 fw-400 text-light text-center">Legalitas sedang dalam peninjauan tim terkait.</p>
       </div>
     </div>
@@ -136,7 +136,7 @@
           npwp_no: null,
           npwp_address: null,
           type: null,
-          status: 'PENDING',
+          status: null,
         },
         agreement: false,
         loading: false
@@ -161,6 +161,7 @@
         this.notify('info','Processing','Menyimpan data...')
         let payload = {...this.form.data}
         payload.id_user = this.users.id
+        payload.status = 'PENDING'
         let token = 'abcdreUYBH&^*VHGY^&GY'
         if(this.form.agreement){
           try {

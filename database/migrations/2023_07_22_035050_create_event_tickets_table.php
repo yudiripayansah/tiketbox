@@ -20,6 +20,7 @@ class CreateEventTicketsTable extends Migration
       $table->text('name');
       $table->integer('quota');
       $table->integer('price');
+      $table->integer('price_holiday')->nullable();
       $table->text('tax')->nullable();
       $table->integer('tax_amount')->nullable();
       $table->date('date_start')->nullable();

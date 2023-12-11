@@ -39,6 +39,8 @@ class Events extends Model
     'one_email_one_transaction',
     'one_ticket_one_order',
     'peduli_lindungi',
+    'holiday',
+    'holidate',
     'status',
     'type',
     'dates_closed',

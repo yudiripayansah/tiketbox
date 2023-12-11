@@ -43,6 +43,8 @@ class CreateEventsTable extends Migration
             $table->text('one_email_one_transaction')->nullable();
             $table->text('one_ticket_one_order')->nullable();
             $table->text('peduli_lindungi')->nullable();
+            $table->text('holiday')->nullable();
+            $table->text('holidate')->nullable();
             $table->text('status')->nullable();
             $table->text('type')->nullable();
             $table->integer('is_bestdeal')->nullable();

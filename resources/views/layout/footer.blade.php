@@ -1,7 +1,7 @@
 <footer>
   <div class="container">
     <div class="row border-top pt-35 pb-35 border-bottom">
-      <div class="col-12 py-20 col-sm-3">
+      <div class="col-12 py-20 col-md-6 col-lg-3">
         <a href="" class="footer-logo pb-30 d-inline-block">
           <img src="{{ url('assets/images/layout/logo.png')}}" alt="">
         </a>
@@ -64,7 +64,7 @@
           </li>
         </ul>
       </div>
-      <div class="col-6 py-20 col-sm-2">
+      <div class="col-6 py-20 col-md-6 col-lg-2">
         <h6 class="fw-700 fs-17 text-light mb-30">Information</h6>
         <ul class="list-unstyled m-0 p-0">
           <li class="mb-15">
@@ -84,7 +84,7 @@
           </li>
         </ul>
       </div>
-      <div class="col-6 py-20 col-sm-2">
+      <div class="col-6 py-20 col-md-6 col-lg-2">
         <h6 class="fw-700 fs-17 text-light mb-30">Tiketbox.com</h6>
         <ul class="list-unstyled m-0 p-0">
           <li class="mb-15">
@@ -104,7 +104,7 @@
           </li>
         </ul>
       </div>
-      <div class="col-12 py-20 col-sm-2">
+      <div class="col-12 py-20 col-md-6 col-lg-2">
         <h6 class="fw-700 fs-17 text-light mb-30">Business</h6>
         <ul class="list-unstyled m-0 p-0">
           <li class="mb-15">
@@ -127,7 +127,7 @@
           </li>
         </ul>
       </div>
-      <div class="col-12 py-20 col-sm-3">
+      <div class="col-12 py-20 col-md-6 col-lg-3">
         <h6 class="fw-700 fs-17 text-light mb-25">Follow Us</h6>
         <div class="d-flex align-items-center mb-35">
           <a href="" class="me-15">
@@ -156,7 +156,7 @@
       </div>
     </div>
     <div class="row pt-35 pb-35 border-bottom">
-      <div class="col-12 col-sm-6">
+      <div class="col-12 col-lg-6">
         <h6 class="fw-700 fs-17 text-light mb-25">Payment Method</h6>
         <div class="d-flex flex-wrap">
           <div class="bg-light w-75 h-35 d-flex justify-content-center align-items-center py-7 br-5 m-5">
@@ -218,7 +218,7 @@
           </div>
         </div>
       </div>
-      <div class="col-12 col-sm-6 max-w-470 d-flex justify-content-start sm-justify-content-end">
+      <div class="col-12 col-lg-6 max-w-470 d-flex justify-content-start lg-justify-content-end">
         <div>
           <h6 class="fw-700 fs-17 text-light mb-25">Security</h6>
           <div class="d-flex align-items-center mb-35">
