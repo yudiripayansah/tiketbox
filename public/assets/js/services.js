@@ -2,6 +2,16 @@ const defAxios = axios.create({
   baseURL: apiBaseUrl
 })
 const tiketboxApi = {
+  //city
+  readCity(payload, token) {
+    let url = '/city'
+    let config = {
+      headers: {
+        token: token,
+      },
+    };
+    return defAxios.post(url, payload, config);
+  },
   // event
   readEvent(payload, token) {
     let url = '/events'

@@ -28,6 +28,7 @@ use App\Http\Controllers\XenditController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::post('city', [EventsController::class, 'city']);
 Route::prefix('events')->group(function () {
     Route::post('/', [EventsController::class, 'read']);
     Route::post('/get', [EventsController::class, 'get']);

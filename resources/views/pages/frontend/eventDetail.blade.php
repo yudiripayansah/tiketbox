@@ -449,11 +449,20 @@
           setTimeout(() => {
             this.alert.show = 'hide'
           }, 2000);
+        },
+        checkOrder() {
+          let orders = store.getters.orders
+          if(orders.length > 0) {
+            if(orders[0].event.id != '{{ $id }}'){
+              store.dispatch('setOrders', [])
+            }
+          }
         }
       },
       mounted() {
         this.detailEvent()
         this.initDatePicker()
+        this.checkOrder()
       }
     });
   </script>

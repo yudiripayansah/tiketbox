@@ -445,4 +445,13 @@ class EventsController extends Controller
     }
     return true;
   }
+  function city(Request $request){
+    $listData = Events::selectRaw('location_city as city')->groupBy('location_city')->orderBy('location_city','ASC')->get();
+    $res = array(
+      'status' => true,
+      'data' => $listData,
+      'msg' => 'Data available'
+    );
+    return response()->json($res, 200);
+  }
 }
