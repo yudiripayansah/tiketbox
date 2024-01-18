@@ -29,6 +29,7 @@ class EventsController extends Controller
     $type = ($request->type) ? $request->type : null;
     $filter = ($request->filter) ? $request->filter : null;
     $category = ($request->category) ? $request->category : null;
+    $city = ($request->city) ? $request->city : null;
     $id_user = ($request->id_user) ? $request->id_user : null;
     $today = date('Y-m-d');
     $listData = Events::select('events.*')->orderBy($sortBy, $sortDir);
@@ -36,10 +37,13 @@ class EventsController extends Controller
       $listData->skip($offset)->take($perPage);
     }
     if ($search != null) {
-      $listData->whereRaw('(events.name LIKE "%'.$search.'%" OR events.keyword LIKE "%'.$search.'%")');
+      $listData->whereRaw('(events.name LIKE "%'.$search.'%" OR events.keyword LIKE "%'.$search.'%" OR events.location_city LIKE "%'.$search.'%" OR events.location_name LIKE "%'.$search.'%")');
     }
     if ($category != null) {
       $listData->where('category',$category);
+    }
+    if ($city != null) {
+      $listData->where('location_city',$city);
     }
     if ($id_user != null) {
       $listData->where('id_user',$id_user);
@@ -86,13 +90,16 @@ class EventsController extends Controller
       }
       $ld->creator_name = $creator;
     }
-    if ($search || $id_user || $type || $category || $filter) {
+    if ($search || $id_user || $type || $category || $filter || $city) {
         $total = Events::orderBy($sortBy, $sortDir);
         if ($search) {
-            $total->whereRaw('(events.name LIKE "%'.$search.'%" OR events.keyword LIKE "%'.$search.'%")');
+            $total->whereRaw('(events.name LIKE "%'.$search.'%" OR events.keyword LIKE "%'.$search.'%" OR events.location_city LIKE "%'.$search.'%" OR events.location_name LIKE "%'.$search.'%")');
         }
         if ($category) {
             $total->where('category',$category);
+        }
+        if ($city) {
+            $total->where('location_city',$city);
         }
         if ($id_user) {
             $total->where('id_user',$id_user);
@@ -141,6 +148,7 @@ class EventsController extends Controller
   }
   public function get(Request $request) {
     if ($request->id) {
+      $today = date('Y-m-d');
       $getData = Events::find($request->id);
       $images = EventImages::where('id_event', $getData->id)->get();
       $tickets = EventTickets::where('id_event', $getData->id)->get();
@@ -162,6 +170,7 @@ class EventsController extends Controller
       $getData->tickets = $tickets;
       $getData->holidate = ($getData->holidate) ? explode(',', $getData->holidate) : [];
       $getData->holiday = ($getData->holiday) ? explode(',', $getData->holiday) : [];
+      $getData->status = ($getData->date_end < $today) ? 'inactive': 'active';
       if ($getData) {
           $res = array(
                   'status' => true,

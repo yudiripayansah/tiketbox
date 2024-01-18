@@ -40,9 +40,17 @@ class MainController extends Controller
     $data['search'] = $search;
     return view('pages/frontend/events',$data);
   }
+  public function city($city = null) {
+    $data['city'] = $city;
+    return view('pages/frontend/events',$data);
+  }
   public function promotion($id) {
     $data['id'] = $id;
     return view('pages/frontend/promotionDetail',$data);
+  }
+  public function verify($verify_token) {
+    $data['verify_token'] = $verify_token;
+    return view('pages/frontend/verifyAccount',$data);
   }
   public function order($code) {
     $data['code'] = $code;

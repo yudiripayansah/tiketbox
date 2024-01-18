@@ -1,0 +1,14 @@
+<svg width="38" height="39" viewBox="0 0 38 39" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="footer-email.svg" clip-path="url(#clip0_769_1532)">
+<path id="Vector" d="M38 19.5938C38 9.10034 29.4934 0.59375 19 0.59375C8.50659 0.59375 0 9.10034 0 19.5938C0 30.0872 8.50659 38.5938 19 38.5938C29.4934 38.5938 38 30.0872 38 19.5938Z" fill="#3C3D41"/>
+<path id="Vector_2" d="M19 22.7615L27.5 29.2615H10.5L19 22.7615Z" fill="white"/>
+<path id="Vector_3" fill-rule="evenodd" clip-rule="evenodd" d="M18.0425 22.2349L9 17.2615V27.2615C9 27.8213 9.22998 28.3274 9.60062 28.6904L18.0425 22.2349ZM19.9576 22.2348L28.3994 28.6904C28.77 28.3273 29 27.8213 29 27.2615V17.2615L19.9576 22.2348Z" fill="white"/>
+<path id="Vector_4" fill-rule="evenodd" clip-rule="evenodd" d="M14 18.87L9.01746 16.1296C9.09713 15.5309 9.4449 14.9944 9.97099 14.6787L17.971 9.87876C18.6044 9.49875 19.3956 9.49875 20.029 9.87876L28.029 14.6787C28.5551 14.9944 28.9028 15.5309 28.9825 16.1296L24 18.87V13.2613H14V18.87Z" fill="white"/>
+<path id="Vector_5" fill-rule="evenodd" clip-rule="evenodd" d="M23 14.2615H15V19.4202L19 21.6202L23 19.4202V14.2615Z" fill="#FCBE3F"/>
+</g>
+<defs>
+<clipPath id="clip0_769_1532">
+<rect width="38" height="38" fill="white" transform="translate(0 0.59375)"/>
+</clipPath>
+</defs>
+</svg>

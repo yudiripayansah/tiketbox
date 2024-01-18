@@ -16,12 +16,14 @@ use App\Http\Controllers\BackOfficeController;
 
 Route::get('/', [MainController::class, 'index']);
 Route::get('/event/{id}', [MainController::class, 'event']);
+Route::get('/verify/{verify_token}', [MainController::class, 'verify']);
 Route::get('/promotion/{id}', [MainController::class, 'promotion']);
 Route::get('/event', [MainController::class, 'events']);
 Route::get('/promotion', [MainController::class, 'promotions']);
 Route::get('/order/{code}', [MainController::class, 'order']);
 Route::get('/category/{category?}', [MainController::class, 'category']);
 Route::get('/search/{search?}', [MainController::class, 'search']);
+Route::get('/city/{city?}', [MainController::class, 'city']);
 Route::get('/checkout', [MainController::class, 'checkout']);
 Route::get('/login', [MainController::class, 'login']);
 Route::get('/email', [MainController::class, 'email']);

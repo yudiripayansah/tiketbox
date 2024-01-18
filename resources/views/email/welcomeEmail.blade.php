@@ -32,6 +32,9 @@
               Password: {!!$dEmail->password!!}
             </p>
           </div>
+          <div class="fs-12" style="color: white; font-size:12px;font-weight:400;">
+            Klik <a href="{{ url('/verify/'.$dEmail->verify_token)}}">Link ini</a> untuk verifikasi email anda.
+          </div>
         </td>
       </tr>
       <tr>

@@ -23,21 +23,26 @@
           <div class="d-flex justify-content-between align-items-center ps-35 mt-40 flex-wrap">
             <span class="fs-18 fw-400">Filter Based</span>
             <div class="d-flex sm-justify-content-between align-items-center mt-10 sm-mt-0 flex-wrap">
-              <select class="bg-transparent border border-light br-10 p-15 mx-5 my-5 text-light">
-                <option value="Location" class="bg-transparent text-light">Location</option>
+              <select class="bg-transparent border border-light br-10 p-15 mx-5 my-5 text-light" v-model="paging.city">
+                <option value="" class="bg-transparent text-light">Location</option>
+                <option :value="c" v-for="(c,index) in opt.city" v-text="c"></option>
               </select>
               <select class="bg-transparent border border-light br-10 p-15 mx-5 my-5 text-light" v-model="paging.category">
                 <option value="" class="bg-transparent text-light">Kategori</option>
                 <option :value="c" v-for="(c,index) in opt.category" v-text="c"></option>
               </select>
-              <select class="bg-transparent border border-light br-10 p-15 mx-5 my-5 text-light">
+              {{-- <select class="bg-transparent border border-light br-10 p-15 mx-5 my-5 text-light">
                 <option value="Waktu" class="bg-transparent text-light">Waktu</option>
               </select>
               <select class="bg-transparent border border-light br-10 p-15 mx-5 my-5 text-light">
                 <option value="Harga" class="bg-transparent text-light">Harga</option>
-              </select>
-              <select class="bg-transparent border border-light br-10 p-15 mx-5 my-5 text-light">
-                <option value="Urutkan" class="bg-transparent text-light">Urutkan</option>
+              </select> --}}
+              <select class="bg-transparent border border-light br-10 p-15 mx-5 my-5 text-light" v-model="paging.sort">
+                <option value="id-desc" class="bg-transparent text-light">Urutkan</option>
+                <option value="name-asc" class="bg-transparent text-light">Nama Event (A-Z)</option>
+                <option value="name-desc" class="bg-transparent text-light">Nama Event (Z-A)</option>
+                <option value="date_start-asc" class="bg-transparent text-light">Tanggal Event (A-Z)</option>
+                <option value="date_start-desc" class="bg-transparent text-light">Tanggal Event (Z-A)</option>
               </select>
             </div>
           </div>
@@ -281,10 +286,12 @@
         paging: {
           perPage: 12,
           page: 1,
+          sort: 'id-desc',
           sortDir: 'desc',
           sortBy: 'id',
-          search: '{{ (isset($search)) ? $search : null }}',
-          category: '{{ (isset($category) && $category != "All Categories") ? $category : null }}'
+          search: '{{ (isset($search)) ? $search : "" }}',
+          category: '{{ (isset($category) && $category != "All Categories") ? $category : "" }}',
+          city: '{{ (isset($city) && $city != "All City") ? $city : "" }}',
         },
         bestDeals: [],
         alert: {
@@ -294,7 +301,8 @@
           msg: null
         },
         opt:  {
-          category: ["Concert","Attraction","Free Gifts","Sports","Amusement Park","Exhibition","Talent Show"]
+          category: ["Concert","Attraction","Free Gifts","Sports","Amusement Park","Exhibition","Talent Show"],
+          city: []
         }
         
       },
@@ -313,6 +321,9 @@
         ...helper,
         async getPopular() {
           let payload = {...this.paging}
+          let theSort = this.paging.sort.split('-')
+          payload.sortBy = theSort[0]
+          payload.sortDir = theSort[1]
           let token = 'abcdreUYBH&^*VHGY^&GY'
           try {
             let req = await tiketboxApi.readEvent(payload,token)
@@ -346,6 +357,27 @@
               this.notify('error','Error',msg)
             }
           } catch (error) {
+            this.notify('error','Error',error.message)
+          }
+        },
+        async doGetCity() {
+          this.opt.city = []
+          try {
+            let payload = {
+
+            }
+            let req = await tiketboxApi.readCity(payload)
+            if(req.status == 200) {
+              let {data,msg,status} = req.data
+              if(status) {
+                data.map((item) => {
+                  this.opt.city.push(item.city)
+                })
+              }
+            }
+          } catch (error) {
+            this.form.loading = false
+            console.log(error)
             this.notify('error','Error',error.message)
           }
         },
@@ -383,6 +415,7 @@
       },
       mounted() {
         this.getPopular()
+        this.doGetCity()
       }
     });
   </script>

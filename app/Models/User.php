@@ -39,6 +39,7 @@ class User extends Authenticatable implements JWTSubject
     'promotor_address',
     'promotor_about',
     'promotor_social_media',
+    'verify_token'
   ];
   protected $hidden = ['password'];
   public static function validate($validate)

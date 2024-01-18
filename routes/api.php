@@ -50,6 +50,7 @@ Route::prefix('users')->group(function () {
     Route::post('/update', [UsersController::class, 'update']);
     Route::post('/updatePassword', [UsersController::class, 'updatePassword']);
     Route::post('/delete', [UsersController::class, 'delete']);
+    Route::post('/verify', [UsersController::class, 'verify']);
 });
 Route::prefix('userOrderData')->group(function () {
     Route::post('/', [UserOrderDataController::class, 'read']);

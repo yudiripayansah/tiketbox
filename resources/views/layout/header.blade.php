@@ -1,15 +1,39 @@
+<style>
+  @media screen and (max-width: 480px) {
+    #modalLogin .ml-left,
+    #modalLogin .ml-right,
+    #modalRegister .ml-left,
+    #modalRegister .ml-right,
+    #modalForgot .ml-left,
+    #modalForgot .ml-right {
+      max-width: 100% !important;
+      width: 100% !important;
+    }
+    #mainHeader .close-btn {
+      top: 25px !important;
+      right: 25px !important;
+      left: unset !important;
+    }
+    #bottomNav {
+      background-color: rgba(37,37,37,1);
+      z-index: 2;
+    }
+  }
+  @media screen and (min-width: 1024px) {
+    #mainHeader #main-nav {
+      width: 100%;
+    }
+  }
+</style>
 <div id="mainHeader" class="position-relative">
   <nav class="navbar navbar-expand-lg main-header position-fixed zi-3">
     <div class="container">
       <a class="navbar-brand" href="/">
-        <img src="{{ url('assets\images\layout\ticketboxlogo.png') }}" alt="">
+        <img src="{{ url('assets\images\layout\ticketboxlogo.png') }}" alt="" class="d-md-block d-none">
+        <img src="{{ url('assets\images\layout\favicon.png') }}" alt="" class="d-block d-md-none h-40">
       </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav"
-        aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="main-nav">
-        <ul class="navbar-nav me-auto d-ms-70">
+      <div class="d-flex" id="main-nav">
+        <ul class="navbar-nav me-auto d-ms-70 me-25">
           <li class="nav-item dropdown">
             <a class="nav-link text-light dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">
               <svg width="19" height="25" viewBox="0 0 19 25" fill="none" xmlns="http://www.w3.org/2000/svg"
@@ -20,7 +44,7 @@
               </svg>
               Location
             </a>
-            <div class="dropdown-menu p-20">
+            <div class="dropdown-menu p-20 position-absolute">
               <form @submit.prevent="doSearch()"
                 class="hbc-input-search d-flex align-items-center br-5 border border-secondary">
                 <input type="text" placeholder="Search, other places, event or tickets..."
@@ -57,7 +81,7 @@
               Create Events
             </a>
           </li>
-          <li class="nav-item me-30" v-if="users && (users.type == 'promotor' || users.type == 'user')">
+          <li class="nav-item me-30 d-none d-md-inline" v-if="users && (users.type == 'promotor' || users.type == 'user')">
             <a class="nav-link text-light" href="{{ url('audience/my-tickets') }}">
               <svg width="25" height="17" viewBox="0 0 25 17" fill="none" xmlns="http://www.w3.org/2000/svg"
                 class="me-5">
@@ -131,7 +155,10 @@
           </li>
           <li class="nav-item" v-if="!users">
             <a class="btn btn-primary br-20 py-10 px-35 fs-14" href="#" data-bs-toggle="modal"
-              data-bs-target="#modalLogin">Login</a>
+              data-bs-target="#modalLogin">
+              <i class="d-inline d-md-none fa-solid fa-user d-md-none d-inline-flex"></i>
+              <span class="d-none d-md-inline">Login</span>
+            </a>
           </li>
         </ul>
       </div>
@@ -142,15 +169,15 @@
     <div class="modal-dialog modal-dialog-centered max-w-1000">
       <div class="modal-content">
         <div class="modal-body p-0 position-relative">
-          <div class="cursor-pointer position-absolute top-40 left-50" data-bs-dismiss="modal" aria-label="Close">
+          <div class="cursor-pointer position-absolute top-40 left-50 close-btn" data-bs-dismiss="modal" aria-label="Close">
             <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path id="Vector"
                 d="M11.0998 8.36667L15.676 3.60955C16.2376 3.02579 16.2376 2.07931 15.676 1.49507L14.659 0.437824C14.0974 -0.145941 13.1869 -0.145941 12.6249 0.437824L8.04861 5.19494L3.47234 0.437824C2.91076 -0.145941 2.00026 -0.145941 1.43823 0.437824L0.42118 1.49507C-0.140393 2.07883 -0.140393 3.02531 0.42118 3.60955L4.99746 8.36667L0.42118 13.1238C-0.140393 13.7075 -0.140393 14.654 0.42118 15.2383L1.43823 16.2955C1.99981 16.8793 2.91076 16.8793 3.47234 16.2955L8.04861 11.5384L12.6249 16.2955C13.1865 16.8793 14.0974 16.8793 14.659 16.2955L15.676 15.2383C16.2376 14.6545 16.2376 13.708 15.676 13.1238L11.0998 8.36667Z"
                 fill="white" />
             </svg>
           </div>
-          <div class="d-flex align-items-center justify-content-between br-10 overflow-hidden">
-            <div class="ml-left max-w-670 wp-60">
+          <div class="d-flex flex-md-row flex-column align-items-center justify-content-between br-10 overflow-hidden">
+            <div class="ml-left max-w-670 wp-60 d-none d-md-block">
               <img src="{{ url('assets/images/auth/authbanner.png') }}" alt="" class="wp-100">
             </div>
             <div class="ml-right max-w-480 wp-40 p-25">
@@ -261,17 +288,17 @@
     <div class="modal-dialog modal-dialog-centered max-w-1000">
       <div class="modal-content">
         <div class="modal-body p-0 position-relative">
-          <div class="cursor-pointer position-absolute top-40 right-50" data-bs-dismiss="modal" aria-label="Close">
+          <div class="cursor-pointer position-absolute top-40 right-50 close-btn" data-bs-dismiss="modal" aria-label="Close">
             <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path id="Vector"
                 d="M11.0998 8.36667L15.676 3.60955C16.2376 3.02579 16.2376 2.07931 15.676 1.49507L14.659 0.437824C14.0974 -0.145941 13.1869 -0.145941 12.6249 0.437824L8.04861 5.19494L3.47234 0.437824C2.91076 -0.145941 2.00026 -0.145941 1.43823 0.437824L0.42118 1.49507C-0.140393 2.07883 -0.140393 3.02531 0.42118 3.60955L4.99746 8.36667L0.42118 13.1238C-0.140393 13.7075 -0.140393 14.654 0.42118 15.2383L1.43823 16.2955C1.99981 16.8793 2.91076 16.8793 3.47234 16.2955L8.04861 11.5384L12.6249 16.2955C13.1865 16.8793 14.0974 16.8793 14.659 16.2955L15.676 15.2383C16.2376 14.6545 16.2376 13.708 15.676 13.1238L11.0998 8.36667Z"
                 fill="white" />
             </svg>
           </div>
-          <div class="d-flex align-items-center justify-content-between br-10 overflow-hidden">
+          <div class="d-flex flex-md-row flex-column-reverse align-items-center justify-content-between br-10 overflow-hidden">
             <div class="ml-left max-w-670 wp-60 p-25">
               <img src="{{ url('assets/images/auth/ticketboxlogo.png') }}" alt="" class="mx-auto d-block">
-              <div class="row mt-100">
+              <div class="row d-mt-100 mt-50">
                 <div class="col-12 col-sm-6">
                   <div class="form-group text-secondary">
                     <label for="" class="control-label fs-16 fw-400 mb-10">Full Name</label>
@@ -327,7 +354,7 @@
                 </p>
               </div>
             </div>
-            <div class="ml-right max-w-480 wp-40">
+            <div class="ml-right max-w-480 wp-40 d-none d-md-block">
               <img src="{{ url('assets/images/auth/authbannerregister.png') }}" alt="" class="wp-100">
             </div>
           </div>
@@ -340,7 +367,7 @@
     <div class="modal-dialog modal-dialog-centered max-w-1000">
       <div class="modal-content">
         <div class="modal-body p-0 position-relative">
-          <div class="cursor-pointer position-absolute top-40 left-50" data-bs-dismiss="modal" aria-label="Close">
+          <div class="cursor-pointer position-absolute top-40 left-50 close-btn" data-bs-dismiss="modal" aria-label="Close">
             <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path id="Vector"
                 d="M11.0998 8.36667L15.676 3.60955C16.2376 3.02579 16.2376 2.07931 15.676 1.49507L14.659 0.437824C14.0974 -0.145941 13.1869 -0.145941 12.6249 0.437824L8.04861 5.19494L3.47234 0.437824C2.91076 -0.145941 2.00026 -0.145941 1.43823 0.437824L0.42118 1.49507C-0.140393 2.07883 -0.140393 3.02531 0.42118 3.60955L4.99746 8.36667L0.42118 13.1238C-0.140393 13.7075 -0.140393 14.654 0.42118 15.2383L1.43823 16.2955C1.99981 16.8793 2.91076 16.8793 3.47234 16.2955L8.04861 11.5384L12.6249 16.2955C13.1865 16.8793 14.0974 16.8793 14.659 16.2955L15.676 15.2383C16.2376 14.6545 16.2376 13.708 15.676 13.1238L11.0998 8.36667Z"
@@ -348,12 +375,12 @@
             </svg>
           </div>
           <div class="d-flex align-items-center justify-content-between br-10 overflow-hidden">
-            <div class="ml-left max-w-670 wp-60">
+            <div class="ml-left max-w-670 wp-60 d-none d-md-block">
               <img src="{{ url('assets/images/auth/authbanner.png') }}" alt="" class="wp-100">
             </div>
             <div class="ml-right max-w-480 wp-40 p-25">
               <img src="{{ url('assets/images/auth/ticketboxlogo.png') }}" alt="" class="mx-auto d-block">
-              <div class="form-group text-secondary mt-100">
+              <div class="form-group text-secondary mt-50 d-mt-100">
                 <label for="" class="control-label fs-16 fw-400 mb-10">Email</label>
                 <div class="d-flex align-items-center justify-content-between bg-white br-8">
                   <input type="text" class="border-0 bg-transparent px-15 fs-14 fw-400 wp-100">
@@ -387,7 +414,7 @@
     <div class="modal-dialog modal-dialog-centered max-w-1000">
       <div class="modal-content">
         <div class="modal-body p-0 position-relative">
-          <div class="cursor-pointer position-absolute top-40 left-50" data-bs-dismiss="modal" aria-label="Close">
+          <div class="cursor-pointer position-absolute top-40 left-50 close-btn" data-bs-dismiss="modal" aria-label="Close">
             <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path id="Vector"
                 d="M11.0998 8.36667L15.676 3.60955C16.2376 3.02579 16.2376 2.07931 15.676 1.49507L14.659 0.437824C14.0974 -0.145941 13.1869 -0.145941 12.6249 0.437824L8.04861 5.19494L3.47234 0.437824C2.91076 -0.145941 2.00026 -0.145941 1.43823 0.437824L0.42118 1.49507C-0.140393 2.07883 -0.140393 3.02531 0.42118 3.60955L4.99746 8.36667L0.42118 13.1238C-0.140393 13.7075 -0.140393 14.654 0.42118 15.2383L1.43823 16.2955C1.99981 16.8793 2.91076 16.8793 3.47234 16.2955L8.04861 11.5384L12.6249 16.2955C13.1865 16.8793 14.0974 16.8793 14.659 16.2955L15.676 15.2383C16.2376 14.6545 16.2376 13.708 15.676 13.1238L11.0998 8.36667Z"
@@ -419,6 +446,23 @@
       </div>
       <div class="toast-body" v-text="alert.msg">
       </div>
+    </div>
+  </div>
+  {{-- bottom navbar --}}
+  <div id="bottomNav" class="d-flex d-md-none position-fixed wp-100 bottom-0 left-0 right-0">
+    <div class="container d-flex justify-content-center align-items-center">
+      <a href="{{url('/')}}" class="wp-30 d-flex flex-column align-items-center justify-content-center text-primary py-20">
+        <i class="fa-solid fa-house"></i>
+        <span class="text-white fs-14 fw-400 mt-10">Home</span>
+      </a>
+      <a href="{{url('/audience/my-tickets')}}" class="wp-30 d-flex flex-column align-items-center justify-content-center text-primary py-20">
+        <i class="fa-solid fa-ticket"></i>
+        <span class="text-white fs-14 fw-400 mt-10">My Ticket</span>
+      </a>
+      <a href="{{url('#')}}" class="wp-30 d-flex flex-column align-items-center justify-content-center text-primary py-20">
+        <i class="fa-solid fa-comments"></i>
+        <span class="text-white fs-14 fw-400 mt-10">Live Chat</span>
+      </a>
     </div>
   </div>
 </div>
@@ -539,8 +583,8 @@
             if(req.status == 200) {
               let {data,msg,status} = req.data
               if(status) {
-                store.dispatch('setUsers', data)
-                this.modal.signup.hide()
+                // store.dispatch('setUsers', data)
+                // this.modal.signup.hide()
                 this.info = {
                   title: 'Registrasi Berhasil',
                   text: 'Registrasi berhasil. Detil informasi akun anda telah dikirimkan ke email.'
