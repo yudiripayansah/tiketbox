@@ -93,7 +93,7 @@
                           </div>
                           <div>
                             <label class="fs-12 fw-400 d-block" style="color:white;font-size:12px;font-weight:400;display:block;width:100%">Nomor Ticket</label>
-                            <span class="fs-12 fw-600" style="color:white;font-size:12px;font-weight:700;">{{'TXB-'.$items->id.'-'.date('dmY',strtotime($items->date));}}</span>
+                            <span class="fs-12 fw-600" style="color:white;font-size:12px;font-weight:700;">{{'TXB-'.$items->id.'-'.date('dmY',strtotime($items->date))}}</span>
                           </div>
                         </td>
                         <td width="33%" style="padding-right: 15px;padding-left:15px;border-right:1px solid grey;" class="col">
