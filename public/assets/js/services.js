@@ -2,6 +2,16 @@ const defAxios = axios.create({
   baseURL: apiBaseUrl
 })
 const tiketboxApi = {
+  //city
+  readCity(payload, token) {
+    let url = '/city'
+    let config = {
+      headers: {
+        token: token,
+      },
+    };
+    return defAxios.post(url, payload, config);
+  },
   // event
   readEvent(payload, token) {
     let url = '/events'
@@ -234,6 +244,52 @@ const tiketboxApi = {
   },
   deleteUserLegal(payload, token) {
     let url = '/userLegal/delete'
+    let config = {
+      headers: {
+        token: token,
+      },
+    };
+    return defAxios.post(url, payload, config);
+  },
+  // userBank
+  readUserBank(payload, token) {
+    let url = '/userBank'
+    let config = {
+      headers: {
+        token: token,
+      },
+    };
+    return defAxios.post(url, payload, config);
+  },
+  getUserBank(payload, token) {
+    let url = '/userBank/get'
+    let config = {
+      headers: {
+        token: token,
+      },
+    };
+    return defAxios.post(url, payload, config);
+  },
+  createUserBank(payload, token) {
+    let url = '/userBank/create'
+    let config = {
+      headers: {
+        token: token,
+      },
+    };
+    return defAxios.post(url, payload, config);
+  },
+  updateUserBank(payload, token) {
+    let url = '/userBank/update'
+    let config = {
+      headers: {
+        token: token,
+      },
+    };
+    return defAxios.post(url, payload, config);
+  },
+  deleteUserBank(payload, token) {
+    let url = '/userBank/delete'
     let config = {
       headers: {
         token: token,

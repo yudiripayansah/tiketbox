@@ -16,6 +16,7 @@ class EventTickets extends Model
     'name',
     'quota',
     'price',
+    'price_holiday',
     'tax',
     'tax_amount',
     'date_start',

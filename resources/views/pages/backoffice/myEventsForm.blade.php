@@ -99,20 +99,39 @@
           <input type="text" class="border-0 bg-transparent py-10 text-light wp-100" placeholder="Nama" v-model="form.data.name">
         </div>
         <!-- Event Category -->
-        <div class="col-7 pt-35 pb-5 border-bottom border-primary" data-bs-toggle="modal" data-bs-target="#jenisKategoriModal">
-          <label class="fs-20 fw-600 text-light wp-100 cursor-pointer">Jenis & Kategori</label>
-          <div class="d-flex align-items-center py-10 cursor-pointer">
-            <div class="d-flex align-items-center">
-              <svg width="18" height="15" viewBox="0 0 18 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path id="Vector" d="M17.78 5.334V1.778C17.78 0.8001 16.9799 0 16.002 0H1.778C0.8001 0 0.00888999 0.8001 0.00888999 1.778V5.334C0.98679 5.334 1.778 6.1341 1.778 7.112C1.778 8.0899 0.98679 8.89 0 8.89V12.446C0 13.4239 0.8001 14.224 1.778 14.224H16.002C16.9799 14.224 17.78 13.4239 17.78 12.446V8.89C16.8021 8.89 16.002 8.0899 16.002 7.112C16.002 6.1341 16.8021 5.334 17.78 5.334ZM16.002 4.03606C14.9441 4.64947 14.224 5.80517 14.224 7.112C14.224 8.41883 14.9441 9.57453 16.002 10.1879V12.446H1.778V10.1879C2.83591 9.57453 3.556 8.41883 3.556 7.112C3.556 5.79628 2.8448 4.64947 1.78689 4.03606L1.778 1.778H16.002V4.03606ZM6.28523 10.668L8.89 8.99668L11.4948 10.668L10.7036 7.68096L13.095 5.72516L10.0101 5.53847L8.89 2.667L7.76097 5.52958L4.67614 5.71627L7.06755 7.67207L6.28523 10.668Z" fill="white"/>
-              </svg>
-              <span class="text-secondary ms-10" v-text="(form.data.category) ? form.data.category : 'Kategori'"></span>                
+        <div class="col-7 pt-35 pb-20 border-bottom border-primary">
+          <div class="row">
+            <div class="col-md-6 col-12" data-bs-toggle="modal" data-bs-target="#jenisKategoriModal">
+              <label class="fs-20 fw-600 text-light wp-100 cursor-pointer">Jenis & Kategori</label>
+              <div class="d-flex align-items-center py-10 cursor-pointer">
+                <div class="d-flex align-items-center">
+                  <svg width="18" height="15" viewBox="0 0 18 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path id="Vector" d="M17.78 5.334V1.778C17.78 0.8001 16.9799 0 16.002 0H1.778C0.8001 0 0.00888999 0.8001 0.00888999 1.778V5.334C0.98679 5.334 1.778 6.1341 1.778 7.112C1.778 8.0899 0.98679 8.89 0 8.89V12.446C0 13.4239 0.8001 14.224 1.778 14.224H16.002C16.9799 14.224 17.78 13.4239 17.78 12.446V8.89C16.8021 8.89 16.002 8.0899 16.002 7.112C16.002 6.1341 16.8021 5.334 17.78 5.334ZM16.002 4.03606C14.9441 4.64947 14.224 5.80517 14.224 7.112C14.224 8.41883 14.9441 9.57453 16.002 10.1879V12.446H1.778V10.1879C2.83591 9.57453 3.556 8.41883 3.556 7.112C3.556 5.79628 2.8448 4.64947 1.78689 4.03606L1.778 1.778H16.002V4.03606ZM6.28523 10.668L8.89 8.99668L11.4948 10.668L10.7036 7.68096L13.095 5.72516L10.0101 5.53847L8.89 2.667L7.76097 5.52958L4.67614 5.71627L7.06755 7.67207L6.28523 10.668Z" fill="white"/>
+                  </svg>
+                  <span class="text-secondary ms-10" v-text="(form.data.category) ? form.data.category : 'Kategori'"></span>                
+                </div>
+                <div class="d-flex align-items-center ms-30">
+                  <svg width="18" height="13" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path id="Vector" d="M8.89 1.61636C11.953 1.61636 14.6847 3.33779 16.0182 6.06136C14.6847 8.78494 11.953 10.5064 8.89 10.5064C5.82699 10.5064 3.09534 8.78494 1.76184 6.06136C3.09534 3.33779 5.82699 1.61636 8.89 1.61636ZM8.89 0C4.84909 0 1.39815 2.51345 0 6.06136C1.39815 9.60928 4.84909 12.1227 8.89 12.1227C12.9309 12.1227 16.3818 9.60928 17.78 6.06136C16.3818 2.51345 12.9309 0 8.89 0ZM8.89 4.04091C10.0053 4.04091 10.9105 4.94607 10.9105 6.06136C10.9105 7.17665 10.0053 8.08182 8.89 8.08182C7.77471 8.08182 6.86955 7.17665 6.86955 6.06136C6.86955 4.94607 7.77471 4.04091 8.89 4.04091ZM8.89 2.42455C6.88571 2.42455 5.25318 4.05707 5.25318 6.06136C5.25318 8.06565 6.88571 9.69818 8.89 9.69818C10.8943 9.69818 12.5268 8.06565 12.5268 6.06136C12.5268 4.05707 10.8943 2.42455 8.89 2.42455Z" fill="white"/>
+                  </svg>                  
+                  <span class="text-secondary ms-10" v-text="(form.data.subcategory) ? form.data.subcategory : 'Jenis'"></span>                
+                </div>
+              </div>
             </div>
-            <div class="d-flex align-items-center ms-30">
-              <svg width="18" height="13" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path id="Vector" d="M8.89 1.61636C11.953 1.61636 14.6847 3.33779 16.0182 6.06136C14.6847 8.78494 11.953 10.5064 8.89 10.5064C5.82699 10.5064 3.09534 8.78494 1.76184 6.06136C3.09534 3.33779 5.82699 1.61636 8.89 1.61636ZM8.89 0C4.84909 0 1.39815 2.51345 0 6.06136C1.39815 9.60928 4.84909 12.1227 8.89 12.1227C12.9309 12.1227 16.3818 9.60928 17.78 6.06136C16.3818 2.51345 12.9309 0 8.89 0ZM8.89 4.04091C10.0053 4.04091 10.9105 4.94607 10.9105 6.06136C10.9105 7.17665 10.0053 8.08182 8.89 8.08182C7.77471 8.08182 6.86955 7.17665 6.86955 6.06136C6.86955 4.94607 7.77471 4.04091 8.89 4.04091ZM8.89 2.42455C6.88571 2.42455 5.25318 4.05707 5.25318 6.06136C5.25318 8.06565 6.88571 9.69818 8.89 9.69818C10.8943 9.69818 12.5268 8.06565 12.5268 6.06136C12.5268 4.05707 10.8943 2.42455 8.89 2.42455Z" fill="white"/>
-              </svg>                  
-              <span class="text-secondary ms-10" v-text="(form.data.subcategory) ? form.data.subcategory : 'Jenis'"></span>                
+            <div class="col-md-6 col-12" v-show="users.type == 'admin'">
+              <label class="fs-20 fw-600 text-light wp-100 cursor-pointer">Best Deal & Popular</label>
+              <div class="d-flex align-items-center justify-content-between mt-15">
+                <span class="fs-16 fw-400 text-light">Best Deal</span>
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" role="switch" id="oneemailonetrans" v-model="form.data.is_bestdeal">
+                </div>
+              </div>
+              <div class="d-flex align-items-center justify-content-between mt-15">
+                <span class="fs-16 fw-400 text-light">Popular</span>
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" role="switch" id="oneemailonetrans" v-model="form.data.is_popular">
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -166,6 +185,30 @@
                   </svg>
                   <span class="text-secondary ms-10" v-text="(form.data.location_city) ? form.data.location_city : 'Kota'"></span>                
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Libur -->
+        <div class="col-6 pt-20 pb-20 border-bottom border-primary">
+          <label class="fs-20 fw-600 text-light wp-100">Hari Libur</label>
+          <div class="row mt-20">
+            <div class="col-3 py-5 pe-3" v-for="(h,index) in opt.holiday" :key="index">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" :value="h.value" :id="`holiday-${h.value}`" v-model="form.data.holiday">
+                <label class="form-check-label fs-16 fw-400 text-light" :for="`holiday-${h.value}`" v-text="h.text"></label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 pt-20 pb-20 border-bottom border-primary">
+          <label class="fs-20 fw-600 text-light wp-100">Tanggal Libur</label>
+          <input type="date" class="flatpickr-no-min-date bg-transparent text-light fs-16 fw-700 mt-20 p-10 border border-primary" @change="addHolidate($event)" placeholder="Pilih Tanggal">
+          <div class="row wp-100 mt-10">
+            <div class="col-4" v-for="(hd,index) in form.data.holidate" :key="index">
+              <div class="me-10 mb-10 px-10 py-5 br-100 bg-primary d-flex align-items-center justify-content-between">
+                <span v-text="dateDmy(hd)" class="fs-12 fw-700 text-light"></span>
+                <i class="fa-solid fa-xmark text-light cursor-pointer" @click="removeHolidate(index)"></i>
               </div>
             </div>
           </div>
@@ -481,9 +524,8 @@
             </div>
             <div class="form-group mt-20">
               <label class="fs-20 fw-600 text-light mb-10 form-label">Kota</label>
-              <select class="border-top-0 border-start-0 border-end-0 border-bottom border-primary bg-transparent py-12 text-light fs-16 fw-400 wp-100 bg-dark" v-model="form.data.location_city">
-                <option :value="city" class="bg-dark" v-for="(city,idx) in opt.city" :key="idx" v-text="city"/>
-              </select>
+              <input type="text" class="border-top-0 border-start-0 border-end-0 border-bottom border-primary bg-transparent py-12 text-light fs-16 fw-400 wp-100" placeholder="E.g Jakarta" v-model="form.data.location_city" id="autoCompleteCity">
+              
               <div id="lokasi-event" class="wp-100 h-300"></div>
               {{-- <img src="{{ url('assets/images/events/peta.png') }}" alt="" class="img-fluid wp-100 mt-15"> --}}
               <span class="text-light wp-100 d-block mt-15 fs-12 fw-400 text-center">Jika lokasi tidak akurat, silahkan geser map pointer!</span>
@@ -522,7 +564,7 @@
                     <svg width="16" height="18" viewBox="0 0 16 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path id="Vector" d="M0 16.1131C0 17.0334 0.746621 17.78 1.66688 17.78H13.8906C14.8109 17.78 15.5575 17.0334 15.5575 16.1131V6.6675H0V16.1131ZM11.1125 9.30672C11.1125 9.07752 11.3 8.89 11.5292 8.89H12.9183C13.1475 8.89 13.335 9.07752 13.335 9.30672V10.6958C13.335 10.925 13.1475 11.1125 12.9183 11.1125H11.5292C11.3 11.1125 11.1125 10.925 11.1125 10.6958V9.30672ZM11.1125 13.7517C11.1125 13.5225 11.3 13.335 11.5292 13.335H12.9183C13.1475 13.335 13.335 13.5225 13.335 13.7517V15.1408C13.335 15.37 13.1475 15.5575 12.9183 15.5575H11.5292C11.3 15.5575 11.1125 15.37 11.1125 15.1408V13.7517ZM6.6675 9.30672C6.6675 9.07752 6.85502 8.89 7.08422 8.89H8.47328C8.70248 8.89 8.89 9.07752 8.89 9.30672V10.6958C8.89 10.925 8.70248 11.1125 8.47328 11.1125H7.08422C6.85502 11.1125 6.6675 10.925 6.6675 10.6958V9.30672ZM6.6675 13.7517C6.6675 13.5225 6.85502 13.335 7.08422 13.335H8.47328C8.70248 13.335 8.89 13.5225 8.89 13.7517V15.1408C8.89 15.37 8.70248 15.5575 8.47328 15.5575H7.08422C6.85502 15.5575 6.6675 15.37 6.6675 15.1408V13.7517ZM2.2225 9.30672C2.2225 9.07752 2.41002 8.89 2.63922 8.89H4.02828C4.25748 8.89 4.445 9.07752 4.445 9.30672V10.6958C4.445 10.925 4.25748 11.1125 4.02828 11.1125H2.63922C2.41002 11.1125 2.2225 10.925 2.2225 10.6958V9.30672ZM2.2225 13.7517C2.2225 13.5225 2.41002 13.335 2.63922 13.335H4.02828C4.25748 13.335 4.445 13.5225 4.445 13.7517V15.1408C4.445 15.37 4.25748 15.5575 4.02828 15.5575H2.63922C2.41002 15.5575 2.2225 15.37 2.2225 15.1408V13.7517ZM13.8906 2.2225H12.2237V0.555625C12.2237 0.250031 11.9737 0 11.6681 0H10.5569C10.2513 0 10.0012 0.250031 10.0012 0.555625V2.2225H5.55625V0.555625C5.55625 0.250031 5.30622 0 5.00062 0H3.88937C3.58378 0 3.33375 0.250031 3.33375 0.555625V2.2225H1.66688C0.746621 2.2225 0 2.96912 0 3.88938V5.55625H15.5575V3.88938C15.5575 2.96912 14.8109 2.2225 13.8906 2.2225Z" fill="white"/>
                     </svg>  
-                    <input type="date" class="flatpickr bg-transparent border-0 text-light fs-16 fw-700 ms-10" v-model="form.data.date_end">                    
+                    <input type="date" class="flatpickr bg-transparent border-0 text-light fs-16 fw-700 ms-10" v-model="form.data.date_end">                 
                   </div>
                 </div>
               </div>
@@ -589,10 +631,18 @@
               <input type="text" class="border-top-0 border-start-0 border-end-0 border-bottom border-primary bg-transparent py-12 text-light fs-16 fw-400 wp-100" placeholder="E.g 1000" :value="ticket_paid_quota" @keyup="onChangeThousand('ticketpaid_quota',event)" @keypress="NumbersOnly">
             </div>
             <div class="row mt-20 g-0">
-              <div class="col-6 border-bottom border-primary">
+              <div class="col-3 border-bottom border-primary">
                 <div class="form-group">
-                  <label class="fs-20 fw-600 text-light mb-10 form-label">Harga Tiket</label>
-                  <input type="text" class="border-0 bg-transparent py-12 text-light fs-16 fw-400 wp-100" placeholder="E.g 500.000" :value="ticket_paid_price" @keyup="onChangeThousand('ticketpaid_price',event)" @keypress="NumbersOnly">
+                  <label class="fs-20 fw-600 text-light form-label m-0">Harga Tiket</label>
+                  <label class="fs-12 block wp-100 text-light m-0">Hari Biasa</label>
+                  <input type="text" class="border-0 bg-transparent pb-12 text-light fs-16 fw-400 wp-100" placeholder="E.g 500.000" :value="ticket_paid_price" @keyup="onChangeThousand('ticketpaid_price',event)" @keypress="NumbersOnly">
+                </div>
+              </div>
+              <div class="col-3 border-bottom border-primary">
+                <div class="form-group">
+                  <label class="fs-20 fw-600 text-light form-label m-0">&nbsp;</label>
+                  <label class="fs-12 block wp-100 text-light m-0">Hari Libur</label>
+                  <input type="text" class="border-0 bg-transparent pb-12 text-light fs-16 fw-400 wp-100" placeholder="E.g 500.000" :value="ticket_paid_price_holiday" @keyup="onChangeThousand('ticketpaid_price_holiday',event)" @keypress="NumbersOnly">
                 </div>
               </div>
               <div class="col-6 border-bottom border-primary">
@@ -886,7 +936,8 @@
   <p class="d-block text-end fs-14 fw-400 text-light mt-35 wp-100">Copyright © Tiketbox.com. All Copyright Protected</p>
 @endsection
 @section('script')
-  <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+  <script src="{{ asset('assets/js/city.js') }}"></script>
+  <script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false"></script>
   <script>
     Vue.use( CKEditor );
     const vueBhome = new Vue( {
@@ -900,6 +951,7 @@
         form: {
           data: {
             _token:'{{ csrf_token() }}',
+            id_user: null,
             name: null,
             powered_by: null,
             powered_by_image: null,
@@ -924,9 +976,13 @@
             peduli_lindungi: false,
             status: 'active',
             type: 'event',
+            is_bestdeal: false,
+            is_popular: false,
             images: [],
             ticket: [],
-            form_order: []
+            form_order: [],
+            holidate: [],
+            holiday: []
           }
         },
         images_clone: [],
@@ -937,6 +993,7 @@
           name: null,
           quota: null,
           price: 0,
+          price_holiday: 0,
           tax: false,
           tax_amount: 0,
           date_start: null,
@@ -965,6 +1022,7 @@
           name: null,
           quota: null,
           price: 0,
+          price_holiday: 0,
           tax: false,
           tax_amount: 0,
           date_start: null,
@@ -991,7 +1049,38 @@
           category: ["Concert","Attraction","Free Gifts","Sports","Amusement Park","Exhibition","Talent Show"],
           subcategory: ["Musik","Drama","Cosplay","Teater"],
           city: ["Jakarta","Bandung","Bogor","Bekasi","Tanggerang","Semarang","Jogja","Surabaya"],
-          max_ticket: [1,5,10,15,20]
+          max_ticket: [1,5,10,15,20],
+          city: city,
+          holiday: [
+            {
+              value: 1,
+              text: 'Senin'
+            },
+            {
+              value: 2,
+              text: 'Selasa'
+            },
+            {
+              value: 3,
+              text: 'Rabu'
+            },
+            {
+              value: 4,
+              text: 'Kamis'
+            },
+            {
+              value: 5,
+              text: 'Jum\'at'
+            },
+            {
+              value: 6,
+              text: 'Sabtu'
+            },
+            {
+              value: 0,
+              text: 'Minggu'
+            },
+          ]
         },
         alert: {
           show: 'hide',
@@ -1002,17 +1091,39 @@
         googleMap: {
           map: null,
           marker: null,
-        }
+        },
+        autocomplete: {
+          city: {
+            el: null,
+            config: {
+              selector: "#autoCompleteCity",
+              placeHolder: "Nama Kota/ Kabupaten...",
+              data: {
+                src: []
+              },
+              resultItem: {
+                highlight: true,
+              }
+            }
+          }
+        },
       },
       computed: {
         ticket_paid_price() {
           let price = this.thousand(this.ticket_paid.price)
           return price
         },
+        ticket_paid_price_holiday() {
+          let price_holiday = this.thousand(this.ticket_paid.price_holiday)
+          return price_holiday
+        },
         ticket_paid_quota() {
           let quota = this.thousand(this.ticket_paid.quota)
           return quota
-        }
+        },
+        users() {
+          return store.getters.users
+        },
       },
       methods: {
         ...helper,
@@ -1044,6 +1155,9 @@
             case 'ticketpaid_price':
               this.ticket_paid.price = this.removeThousand(e.target.value);
               break;
+            case 'ticketpaid_price_holiday':
+              this.ticket_paid.price_holiday = this.removeThousand(e.target.value);
+              break;
             case 'ticketpaid_quota':
               this.ticket_paid.quota = this.removeThousand(e.target.value);
               break;
@@ -1056,7 +1170,10 @@
         async doSave(status) {
           this.notify('info','Processing','Menyimpan data...')
           let payload = {...this.form.data}
+          payload.id_user = this.users.id
           payload.status = status
+          payload.holidate = this.form.data.holidate.join(',')
+          payload.holiday = this.form.data.holiday.join(',')
           let token = 'abcdreUYBH&^*VHGY^&GY'
           try {
             let req = {
@@ -1074,9 +1191,10 @@
             let { status, msg, data} = req.data
             if(status){
               this.notify('success','Success',msg)
+              this.doGet()
               setTimeout(() => {
-                // window.location.reload()
-              }, 2000)
+                // window.location.href = "{{ url('/'.request()->segment(1).'/my-events') }}"
+              }, 1000)
             } else {
               this.notify('error','Error',msg)
             }
@@ -1114,10 +1232,12 @@
         clearTicketForm() {
           let empty_ticket = {
             id: null,
+            id_user: null,
             image: null,
             name: null,
             quota: null,
             price: 0,
+            price_holiday: 0,
             tax: false,
             tax_amount: 0,
             date_start: null,
@@ -1280,6 +1400,16 @@
           const newPosition = event.latLng;
           this.form.data.location_coordinate = `${newPosition.lat()},${newPosition.lng()}`
         },
+        addHolidate(event){
+          let el = event.target
+          let val = el.value
+          if(!this.form.data.holidate.includes(val)){
+            this.form.data.holidate.push(val)
+          }
+        },
+        removeHolidate(index){
+          this.form.data.holidate.splice(index,1)
+        },
         dummyContent() {
           let dummy = {
             '_token':'{{ csrf_token() }}',
@@ -1316,6 +1446,7 @@
             name: 'Nama Tiket',
             quota: 10000,
             price: 1000000,
+            price_holiday: 1200000,
             tax: true,
             tax_amount: 11,
             date_start: '2023-07-30',
@@ -1347,6 +1478,20 @@
           flatpickr(".flatpickr", {
             minDate: 'today'
           });
+          flatpickr(".flatpickr-no-min-date");
+        },
+        initAutocomplete() {
+          this.autocomplete.city.config.data.src = []
+          let cities = []
+          this.opt.city.map((item) => {
+            cities = [...cities, ...item.kota];
+          })
+          this.autocomplete.city.config.data.src = cities
+          let vm = this
+          document.querySelector("#autoCompleteCity").addEventListener("selection", function (event) {
+              vm.form.data.location_city = event.detail.selection.value;
+          });
+          this.autocomplete.city.el = new autoComplete(this.autocomplete.city.config);
         },
         notify(type,title,msg){
           let bg = 'bg-primary'
@@ -1380,6 +1525,10 @@
         this.doGet()
         this.googleMapInit()
         this.initDatePicker()
+        this.initAutocomplete()
+        if(this.users.type == 'user') {
+          window.location.href = "{{ url('/promotor') }}"
+        }
       }
     });
   </script>

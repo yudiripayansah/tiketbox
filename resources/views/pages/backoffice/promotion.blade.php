@@ -5,7 +5,7 @@
       <span>
         Promotion/ Voucher
       </span>
-      <a href="{{ url('backoffice/promotion-and-voucher/form')}}" class="d-inline-flex align-items-center text-decoration-none" v-if="!list.loading">
+      <a href="{{ url('/'.request()->segment(1).'/promotion-and-voucher/form')}}" class="d-inline-flex align-items-center text-decoration-none" v-if="!list.loading">
         <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path id="Vector" d="M12.1094 0C5.41992 0 0 5.41992 0 12.1094C0 18.7988 5.41992 24.2188 12.1094 24.2188C18.7988 24.2188 24.2188 18.7988 24.2188 12.1094C24.2188 5.41992 18.7988 0 12.1094 0ZM19.1406 13.4766C19.1406 13.7988 18.877 14.0625 18.5547 14.0625H14.0625V18.5547C14.0625 18.877 13.7988 19.1406 13.4766 19.1406H10.7422C10.4199 19.1406 10.1562 18.877 10.1562 18.5547V14.0625H5.66406C5.3418 14.0625 5.07812 13.7988 5.07812 13.4766V10.7422C5.07812 10.4199 5.3418 10.1562 5.66406 10.1562H10.1562V5.66406C10.1562 5.3418 10.4199 5.07812 10.7422 5.07812H13.4766C13.7988 5.07812 14.0625 5.3418 14.0625 5.66406V10.1562H18.5547C18.877 10.1562 19.1406 10.4199 19.1406 10.7422V13.4766Z" fill="#3E63F9"/>
         </svg>
@@ -49,7 +49,7 @@
                 <div class="d-flex align-items-center justify-content-between">
                   <h3 class="fw-700 fs-20 text-white" v-text="`${ld.name} - ${ld.code}`"></h3>
                   <div>
-                    <a :href="`{{ url('/backoffice/promotion-and-voucher/form/${ld.id}') }}`" class="btn br-10 btn-sm btn-info text-light">
+                    <a :href="`{{ url('/'.request()->segment(1).'/promotion-and-voucher/form/${ld.id}') }}`" class="btn br-10 btn-sm btn-info text-light">
                       @include('svg.edit')                    
                       Update
                     </a>
@@ -98,7 +98,7 @@
             <h4 class="text-light text-center fs-20 fw-600 mb-15">Memuat Data...</h4>
             <p class="text-light fs-12 fw-400">Mohon tunggu sedang memuat data.</p>
           </div>
-          <a href="{{ url('backoffice/promotion-and-voucher/form')}}" class="d-inline-flex align-items-center mt-45 text-decoration-none" v-if="!list.loading">
+          <a href="{{ url('/'.request()->segment(1).'/promotion-and-voucher/form')}}" class="d-inline-flex align-items-center mt-45 text-decoration-none" v-if="!list.loading">
             <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path id="Vector" d="M12.1094 0C5.41992 0 0 5.41992 0 12.1094C0 18.7988 5.41992 24.2188 12.1094 24.2188C18.7988 24.2188 24.2188 18.7988 24.2188 12.1094C24.2188 5.41992 18.7988 0 12.1094 0ZM19.1406 13.4766C19.1406 13.7988 18.877 14.0625 18.5547 14.0625H14.0625V18.5547C14.0625 18.877 13.7988 19.1406 13.4766 19.1406H10.7422C10.4199 19.1406 10.1562 18.877 10.1562 18.5547V14.0625H5.66406C5.3418 14.0625 5.07812 13.7988 5.07812 13.4766V10.7422C5.07812 10.4199 5.3418 10.1562 5.66406 10.1562H10.1562V5.66406C10.1562 5.3418 10.4199 5.07812 10.7422 5.07812H13.4766C13.7988 5.07812 14.0625 5.3418 14.0625 5.66406V10.1562H18.5547C18.877 10.1562 19.1406 10.4199 19.1406 10.7422V13.4766Z" fill="#3E63F9"/>
             </svg>
@@ -162,7 +162,8 @@
         page: 1,
         sortDir: 'desc',
         sortBy: 'id',
-        search: null
+        search: null,
+        id_user: null,
       },
       alert: {
         show: 'hide',
@@ -171,12 +172,19 @@
         msg: null
       }
     },
+    computed: {
+      users() {
+        return store.getters.users
+      },
+    },
     methods: {
       ...helper,
       async doGet() {
         this.list.loading = true
         let payload = {...this.paging}
-        payload.status = status
+        if(this.users.type != 'admin'){
+          payload.id_user = this.users.id
+        }
         let token = 'abcdreUYBH&^*VHGY^&GY'
         try {
           let req = await tiketboxApi.readPromotion(payload,token)
@@ -250,6 +258,9 @@
     },
     mounted() {
       this.doGet()
+      if(this.users.type == 'user') {
+        window.location.href = "{{ url('/promotor') }}"
+      }
     }
   });
 </script>

@@ -38,12 +38,14 @@
                 <div class="pt-40 pb-25 px-70">
                   <h1 class="fs-20 fw-700 text-white" v-text="event.name"></h1>
                 </div>
-                <div class="d-flex justify-content-between align-items-center px-70 py-25 border-top border-primary">
+                <div class="edb-select-date d-flex justify-content-between align-items-center px-70 py-25 border-top border-primary">
                   <label class="fw-700 fs-18 text-white">Select Date</label>
                   <select style="background-color: #929292;" class="text-white fs-18 fw-400 px-30 py-10 br-5" v-model="form.data.date" :est="form.data.date" v-if="event.type == 'event'">
                     <option style="background-color: #929292;" class="text-white" v-for="(date,index) in event_days" :key="index" v-text="dateIndo(date)" :value="date"></option>
                   </select>
-                  <input type="date" name="" id="" v-model="form.data.date" v-else style="background-color: #929292;" class="flatpickr text-white fs-18 fw-400 px-30 py-10 br-5">
+                  <div v-else>
+                    <input type="date" name="" id="" v-model="form.data.date" style="background-color: #929292;" class="flatpickr text-dark fs-18 fw-400 px-30 py-10 br-5">
+                  </div>
                 </div>
                 <div class="px-70 py-25 border-top border-primary">
                   <div class="ticket-item p-20 border border-secondary br-10 mb-15 d-flex justify-content-between align-items-start" v-for="(ticket,index) in event.tickets" :key="index">
@@ -58,7 +60,7 @@
                     </div>
                     <div class="ti-right ps-5 d-flex flex-column justify-content-end">
                       <span class="fs-12 fw-400 text-secondary">See Details Ticket</span>
-                      <label v-text="`IDR ${thousand(ticket.price)}`" class="fs-18 fw-700 mt-15 text-white"></label>
+                      <label v-text="`IDR ${getPrice(index)}`" class="fs-18 fw-700 mt-15 text-white"></label>
                       <button type="button" class="btn btn-primary mt-20" @click="selectTicket(ticket)">Select</button>
                     </div>
                   </div>
@@ -90,7 +92,7 @@
                   <div class="edbco-item border-bottom border-primary px-20 py-20" v-for="(order,index) in orders" :key="index">
                     <h5 class="fs-20 fw-700 text-white" v-text="order.ticket.name"></h5>
                     <span class="fs-15 fw-400 text-white" v-text="dateIndo(order.selected_date)"></span>
-                    <div class="row g-0 border-top border-bottom border-primary py-10 border-dashed mt-10" v-if="event.type == 'event'">
+                    <div class="row g-0 border-top border-bottom border-primary py-10 border-dashed mt-10" v-if="order.seat.section != '-'">
                       <div class="col">
                         <span class="fs-15 fw-400 text-white me-5">SEC:</span>
                         <span class="fs-15 fw-700 text-white" v-text="order.seat.section"></span>
@@ -104,12 +106,19 @@
                         <span class="fs-15 fw-700 text-white" v-text="order.seat.selected_seat"></span>
                       </div>
                     </div>
+                    <div class="d-flex justify-content-between align-items-center wp-50 mt-25" v-if="order.seat.section == '-'">
+                      <button type="button" class="bg-primary fs-14 p-5 br-3 border-0 text-light" @click="countPrice(index,'minus')">
+                        <i class="fa-solid fa-minus"></i>
+                      </button>
+                      <input type="text" class="bg-transparent border-0 text-light fs-14 fw-700 p-5 wp-50 text-center" v-model="order.amount">
+                      <button type="button" class="bg-primary fs-14 p-5 br-3 border-0 text-light" @click="countPrice(index,'plus')">
+                        <i class="fa-solid fa-plus"></i>
+                      </button>
+                    </div>
                     <div class="d-flex justify-content-between align-items-center mt-25">
-                      <span class="fs-18 fw-700 text-white wp-50" v-text="`IDR ${thousand((order.seat) ? order.seat.price: order.ticket.price)}`"></span>
-                      <span class="cursor-pointer" @click="removeTicket(index)">
-                        <svg width="15" height="18" viewBox="0 0 15 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path id="Vector" d="M1.07143 15.5357C1.07143 15.962 1.24075 16.3707 1.54215 16.6721C1.84355 16.9735 2.25233 17.1429 2.67857 17.1429H12.3214C12.7477 17.1429 13.1565 16.9735 13.4578 16.6721C13.7592 16.3707 13.9286 15.962 13.9286 15.5357V4.28572H1.07143V15.5357ZM10.1786 6.96429C10.1786 6.82221 10.235 6.68595 10.3355 6.58548C10.4359 6.48502 10.5722 6.42858 10.7143 6.42858C10.8564 6.42858 10.9926 6.48502 11.0931 6.58548C11.1936 6.68595 11.25 6.82221 11.25 6.96429V14.4643C11.25 14.6064 11.1936 14.7426 11.0931 14.8431C10.9926 14.9436 10.8564 15 10.7143 15C10.5722 15 10.4359 14.9436 10.3355 14.8431C10.235 14.7426 10.1786 14.6064 10.1786 14.4643V6.96429ZM6.96429 6.96429C6.96429 6.82221 7.02073 6.68595 7.12119 6.58548C7.22166 6.48502 7.35792 6.42858 7.5 6.42858C7.64208 6.42858 7.77834 6.48502 7.87881 6.58548C7.97927 6.68595 8.03571 6.82221 8.03571 6.96429V14.4643C8.03571 14.6064 7.97927 14.7426 7.87881 14.8431C7.77834 14.9436 7.64208 15 7.5 15C7.35792 15 7.22166 14.9436 7.12119 14.8431C7.02073 14.7426 6.96429 14.6064 6.96429 14.4643V6.96429ZM3.75 6.96429C3.75 6.82221 3.80644 6.68595 3.90691 6.58548C4.00737 6.48502 4.14363 6.42858 4.28571 6.42858C4.42779 6.42858 4.56406 6.48502 4.66452 6.58548C4.76499 6.68595 4.82143 6.82221 4.82143 6.96429V14.4643C4.82143 14.6064 4.76499 14.7426 4.66452 14.8431C4.56406 14.9436 4.42779 15 4.28571 15C4.14363 15 4.00737 14.9436 3.90691 14.8431C3.80644 14.7426 3.75 14.6064 3.75 14.4643V6.96429ZM14.4643 1.07143H10.4464L10.1317 0.445318C10.065 0.311462 9.96233 0.198864 9.83515 0.120193C9.70798 0.0415218 9.56137 -0.000101383 9.41183 5.87033e-06H5.58482C5.43562 -0.000567697 5.28927 0.0409003 5.16255 0.119659C5.03582 0.198417 4.93385 0.311281 4.8683 0.445318L4.55357 1.07143H0.535714C0.393634 1.07143 0.257373 1.12788 0.156907 1.22834C0.0564412 1.32881 0 1.46507 0 1.60715L0 2.67858C0 2.82066 0.0564412 2.95692 0.156907 3.05738C0.257373 3.15785 0.393634 3.21429 0.535714 3.21429H14.4643C14.6064 3.21429 14.7426 3.15785 14.8431 3.05738C14.9436 2.95692 15 2.82066 15 2.67858V1.60715C15 1.46507 14.9436 1.32881 14.8431 1.22834C14.7426 1.12788 14.6064 1.07143 14.4643 1.07143V1.07143Z" fill="white"/>
-                          </svg>                          
+                      <span class="fs-18 fw-700 text-white wp-50" v-text="`IDR ${thousand((order.seat.section != '-') ? order.seat.price: order.ticket.price * order.amount)}`"></span>
+                      <span class="cursor-pointer text-light" @click="removeTicket(index)">
+                        <i class="fa-solid fa-trash"></i>                          
                       </span>
                     </div>
                   </div>
@@ -175,6 +184,56 @@
     </div>
   </section>
 @endsection
+@section('styles')
+  <style>
+    @media screen and (max-width: 768px){
+      .event-slider .carousel-item img {
+        height: auto !important;
+      }
+      .event-details {
+        flex-wrap: wrap;
+      }
+      .event-details .ed-left {
+        width: 100% !important;
+        padding-right: 0 !important;
+      }
+      .event-details .ed-right {
+        width: 100% !important;
+        margin-top: 20px; 
+      }
+      .edb-content > div > div {
+        padding: 20px 15px !important;
+      }
+      .edb-content > div > div > h1 {
+        margin: 0 !important;
+      }
+      .edb-select-date {
+        flex-direction: column;
+        align-items: flex-start !important;
+      }
+      .edb-select-date label {
+        margin-bottom: 15px;
+      }
+      .ti-left span {
+        font-size: 16px !important;
+      }
+      .ti-right span {
+        font-size: 10px !important;
+      }
+      .edbco-item {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+      }
+      .ticket-item {
+        flex-direction: column !important;
+      }
+      .ti-right {
+        margin-top: 20px;
+        padding-left: 0 !important;
+      }
+    }
+  </style>
+@endsection
 @section('script')
   <script>
     const vueEvent = new Vue( {
@@ -219,15 +278,24 @@
             amount: 0
           }
           orders.map((order) => {
-            let price = order.ticket.price
-            if(order.seat) {
+            console.log(order.ticket)
+            let price = order.ticket.price * order.amount
+            if(order.seat.section != '-') {
               price = order.seat.price
             }
             total.price += price
-            total.amount ++
+            total.amount += order.amount
           })
           return total
         }
+      },
+      watch: {
+        orders: {
+          handler(val) {
+            this.countTotal();
+          },
+          deep: true,
+        },
       },
       methods: {
         ...helper,
@@ -300,6 +368,32 @@
           orders.splice(index,1)
           store.dispatch('setOrders', orders)
         },
+        countPrice(index,type) {
+          let orders = store.getters.orders
+          if(type == 'plus'){
+            orders[index].amount += 1 
+          } else {
+            orders[index].amount -= 1 
+            if(orders[index].amount < 1){
+              this.removeTicket(index)
+            }
+          }
+          store.dispatch('setOrders', orders)
+        },
+        countTotal(){
+          let orders = [...store.getters.orders]
+          let total = {...this.total}
+          orders.map((order) => {
+            console.log(order.ticket)
+            let price = order.ticket.price * order.amount
+            if(order.seat.section != '-') {
+              price = order.seat.price
+            }
+            total.price += price
+            total.amount += order.amount
+          })
+          this.total = total
+        },
         event_date() {
           let start = new Date(this.event.date_start)
           let end = new Date(this.event.date_end)
@@ -309,6 +403,20 @@
             let dDay = new Date(this.event.date_start)
             let day = this.formatDate(dDay.setDate(dDay.getDate() + i));
             this.event_days.push(day)
+          }
+        },
+        getPrice(idx) {
+          let theDate = this.form.data.date
+          let day = new Date(this.form.data.date).getDay()
+          day = day.toString()
+          let event = {...this.event}
+          let ticket = {...this.event.tickets[idx]}
+          if(event.holiday.includes(day) || event.holidate.includes(theDate)){
+            this.event.tickets[idx].price = ticket.price_holiday
+            return this.thousand(ticket.price_holiday)
+          } else {
+            this.event.tickets[idx].price = ticket.price_def
+            return this.thousand(ticket.price_def)
           }
         },
         initDatePicker() {
@@ -341,11 +449,20 @@
           setTimeout(() => {
             this.alert.show = 'hide'
           }, 2000);
+        },
+        checkOrder() {
+          let orders = store.getters.orders
+          if(orders.length > 0) {
+            if(orders[0].event.id != '{{ $id }}'){
+              store.dispatch('setOrders', [])
+            }
+          }
         }
       },
       mounted() {
         this.detailEvent()
         this.initDatePicker()
+        this.checkOrder()
       }
     });
   </script>

@@ -49,37 +49,35 @@
           <div class="col-12 text-end pb-25">
             <div class="fs-14 fw-400 text-light">Menampilkan <span v-text="paging.perPage"></span> dari total <span v-text="popular.total"></span> events</div>
           </div>
-          <a :href="`/event/${popular.id}`" class="col-12 col-sm-4" v-for="(popular,index) in popular.data" :key="index">
-            <div class="hp-item position-relative mb-30 br-10 overflow-hidden">
-              <div class="hp-label br-bl-10 text-light position-absolute top-0 right-0 bg-primary p-10 fs-14 fw-700" v-text="popular.category">
-                Concert
-              </div>
-              <img :src="popular.images[0].image_url" alt="" class="wp-100 h-200 object-fit-cover">
-              <div class="p-10">
-                <h5 class="fs-16 fw-700 text-light" v-text="`${popular.name}`"></h5>
-                <div class="d-flex align-items-end justify-content-between">
-                  <div class="text-light pe-20">
-                    <div class="fs-12 d-block">
+          <a :href="`/event/${item.id}`" class="col-6 col-sm-4 mb-30" v-for="(item,index) in popular.data" :key="index">
+            <div class="hp-item position-relative br-10 overflow-hidden hp-100">
+              <div class="hp-label br-bl-10 text-light position-absolute top-0 right-0 bg-primary p-10 fs-14 fw-700" v-text="item.category"></div>
+              <img :src="item.images[0].image_url" alt="" class="wp-100 h-250 object-fit-cover hp-image">
+              <div class="hp-content-box p-10 h-100 d-flex flex-column justify-content-between">
+                <h5 class="fs-16 fw-700 text-light" v-text="`${item.name}`"></h5>
+                <div class="d-flex align-items-end justify-content-between hp-details mt-auto">
+                  <div class="text-light pe-20 hp-address-box wp-65">
+                    <div class="fs-12 d-block hp-address">
                       <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" class="me-5">
                         <g id="carbon:location-filled">
                         <path id="Vector" d="M8.8806 1.11304C7.27009 1.11495 5.72609 1.75941 4.58729 2.90505C3.44849 4.05069 2.80788 5.60397 2.80598 7.22415C2.80405 8.54816 3.23395 9.83625 4.02974 10.8908C4.02974 10.8908 4.19541 11.1103 4.22247 11.1419L8.8806 16.6686L13.5409 11.1391C13.5652 11.1097 13.7315 10.8908 13.7315 10.8908L13.732 10.8891C14.5274 9.83504 14.9571 8.54755 14.9552 7.22415C14.9533 5.60397 14.3127 4.05069 13.1739 2.90505C12.0351 1.75941 10.4911 1.11495 8.8806 1.11304ZM8.8806 9.44637C8.44371 9.44637 8.01663 9.31604 7.65337 9.07186C7.29011 8.82768 7.00698 8.48061 6.83979 8.07455C6.6726 7.6685 6.62886 7.22168 6.71409 6.79061C6.79932 6.35954 7.00971 5.96358 7.31864 5.6528C7.62756 5.34202 8.02116 5.13037 8.44966 5.04462C8.87815 4.95888 9.3223 5.00289 9.72593 5.17108C10.1296 5.33928 10.4746 5.6241 10.7173 5.98955C10.96 6.35499 11.0896 6.78463 11.0896 7.22415C11.0888 7.81329 10.8559 8.3781 10.4418 8.79468C10.0277 9.21127 9.46623 9.44563 8.8806 9.44637Z" fill="white"/>
                         </g>
                       </svg>
-                      <span v-text="`${popular.location_name}, ${popular.location_city}`"></span>
+                      <span v-text="`${item.location_name}, ${item.location_city}`"></span>
                     </div>
-                    <div class="fs-12 d-block">
+                    <div class="fs-12 d-block" :data-type="item.type" v-if="item.type != 'amusement'">
                       <svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg" class="me-5">
                         <g id="bx:bx-time-five">
                         <path id="Vector" d="M8.88039 2.37866C4.82034 2.37866 1.51721 5.70162 1.51721 9.78607C1.51721 13.8705 4.82034 17.1935 8.88039 17.1935C12.9405 17.1935 16.2436 13.8705 16.2436 9.78607C16.2436 5.70162 12.9405 2.37866 8.88039 2.37866ZM8.88039 15.712C5.63249 15.712 2.98985 13.0535 2.98985 9.78607C2.98985 6.51866 5.63249 3.86014 8.88039 3.86014C12.1283 3.86014 14.7709 6.51866 14.7709 9.78607C14.7709 13.0535 12.1283 15.712 8.88039 15.712Z" fill="white"/>
                         <path id="Vector_2" d="M9.6168 6.07788H8.14417V10.0883L10.5689 12.5275L11.61 11.4801L9.6168 9.47492V6.07788Z" fill="white"/>
                         </g>
                       </svg>                        
-                      <span v-text="popular.date_start"></span>
+                      <span v-text="item.date_start"></span>
                     </div>
                   </div>
-                  <div class="text-light ps-20">
+                  <div class="text-light ps-20 hp-price">
                     <span class="fs-12 d-block">Start From</span>
-                    <label class="fs-16 fw-700 d-block m-0" v-text="`Rp ${thousand(popular.tickets[0].price)}`"></label>
+                    <label class="fs-16 fw-700 d-block m-0" v-text="`Rp ${thousand(item.tickets[0].price)}`"></label>
                   </div>
                 </div>
               </div>
@@ -107,7 +105,140 @@
   </section>
 @endsection
 @section('styles')
-  
+<style>
+  @media screen and (max-width: 768px) {
+    .hp-content-box {
+      height: calc(100% - 150px) !important;
+    }
+    .home-banner .carousel-item img {
+      height: 240px;
+      object-fit: cover
+    }
+    .home-banner .hb-caption {
+      padding: 0 15px !important;
+    }
+    .home-banner .hb-caption h1 {
+      font-size: 28px;
+    }
+    .home-banner .hb-caption h6 {
+      font-size: 16px;
+    }
+    .home-banner .hb-caption .hbc-input-search {
+      height: 45px;
+      padding: 0 15px !important;
+      border-radius: 5px !important;
+    }
+    .home-banner .hb-caption .hbc-input-search input {
+      font-size: 16px !important;
+    }
+    .home-banner .hb-caption .hbc-input-search button svg {
+      width: 25px;
+      height: 25px;
+    }
+    .home-banner .carousel-indicators {
+      margin-bottom: 0;
+    }
+    .home-category > h1 {
+      width: 100% !important;
+      font-size: 20px !important;
+      margin-bottom: 15px !important;
+    }
+    .home-category .hc-item {
+      flex-direction: column !important;
+    }
+    .home-category .hc-item > span {
+      margin-left: 0 !important;
+      font-size: 14px;
+      text-align: center;
+      margin-top: 15px;
+    }
+    .home-best-deals > div > a {
+      font-size: 16px !important;
+    }
+    .home-best-deals > div > h1 {
+      font-size: 20px !important;
+      margin-bottom: 15px !important;
+      width: 80% !important;
+    }
+    .home-popular > div > a {
+      font-size: 16px !important;
+    }
+    .home-popular > div > h1 {
+      font-size: 20px !important;
+      margin-bottom: 15px !important;
+      width: 80% !important;
+    }
+    .home-popular .hp-details {
+      flex-direction: column;
+      align-items: flex-start !important;
+    }
+    .home-popular .hp-details > div {
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+    }
+    .home-popular .hp-price {
+      margin-top: 5px;
+    }
+    .hp-image {
+      height: 150px !important;
+    }
+    .hp-item h5 {
+      max-height: 38px;
+      overflow: hidden;
+    }
+    .hp-address {
+      width: 100% !important;
+      max-height: 35px;
+      overflow: hidden;
+    }
+    .hp-address-box {
+      width: 100% !important;
+    }
+    .home-place-best-deals > div > a {
+      font-size: 16px !important;
+    }
+    .home-place-best-deals > div > h1 {
+      font-size: 20px !important;
+      margin-bottom: 15px !important;
+      width: 80% !important;
+    }
+    .home-place-best-deals .hpbd-details {
+      flex-direction: column;
+      align-items: flex-start !important;
+    }
+    .home-place-best-deals .hpbd-details > div {
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+    }
+    .home-place-best-deals .hpbd-btn {
+      margin-top: 15px;
+    }
+    .home-past-events > div > a {
+      font-size: 16px !important;
+    }
+    .home-past-events > div > h1 {
+      font-size: 20px !important;
+      margin-bottom: 15px !important;
+      width: 80% !important;
+    }
+    .home-past-events .hpe-details {
+      flex-direction: column;
+      align-items: flex-start !important;
+    }
+    .home-past-events .hpe-details > div {
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+    }
+    .home-past-events .hpe-price {
+      margin-top: 15px;
+    }
+  }
+  @media screen and (min-width: 1024px) {
+    .hp-content-box {
+      height: calc(100% - 250px) !important;
+    }
+  }
+</style>  
 @endsection
 @section('script')
   <script>

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Events;
+use App\Models\User;
 use App\Models\EventTickets;
 use App\Models\EventTicketSeats;
 use App\Models\EventImages;
@@ -26,7 +27,10 @@ class EventsController extends Controller
     $totalPage = 1;
     $id_user = ($request->id_user) ? $request->id_user : null;
     $type = ($request->type) ? $request->type : null;
+    $filter = ($request->filter) ? $request->filter : null;
     $category = ($request->category) ? $request->category : null;
+    $id_user = ($request->id_user) ? $request->id_user : null;
+    $today = date('Y-m-d');
     $listData = Events::select('events.*')->orderBy($sortBy, $sortDir);
     if ($perPage != '~') {
       $listData->skip($offset)->take($perPage);
@@ -36,6 +40,28 @@ class EventsController extends Controller
     }
     if ($category != null) {
       $listData->where('category',$category);
+    }
+    if ($id_user != null) {
+      $listData->where('id_user',$id_user);
+    }
+    if ($filter != null) {
+      switch ($filter) {
+        case 'popular':
+          $listData->where('is_popular',1);
+          break;
+        case 'bestDeals':
+          $listData->where('is_bestdeal',1);
+          $listData->where('type','amusement');
+          break;
+        case 'upcoming':
+          $listData->where('date_start','>=',$today);
+          $listData->where('type','event');
+          break;
+        case 'past':
+          $listData->where('date_end','<',$today);
+          $listData->where('type','event');
+          break;
+      }
     }
     $listData = $listData->get();
     foreach($listData as $ld) {
@@ -52,14 +78,43 @@ class EventsController extends Controller
       }
       $ld->images = $images;
       $ld->tickets = $tickets;
+      if($ld->id_user){
+        $creator = User::find($ld->id_user);
+        $creator = $creator->name;
+      } else {
+        $creator = 'Tiketbox';
+      }
+      $ld->creator_name = $creator;
     }
-    if ($search || $id_user || $type || $category) {
+    if ($search || $id_user || $type || $category || $filter) {
         $total = Events::orderBy($sortBy, $sortDir);
         if ($search) {
             $total->whereRaw('(events.name LIKE "%'.$search.'%" OR events.keyword LIKE "%'.$search.'%")');
         }
         if ($category) {
             $total->where('category',$category);
+        }
+        if ($id_user) {
+            $total->where('id_user',$id_user);
+        }
+        if ($filter != null) {
+          switch ($filter) {
+            case 'popular':
+              $total->where('is_popular',1);
+              break;
+            case 'bestDeals':
+              $total->where('is_bestdeal',1);
+              $total->where('type','amusement');
+              break;
+            case 'upcoming':
+              $total->where('date_start','>=',$today);
+              $total->where('type','event');
+              break;
+            case 'past':
+              $total->where('date_end','<',$today);
+              $total->where('type','event');
+              break;
+          }
         }
         $total = $total->count();
     } else {
@@ -93,6 +148,7 @@ class EventsController extends Controller
         $ticket->image = ($ticket->image && $ticket->image != 'default') ? Storage::disk('public')->url('event/'.$ticket->image) : null;
         $ticket->deleted = false;
         $ticket->seats = EventTicketSeats::where('id_ticket', $ticket->id)->get();
+        $ticket->price_def = $ticket->price;
         foreach($ticket->seats as $seat){
           $seat->image = ($seat->image && $seat->image != 'default') ? Storage::disk('public')->url('event/'.$seat->image) : null;
           $seat->deleted = false;
@@ -104,6 +160,8 @@ class EventsController extends Controller
       }
       $getData->images = $images;
       $getData->tickets = $tickets;
+      $getData->holidate = ($getData->holidate) ? explode(',', $getData->holidate) : [];
+      $getData->holiday = ($getData->holiday) ? explode(',', $getData->holiday) : [];
       if ($getData) {
           $res = array(
                   'status' => true,
@@ -141,22 +199,26 @@ class EventsController extends Controller
       $dataCreate['date_start'] = '2999-01-01';
       $dataCreate['date_end'] = '2999-01-01';
     }
-    DB::beginTransaction();
+    // DB::beginTransaction();
     $validate = Events::validate($dataCreate);
     if ($validate['status']) {
       try {
         $dc = Events::create($dataCreate);
-        $this->handleTicket($dc->id,$request->ticket);
-        $this->handleImage($dc->id,$request->images);
+        if($request->ticket){
+          $this->handleTicket($dc->id,$request->ticket);
+        }
+        if($request->images){
+          $this->handleImage($dc->id,$request->images);
+        }
         $dg = Events::find($dc->id);
         $res = array(
                 'status' => true,
                 'data' => $dg,
                 'msg' => 'Data successfully created'
               );
-        DB::commit();
+        // DB::commit();
       } catch (Exception $e) {
-        DB::rollback();
+        // DB::rollback();
         $res = array(
                 'status' => false,
                 'data' => $dataCreate,
@@ -192,7 +254,7 @@ class EventsController extends Controller
     } else {
       unset($dataUpdate['powered_by_image']);
     }
-    DB::beginTransaction();
+    // DB::beginTransaction();
     if ($validate['status']) {
       try {
         $du = Events::where('id',$request->id)->update($dataUpdate);
@@ -202,15 +264,16 @@ class EventsController extends Controller
         $res = array(
                 'status' => true,
                 'data' => $dg,
+                'update_status' => $du,
                 'msg' => 'Data Successfully Saved'
               );
-        DB::commit();
+        // DB::commit();
       } catch (Exception $e) {
         $res = array(
                 'status' => false,
                 'msg' => 'Failed to Save Data'
               );
-        DB::rollback();
+        // DB::rollback();
       }
     } else {
       $res = array(
@@ -247,10 +310,11 @@ class EventsController extends Controller
     return response()->json($res, 200);
   }
   function handleTicket($id_event,$tickets) {
-    DB::beginTransaction();
+    // DB::beginTransaction();
     foreach($tickets as $ticket) {
       $seats = $ticket['seats'];
       unset($ticket['seats']);
+      unset($ticket['price_def']);
       if(isset($ticket['id'])) {
         $doProcess = EventTickets::where('id',$ticket['id']);
         if($ticket['deleted']){
@@ -290,18 +354,20 @@ class EventsController extends Controller
         $id_ticket = $doProcess->id;
       }
       if($doProcess) {
-        $this->handleSeat($id_event,$id_ticket,$seats);
-        DB::commit();
+        if($seats){
+          $this->handleSeat($id_event,$id_ticket,$seats);
+        }
+        // DB::commit();
       } else {
-        DB::rollback();
-        return false;
+        // DB::rollback();
+        // return false;
         break;
       }
     }
     return true;
   }
   function handleSeat($id_event,$id_ticket,$seats) {
-    DB::beginTransaction();
+    // DB::beginTransaction();
     foreach($seats as $seat) {
       if($seat['section']){
         $seat['price'] = ($seat['price']) ? $seat['price'] : 0;
@@ -342,17 +408,17 @@ class EventsController extends Controller
         $doProcess = true;
       }
       if($doProcess) {
-        DB::commit();
+        // DB::commit();
       } else {
-        DB::rollback();
-        return false;
+        // DB::rollback();
+        // return false;
         break;
       }
     }
     return true;
   }
   function handleImage($id_event,$images) {
-    DB::beginTransaction();
+    // DB::beginTransaction();
     foreach($images as $image) {
       if(isset($image['id'])) {
         if($image['deleted']){
@@ -370,13 +436,22 @@ class EventsController extends Controller
         $doProcess = EventImages::create($cimage);
       }
       if($doProcess) {
-        DB::commit();
+        // DB::commit();
       } else {
-        DB::rollback();
-        return false;
+        // DB::rollback();
+        // return false;
         break;
       }
     }
     return true;
+  }
+  function city(Request $request){
+    $listData = Events::selectRaw('location_city as city')->groupBy('location_city')->orderBy('location_city','ASC')->get();
+    $res = array(
+      'status' => true,
+      'data' => $listData,
+      'msg' => 'Data available'
+    );
+    return response()->json($res, 200);
   }
 }

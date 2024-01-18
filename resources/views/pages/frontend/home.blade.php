@@ -58,37 +58,37 @@
       <div class="home-category pb-50">
         <h1 class="fs-30 fw-700 wp-50 text-light mb-30">Select Category</h1>
         <div class="row">
-          <div class="col-12 col-sm-4">
+          <div class="col-6 col-sm-4">
             <a href="{{ url('/category/Concert') }}" class="d-flex align-items-center wp-100 hc-item text-decoration-none mb-30 p-20 br-10">
               <img src="{{ url('assets/images/layout/icon/icon-concert.png') }}" alt="">
               <span class="fs-20 fw-600 text-light ms-30">Concert</span>
             </a>
           </div>
-          <div class="col-12 col-sm-4">
+          <div class="col-6 col-sm-4">
             <a href="{{ url('/category/Attraction') }}" class="d-flex align-items-center wp-100 hc-item text-decoration-none mb-30 p-20 br-10">
               <img src="{{ url('assets/images/layout/icon/icon-attraction.png') }}" alt="">
               <span class="fs-20 fw-600 text-light ms-30">Attraction</span>
             </a>
           </div>
-          <div class="col-12 col-sm-4">
+          <div class="col-6 col-sm-4">
             <a href="{{ url('/category/Free Gifts') }}" class="d-flex align-items-center wp-100 hc-item text-decoration-none mb-30 p-20 br-10">
               <img src="{{ url('assets/images/layout/icon/icon-free-gift.png') }}" alt="">
               <span class="fs-20 fw-600 text-light ms-30">Free Gifts</span>
             </a>
           </div>
-          <div class="col-12 col-sm-4">
+          <div class="col-6 col-sm-4">
             <a href="{{ url('/category/Sports') }}" class="d-flex align-items-center wp-100 hc-item text-decoration-none p-20 mb-30 br-10">
               <img src="{{ url('assets/images/layout/icon/icon-sports.png') }}" alt="">
               <span class="fs-20 fw-600 text-light ms-30">Sports</span>
             </a>
           </div>
-          <div class="col-12 col-sm-4">
+          <div class="col-6 col-sm-4">
             <a href="{{ url('/category/Amusement Park') }}" class="d-flex align-items-center wp-100 hc-item text-decoration-none p-20 mb-30 br-10">
               <img src="{{ url('assets/images/layout/icon/icon-amusement-park.png') }}" alt="">
               <span class="fs-20 fw-600 text-light ms-30">Amusement Park</span>
             </a>
           </div>
-          <div class="col-12 col-sm-4">
+          <div class="col-6 col-sm-4">
             <a href="{{ url('/category/All Categories') }}" class="d-flex align-items-center wp-100 hc-item text-decoration-none p-20 mb-30 br-10">
               <img src="{{ url('assets/images/layout/icon/icon-all-categories.png') }}" alt="">
               <span class="fs-20 fw-600 text-light ms-30">All Categories</span>
@@ -97,7 +97,7 @@
         </div>
       </div>
       {{-- Best Deals --}}
-      <div class="home-best-deals pb-50 overflow-hidden">
+      <div class="home-best-deals pb-50 overflow-hidden" v-show="bestDeals.length > 0">
         <div class="d-flex justify-content-between align-items-start mb-30">
           <h1 class="fs-30 fw-700 wp-50 text-light">Best Deals</h1>
           <a href="{{ url('/promotion') }}" class="fs-20 fw-500 text-light text-decoration-none">See All</a>
@@ -203,43 +203,41 @@
         </div>
       </div>
       {{-- Popular --}}
-      <div class="home-popular pb-20">
+      <div class="home-popular pb-20" v-if="popular.length > 0">
         <div class="d-flex justify-content-between align-items-start mb-30">
           <h1 class="fs-30 fw-700 wp-50 text-light">Popular at Tiketbox.com</h1>
           <a href="{{ url('/event') }}" class="fs-20 fw-500 text-light text-decoration-none">See All</a>
         </div>
         <div class="row">
-          <a :href="`/event/${popular.id}`" class="col-12 col-sm-4" v-for="(popular,index) in popular" :key="index">
-            <div class="hp-item position-relative mb-30 br-10 overflow-hidden">
-              <div class="hp-label br-bl-10 text-light position-absolute top-0 right-0 bg-primary p-10 fs-14 fw-700" v-text="popular.category">
-                Concert
-              </div>
-              <img :src="popular.images[0].image_url" alt="" class="wp-100 h-200 object-fit-cover">
-              <div class="p-10">
-                <h5 class="fs-16 fw-700 text-light" v-text="`${popular.name}`"></h5>
-                <div class="d-flex align-items-end justify-content-between">
-                  <div class="text-light pe-20">
-                    <div class="fs-12 d-block">
+          <a :href="`/event/${item.id}`" class="col-6 col-sm-4 mb-30" v-for="(item,index) in popular" :key="index">
+            <div class="hp-item position-relative br-10 overflow-hidden hp-100">
+              <div class="hp-label br-bl-10 text-light position-absolute top-0 right-0 bg-primary p-10 fs-14 fw-700" v-text="item.category"></div>
+              <img :src="item.images[0].image_url" alt="" class="wp-100 h-250 object-fit-cover hp-image">
+              <div class="hp-content-box p-10 h-100 d-flex flex-column justify-content-between">
+                <h5 class="fs-16 fw-700 text-light" v-text="`${item.name}`"></h5>
+                <div class="d-flex align-items-end justify-content-between hp-details mt-auto">
+                  <div class="text-light pe-20 hp-address-box wp-65">
+                    <div class="fs-12 d-block hp-address">
                       <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" class="me-5">
                         <g id="carbon:location-filled">
                         <path id="Vector" d="M8.8806 1.11304C7.27009 1.11495 5.72609 1.75941 4.58729 2.90505C3.44849 4.05069 2.80788 5.60397 2.80598 7.22415C2.80405 8.54816 3.23395 9.83625 4.02974 10.8908C4.02974 10.8908 4.19541 11.1103 4.22247 11.1419L8.8806 16.6686L13.5409 11.1391C13.5652 11.1097 13.7315 10.8908 13.7315 10.8908L13.732 10.8891C14.5274 9.83504 14.9571 8.54755 14.9552 7.22415C14.9533 5.60397 14.3127 4.05069 13.1739 2.90505C12.0351 1.75941 10.4911 1.11495 8.8806 1.11304ZM8.8806 9.44637C8.44371 9.44637 8.01663 9.31604 7.65337 9.07186C7.29011 8.82768 7.00698 8.48061 6.83979 8.07455C6.6726 7.6685 6.62886 7.22168 6.71409 6.79061C6.79932 6.35954 7.00971 5.96358 7.31864 5.6528C7.62756 5.34202 8.02116 5.13037 8.44966 5.04462C8.87815 4.95888 9.3223 5.00289 9.72593 5.17108C10.1296 5.33928 10.4746 5.6241 10.7173 5.98955C10.96 6.35499 11.0896 6.78463 11.0896 7.22415C11.0888 7.81329 10.8559 8.3781 10.4418 8.79468C10.0277 9.21127 9.46623 9.44563 8.8806 9.44637Z" fill="white"/>
                         </g>
                       </svg>
-                      <span v-text="`${popular.location_name}, ${popular.location_city}`"></span>
+                      <span v-text="`${item.location_name}, ${item.location_city}`"></span>
                     </div>
-                    <div class="fs-12 d-block">
+                    <div class="fs-12 d-block" :data-type="item.type" v-if="item.type != 'amusement'">
                       <svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg" class="me-5">
                         <g id="bx:bx-time-five">
                         <path id="Vector" d="M8.88039 2.37866C4.82034 2.37866 1.51721 5.70162 1.51721 9.78607C1.51721 13.8705 4.82034 17.1935 8.88039 17.1935C12.9405 17.1935 16.2436 13.8705 16.2436 9.78607C16.2436 5.70162 12.9405 2.37866 8.88039 2.37866ZM8.88039 15.712C5.63249 15.712 2.98985 13.0535 2.98985 9.78607C2.98985 6.51866 5.63249 3.86014 8.88039 3.86014C12.1283 3.86014 14.7709 6.51866 14.7709 9.78607C14.7709 13.0535 12.1283 15.712 8.88039 15.712Z" fill="white"/>
                         <path id="Vector_2" d="M9.6168 6.07788H8.14417V10.0883L10.5689 12.5275L11.61 11.4801L9.6168 9.47492V6.07788Z" fill="white"/>
                         </g>
                       </svg>                        
-                      <span v-text="popular.date_start"></span>
+                      <span v-text="item.date_start"></span>
                     </div>
                   </div>
-                  <div class="text-light ps-20">
+                  <div class="text-light ps-20 hp-price">
                     <span class="fs-12 d-block">Start From</span>
-                    <label class="fs-16 fw-700 d-block m-0" v-text="`Rp ${thousand(popular.tickets[0].price)}`"></label>
+                    <label class="fs-16 fw-700 d-block m-0" v-text="`Rp ${thousand(item.tickets[0].price)}`"></label>
                   </div>
                 </div>
               </div>
@@ -248,123 +246,26 @@
         </div>
       </div>
       {{-- Place Best Deals --}}
-      <div class="home-place-best-deals overflow-hidden pb-50">
+      <div class="home-place-best-deals overflow-hidden pb-50" v-show="placeBestDeals.length > 0">
         <div class="d-flex justify-content-between align-items-start mb-30">
           <h1 class="fs-30 fw-700 wp-50 text-light">Places with Best Deals</h1>
           <a href="{{ url('/event') }}" class="fs-20 fw-500 text-light text-decoration-none">See All</a>
         </div>
         <div class="swiper-hpbd position-relative">
           <div class="swiper-wrapper">
-            <div class="swiper-slide">
+            <div class="swiper-slide" v-for="(item,index) in placeBestDeals" :key="index">
               <div class="hpbd-item br-10 overflow-hidden position-relative">
-                <div class="hp-label br-bl-10 text-light position-absolute top-0 right-0 bg-danger p-10 fs-14 fw-700">
-                  Discount 20%
-                </div>
-                <img src="{{ url('assets/images/place-deals/1.png') }}" alt="" class="wp-100">
+                <div class="hp-label br-bl-10 text-light position-absolute top-0 right-0 bg-danger p-10 fs-14 fw-700" v-text="item.category"></div>
+                <img :src="item.images[0].image_url" alt="" class="wp-100">
                 <div class="p-10">
-                  <h5 class="fs-16 fw-700 text-light">Ticket Dunia Fantasi (Dufan) Ancol</h5>
-                  <div class="d-flex align-items-end justify-content-between">
+                  <h5 class="fs-16 fw-700 text-light" v-text="item.title"></h5>
+                  <div class="hpbd-details d-flex align-items-end justify-content-between">
                     <div class="text-light">
                       <span class="fs-12">Start From</span>
-                      <label class="fs-16 fw-700 d-block m-0">Rp 13.000</label>
-                      <span class="fs-12">until 14 Febuari 2023</span>
+                      <label class="fs-16 fw-700 d-block m-0" v-text="`Rp ${thousand(item.tickets[0].price)}`"></label>
+                      <span class="fs-12" v-text="`until ${item.date_end}`"></span>
                     </div>
-                    <a class="btn btn-primary fs-14 fw-500 px-30 py-5 br-100" href="{{ url('/event/25') }}">Buy Now</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="hpbd-item br-10 overflow-hidden position-relative">
-                <div class="hp-label br-bl-10 text-light position-absolute top-0 right-0 bg-danger p-10 fs-14 fw-700">
-                  Discount 20%
-                </div>
-                <img src="{{ url('assets/images/place-deals/2.png') }}" alt="" class="wp-100">
-                <div class="p-10">
-                  <h5 class="fs-16 fw-700 text-light">Ticket Dunia Fantasi (Dufan) Ancol</h5>
-                  <div class="d-flex align-items-end justify-content-between">
-                    <div class="text-light">
-                      <span class="fs-12">Start From</span>
-                      <label class="fs-16 fw-700 d-block m-0">Rp 13.000</label>
-                      <span class="fs-12">until 14 Febuari 2023</span>
-                    </div>
-                    <a class="btn btn-primary fs-14 fw-500 px-30 py-5 br-100" href="{{ url('/event/25') }}">Buy Now</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="hpbd-item br-10 overflow-hidden position-relative">
-                <div class="hp-label br-bl-10 text-light position-absolute top-0 right-0 bg-danger p-10 fs-14 fw-700">
-                  Discount 20%
-                </div>
-                <img src="{{ url('assets/images/place-deals/3.png') }}" alt="" class="wp-100">
-                <div class="p-10">
-                  <h5 class="fs-16 fw-700 text-light">Ticket Dunia Fantasi (Dufan) Ancol</h5>
-                  <div class="d-flex align-items-end justify-content-between">
-                    <div class="text-light">
-                      <span class="fs-12">Start From</span>
-                      <label class="fs-16 fw-700 d-block m-0">Rp 13.000</label>
-                      <span class="fs-12">until 14 Febuari 2023</span>
-                    </div>
-                    <a class="btn btn-primary fs-14 fw-500 px-30 py-5 br-100" href="{{ url('/event/25') }}">Buy Now</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="hpbd-item br-10 overflow-hidden position-relative">
-                <div class="hp-label br-bl-10 text-light position-absolute top-0 right-0 bg-danger p-10 fs-14 fw-700">
-                  Discount 20%
-                </div>
-                <img src="{{ url('assets/images/place-deals/1.png') }}" alt="" class="wp-100">
-                <div class="p-10">
-                  <h5 class="fs-16 fw-700 text-light">Ticket Dunia Fantasi (Dufan) Ancol</h5>
-                  <div class="d-flex align-items-end justify-content-between">
-                    <div class="text-light">
-                      <span class="fs-12">Start From</span>
-                      <label class="fs-16 fw-700 d-block m-0">Rp 13.000</label>
-                      <span class="fs-12">until 14 Febuari 2023</span>
-                    </div>
-                    <a class="btn btn-primary fs-14 fw-500 px-30 py-5 br-100" href="{{ url('/event/25') }}">Buy Now</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="hpbd-item br-10 overflow-hidden position-relative">
-                <div class="hp-label br-bl-10 text-light position-absolute top-0 right-0 bg-danger p-10 fs-14 fw-700">
-                  Discount 20%
-                </div>
-                <img src="{{ url('assets/images/place-deals/2.png') }}" alt="" class="wp-100">
-                <div class="p-10">
-                  <h5 class="fs-16 fw-700 text-light">Ticket Dunia Fantasi (Dufan) Ancol</h5>
-                  <div class="d-flex align-items-end justify-content-between">
-                    <div class="text-light">
-                      <span class="fs-12">Start From</span>
-                      <label class="fs-16 fw-700 d-block m-0">Rp 13.000</label>
-                      <span class="fs-12">until 14 Febuari 2023</span>
-                    </div>
-                    <a class="btn btn-primary fs-14 fw-500 px-30 py-5 br-100" href="{{ url('/event/25') }}">Buy Now</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="hpbd-item br-10 overflow-hidden position-relative">
-                <div class="hp-label br-bl-10 text-light position-absolute top-0 right-0 bg-danger p-10 fs-14 fw-700">
-                  Discount 20%
-                </div>
-                <img src="{{ url('assets/images/place-deals/3.png') }}" alt="" class="wp-100">
-                <div class="p-10">
-                  <h5 class="fs-16 fw-700 text-light">Ticket Dunia Fantasi (Dufan) Ancol</h5>
-                  <div class="d-flex align-items-end justify-content-between">
-                    <div class="text-light">
-                      <span class="fs-12">Start From</span>
-                      <label class="fs-16 fw-700 d-block m-0">Rp 13.000</label>
-                      <span class="fs-12">until 14 Febuari 2023</span>
-                    </div>
-                    <a class="btn btn-primary fs-14 fw-500 px-30 py-5 br-100" href="{{ url('/event/25') }}">Buy Now</a>
+                    <a class="hpbd-btn btn btn-primary fs-14 fw-500 px-30 py-5 br-100" :href="`/event/${item.id}`">Buy Now</a>
                   </div>
                 </div>
               </div>
@@ -373,43 +274,41 @@
         </div>
       </div>
       {{-- Upcoming --}}
-      <div class="home-popular">
+      <div class="home-popular"  v-if="upcomingEvents.length > 0">
         <div class="d-flex justify-content-between align-items-start mb-30">
           <h1 class="fs-30 fw-700 wp-50 text-light">Upcoming Events</h1>
           <a href="{{ url('/event') }}" class="fs-20 fw-500 text-light text-decoration-none">See All</a>
         </div>
         <div class="row">
-          <a :href="`/event/${popular.id}`" class="col-12 col-sm-4" v-for="(popular,index) in popular" :key="index">
-            <div class="hp-item position-relative mb-30 br-10 overflow-hidden">
-              <div class="hp-label br-bl-10 text-light position-absolute top-0 right-0 bg-primary p-10 fs-14 fw-700" v-text="popular.category">
-                Concert
-              </div>
-              <img :src="popular.images[0].image_url" alt="" class="wp-100 h-200 object-fit-cover">
-              <div class="p-10">
-                <h5 class="fs-16 fw-700 text-light" v-text="`${popular.name}`"></h5>
-                <div class="d-flex align-items-end justify-content-between">
-                  <div class="text-light pe-20">
-                    <div class="fs-12 d-block">
+          <a :href="`/event/${item.id}`" class="col-6 col-sm-4 mb-30" v-for="(item,index) in upcomingEvents" :key="index">
+            <div class="hp-item position-relative br-10 overflow-hidden hp-100">
+              <div class="hp-label br-bl-10 text-light position-absolute top-0 right-0 bg-primary p-10 fs-14 fw-700" v-text="item.category"></div>
+              <img :src="item.images[0].image_url" alt="" class="wp-100 h-250 object-fit-cover hp-image">
+              <div class="hp-content-box p-10 h-100 d-flex flex-column justify-content-between">
+                <h5 class="fs-16 fw-700 text-light" v-text="`${item.name}`"></h5>
+                <div class="d-flex align-items-end justify-content-between hp-details mt-auto">
+                  <div class="text-light pe-20 hp-address-box wp-65">
+                    <div class="fs-12 d-block hp-address">
                       <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" class="me-5">
                         <g id="carbon:location-filled">
                         <path id="Vector" d="M8.8806 1.11304C7.27009 1.11495 5.72609 1.75941 4.58729 2.90505C3.44849 4.05069 2.80788 5.60397 2.80598 7.22415C2.80405 8.54816 3.23395 9.83625 4.02974 10.8908C4.02974 10.8908 4.19541 11.1103 4.22247 11.1419L8.8806 16.6686L13.5409 11.1391C13.5652 11.1097 13.7315 10.8908 13.7315 10.8908L13.732 10.8891C14.5274 9.83504 14.9571 8.54755 14.9552 7.22415C14.9533 5.60397 14.3127 4.05069 13.1739 2.90505C12.0351 1.75941 10.4911 1.11495 8.8806 1.11304ZM8.8806 9.44637C8.44371 9.44637 8.01663 9.31604 7.65337 9.07186C7.29011 8.82768 7.00698 8.48061 6.83979 8.07455C6.6726 7.6685 6.62886 7.22168 6.71409 6.79061C6.79932 6.35954 7.00971 5.96358 7.31864 5.6528C7.62756 5.34202 8.02116 5.13037 8.44966 5.04462C8.87815 4.95888 9.3223 5.00289 9.72593 5.17108C10.1296 5.33928 10.4746 5.6241 10.7173 5.98955C10.96 6.35499 11.0896 6.78463 11.0896 7.22415C11.0888 7.81329 10.8559 8.3781 10.4418 8.79468C10.0277 9.21127 9.46623 9.44563 8.8806 9.44637Z" fill="white"/>
                         </g>
                       </svg>
-                      <span v-text="`${popular.location_name}, ${popular.location_city}`"></span>
+                      <span v-text="`${item.location_name}, ${item.location_city}`"></span>
                     </div>
-                    <div class="fs-12 d-block">
+                    <div class="fs-12 d-block" :data-type="item.type" v-if="item.type != 'amusement'">
                       <svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg" class="me-5">
                         <g id="bx:bx-time-five">
                         <path id="Vector" d="M8.88039 2.37866C4.82034 2.37866 1.51721 5.70162 1.51721 9.78607C1.51721 13.8705 4.82034 17.1935 8.88039 17.1935C12.9405 17.1935 16.2436 13.8705 16.2436 9.78607C16.2436 5.70162 12.9405 2.37866 8.88039 2.37866ZM8.88039 15.712C5.63249 15.712 2.98985 13.0535 2.98985 9.78607C2.98985 6.51866 5.63249 3.86014 8.88039 3.86014C12.1283 3.86014 14.7709 6.51866 14.7709 9.78607C14.7709 13.0535 12.1283 15.712 8.88039 15.712Z" fill="white"/>
                         <path id="Vector_2" d="M9.6168 6.07788H8.14417V10.0883L10.5689 12.5275L11.61 11.4801L9.6168 9.47492V6.07788Z" fill="white"/>
                         </g>
                       </svg>                        
-                      <span v-text="popular.date_start"></span>
+                      <span v-text="item.date_start"></span>
                     </div>
                   </div>
-                  <div class="text-light ps-20">
+                  <div class="text-light ps-20 hp-price">
                     <span class="fs-12 d-block">Start From</span>
-                    <label class="fs-16 fw-700 d-block m-0" v-text="`Rp ${thousand(popular.tickets[0].price)}`"></label>
+                    <label class="fs-16 fw-700 d-block m-0" v-text="`Rp ${thousand(item.tickets[0].price)}`"></label>
                   </div>
                 </div>
               </div>
@@ -418,204 +317,46 @@
         </div>
       </div>
       {{-- Past Events --}}
-      <div class="home-past-events">
+      <div class="home-popular home-pastEvents"  v-if="pastEvents.length > 0">
         <div class="d-flex justify-content-between align-items-start mb-30">
           <h1 class="fs-30 fw-700 wp-50 text-light">Past Events</h1>
           <a href="{{ url('/event') }}" class="fs-20 fw-500 text-light text-decoration-none">See All</a>
         </div>
         <div class="row">
-          <div class="col-12 col-sm-4">
-            <div class="hpe-item position-relative mb-30 br-10 overflow-hidden">
-              <img src="{{ url('assets/images/past-events/1.png') }}" alt="" class="wp-100">
-              <div class="p-10">
-                <h5 class="fs-16 fw-700 text-light">COLDPLAY WORLD TOUR - JAKARTA</h5>
-                <div class="d-flex align-items-end justify-content-between">
-                  <div class="text-light pe-20">
-                    <span class="fs-12 d-block">
+          <a :href="`/event/${item.id}`" class="col-6 col-sm-4 mb-30" v-for="(item,index) in pastEvents" :key="index">
+            <div class="hp-item position-relative br-10 overflow-hidden hp-100">
+              <div class="hp-label br-bl-10 text-light position-absolute top-0 right-0 bg-primary p-10 fs-14 fw-700" v-text="item.category"></div>
+              <img :src="item.images[0].image_url" alt="" class="wp-100 h-250 object-fit-cover hp-image">
+              <div class="hp-content-box p-10 h-100 d-flex flex-column justify-content-between">
+                <h5 class="fs-16 fw-700 text-light" v-text="`${item.name}`"></h5>
+                <div class="d-flex align-items-end justify-content-between hp-details mt-auto">
+                  <div class="text-light pe-20 hp-address-box wp-65">
+                    <div class="fs-12 d-block hp-address">
                       <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" class="me-5">
                         <g id="carbon:location-filled">
                         <path id="Vector" d="M8.8806 1.11304C7.27009 1.11495 5.72609 1.75941 4.58729 2.90505C3.44849 4.05069 2.80788 5.60397 2.80598 7.22415C2.80405 8.54816 3.23395 9.83625 4.02974 10.8908C4.02974 10.8908 4.19541 11.1103 4.22247 11.1419L8.8806 16.6686L13.5409 11.1391C13.5652 11.1097 13.7315 10.8908 13.7315 10.8908L13.732 10.8891C14.5274 9.83504 14.9571 8.54755 14.9552 7.22415C14.9533 5.60397 14.3127 4.05069 13.1739 2.90505C12.0351 1.75941 10.4911 1.11495 8.8806 1.11304ZM8.8806 9.44637C8.44371 9.44637 8.01663 9.31604 7.65337 9.07186C7.29011 8.82768 7.00698 8.48061 6.83979 8.07455C6.6726 7.6685 6.62886 7.22168 6.71409 6.79061C6.79932 6.35954 7.00971 5.96358 7.31864 5.6528C7.62756 5.34202 8.02116 5.13037 8.44966 5.04462C8.87815 4.95888 9.3223 5.00289 9.72593 5.17108C10.1296 5.33928 10.4746 5.6241 10.7173 5.98955C10.96 6.35499 11.0896 6.78463 11.0896 7.22415C11.0888 7.81329 10.8559 8.3781 10.4418 8.79468C10.0277 9.21127 9.46623 9.44563 8.8806 9.44637Z" fill="white"/>
                         </g>
                       </svg>
-                      Glora Bung Karno, Jakarta</span>
-                    <span class="fs-12 d-block">
+                      <span v-text="`${item.location_name}, ${item.location_city}`"></span>
+                    </div>
+                    <div class="fs-12 d-block" :data-type="item.type" v-if="item.type != 'amusement'">
                       <svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg" class="me-5">
                         <g id="bx:bx-time-five">
                         <path id="Vector" d="M8.88039 2.37866C4.82034 2.37866 1.51721 5.70162 1.51721 9.78607C1.51721 13.8705 4.82034 17.1935 8.88039 17.1935C12.9405 17.1935 16.2436 13.8705 16.2436 9.78607C16.2436 5.70162 12.9405 2.37866 8.88039 2.37866ZM8.88039 15.712C5.63249 15.712 2.98985 13.0535 2.98985 9.78607C2.98985 6.51866 5.63249 3.86014 8.88039 3.86014C12.1283 3.86014 14.7709 6.51866 14.7709 9.78607C14.7709 13.0535 12.1283 15.712 8.88039 15.712Z" fill="white"/>
                         <path id="Vector_2" d="M9.6168 6.07788H8.14417V10.0883L10.5689 12.5275L11.61 11.4801L9.6168 9.47492V6.07788Z" fill="white"/>
                         </g>
                       </svg>                        
-                      1 Agustus 2023
-                    </span>
+                      <span v-text="item.date_start"></span>
+                    </div>
                   </div>
-                  <div class="text-light ps-20">
+                  <div class="text-light ps-20 hp-price">
                     <span class="fs-12 d-block">Start From</span>
-                    <label class="fs-16 fw-700 d-block m-0">Rp 130.000</label>
+                    <label class="fs-16 fw-700 d-block m-0" v-text="`Rp ${thousand(item.tickets[0].price)}`"></label>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="col-12 col-sm-4">
-            <div class="hpe-item position-relative mb-30 br-10 overflow-hidden">
-              <img src="{{ url('assets/images/past-events/2.png') }}" alt="" class="wp-100">
-              <div class="p-10">
-                <h5 class="fs-16 fw-700 text-light">COLDPLAY WORLD TOUR - JAKARTA</h5>
-                <div class="d-flex align-items-end justify-content-between">
-                  <div class="text-light pe-20">
-                    <span class="fs-12 d-block">
-                      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" class="me-5">
-                        <g id="carbon:location-filled">
-                        <path id="Vector" d="M8.8806 1.11304C7.27009 1.11495 5.72609 1.75941 4.58729 2.90505C3.44849 4.05069 2.80788 5.60397 2.80598 7.22415C2.80405 8.54816 3.23395 9.83625 4.02974 10.8908C4.02974 10.8908 4.19541 11.1103 4.22247 11.1419L8.8806 16.6686L13.5409 11.1391C13.5652 11.1097 13.7315 10.8908 13.7315 10.8908L13.732 10.8891C14.5274 9.83504 14.9571 8.54755 14.9552 7.22415C14.9533 5.60397 14.3127 4.05069 13.1739 2.90505C12.0351 1.75941 10.4911 1.11495 8.8806 1.11304ZM8.8806 9.44637C8.44371 9.44637 8.01663 9.31604 7.65337 9.07186C7.29011 8.82768 7.00698 8.48061 6.83979 8.07455C6.6726 7.6685 6.62886 7.22168 6.71409 6.79061C6.79932 6.35954 7.00971 5.96358 7.31864 5.6528C7.62756 5.34202 8.02116 5.13037 8.44966 5.04462C8.87815 4.95888 9.3223 5.00289 9.72593 5.17108C10.1296 5.33928 10.4746 5.6241 10.7173 5.98955C10.96 6.35499 11.0896 6.78463 11.0896 7.22415C11.0888 7.81329 10.8559 8.3781 10.4418 8.79468C10.0277 9.21127 9.46623 9.44563 8.8806 9.44637Z" fill="white"/>
-                        </g>
-                      </svg>
-                      Glora Bung Karno, Jakarta</span>
-                    <span class="fs-12 d-block">
-                      <svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg" class="me-5">
-                        <g id="bx:bx-time-five">
-                        <path id="Vector" d="M8.88039 2.37866C4.82034 2.37866 1.51721 5.70162 1.51721 9.78607C1.51721 13.8705 4.82034 17.1935 8.88039 17.1935C12.9405 17.1935 16.2436 13.8705 16.2436 9.78607C16.2436 5.70162 12.9405 2.37866 8.88039 2.37866ZM8.88039 15.712C5.63249 15.712 2.98985 13.0535 2.98985 9.78607C2.98985 6.51866 5.63249 3.86014 8.88039 3.86014C12.1283 3.86014 14.7709 6.51866 14.7709 9.78607C14.7709 13.0535 12.1283 15.712 8.88039 15.712Z" fill="white"/>
-                        <path id="Vector_2" d="M9.6168 6.07788H8.14417V10.0883L10.5689 12.5275L11.61 11.4801L9.6168 9.47492V6.07788Z" fill="white"/>
-                        </g>
-                      </svg>                        
-                      1 Agustus 2023
-                    </span>
-                  </div>
-                  <div class="text-light ps-20">
-                    <span class="fs-12 d-block">Start From</span>
-                    <label class="fs-16 fw-700 d-block m-0">Rp 130.000</label>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-12 col-sm-4">
-            <div class="hpe-item position-relative mb-30 br-10 overflow-hidden">
-              <img src="{{ url('assets/images/past-events/3.png') }}" alt="" class="wp-100">
-              <div class="p-10">
-                <h5 class="fs-16 fw-700 text-light">COLDPLAY WORLD TOUR - JAKARTA</h5>
-                <div class="d-flex align-items-end justify-content-between">
-                  <div class="text-light pe-20">
-                    <span class="fs-12 d-block">
-                      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" class="me-5">
-                        <g id="carbon:location-filled">
-                        <path id="Vector" d="M8.8806 1.11304C7.27009 1.11495 5.72609 1.75941 4.58729 2.90505C3.44849 4.05069 2.80788 5.60397 2.80598 7.22415C2.80405 8.54816 3.23395 9.83625 4.02974 10.8908C4.02974 10.8908 4.19541 11.1103 4.22247 11.1419L8.8806 16.6686L13.5409 11.1391C13.5652 11.1097 13.7315 10.8908 13.7315 10.8908L13.732 10.8891C14.5274 9.83504 14.9571 8.54755 14.9552 7.22415C14.9533 5.60397 14.3127 4.05069 13.1739 2.90505C12.0351 1.75941 10.4911 1.11495 8.8806 1.11304ZM8.8806 9.44637C8.44371 9.44637 8.01663 9.31604 7.65337 9.07186C7.29011 8.82768 7.00698 8.48061 6.83979 8.07455C6.6726 7.6685 6.62886 7.22168 6.71409 6.79061C6.79932 6.35954 7.00971 5.96358 7.31864 5.6528C7.62756 5.34202 8.02116 5.13037 8.44966 5.04462C8.87815 4.95888 9.3223 5.00289 9.72593 5.17108C10.1296 5.33928 10.4746 5.6241 10.7173 5.98955C10.96 6.35499 11.0896 6.78463 11.0896 7.22415C11.0888 7.81329 10.8559 8.3781 10.4418 8.79468C10.0277 9.21127 9.46623 9.44563 8.8806 9.44637Z" fill="white"/>
-                        </g>
-                      </svg>
-                      Glora Bung Karno, Jakarta</span>
-                    <span class="fs-12 d-block">
-                      <svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg" class="me-5">
-                        <g id="bx:bx-time-five">
-                        <path id="Vector" d="M8.88039 2.37866C4.82034 2.37866 1.51721 5.70162 1.51721 9.78607C1.51721 13.8705 4.82034 17.1935 8.88039 17.1935C12.9405 17.1935 16.2436 13.8705 16.2436 9.78607C16.2436 5.70162 12.9405 2.37866 8.88039 2.37866ZM8.88039 15.712C5.63249 15.712 2.98985 13.0535 2.98985 9.78607C2.98985 6.51866 5.63249 3.86014 8.88039 3.86014C12.1283 3.86014 14.7709 6.51866 14.7709 9.78607C14.7709 13.0535 12.1283 15.712 8.88039 15.712Z" fill="white"/>
-                        <path id="Vector_2" d="M9.6168 6.07788H8.14417V10.0883L10.5689 12.5275L11.61 11.4801L9.6168 9.47492V6.07788Z" fill="white"/>
-                        </g>
-                      </svg>                        
-                      1 Agustus 2023
-                    </span>
-                  </div>
-                  <div class="text-light ps-20">
-                    <span class="fs-12 d-block">Start From</span>
-                    <label class="fs-16 fw-700 d-block m-0">Rp 130.000</label>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-12 col-sm-4">
-            <div class="hpe-item position-relative mb-30 br-10 overflow-hidden">
-              <img src="{{ url('assets/images/past-events/4.png') }}" alt="" class="wp-100">
-              <div class="p-10">
-                <h5 class="fs-16 fw-700 text-light">COLDPLAY WORLD TOUR - JAKARTA</h5>
-                <div class="d-flex align-items-end justify-content-between">
-                  <div class="text-light pe-20">
-                    <span class="fs-12 d-block">
-                      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" class="me-5">
-                        <g id="carbon:location-filled">
-                        <path id="Vector" d="M8.8806 1.11304C7.27009 1.11495 5.72609 1.75941 4.58729 2.90505C3.44849 4.05069 2.80788 5.60397 2.80598 7.22415C2.80405 8.54816 3.23395 9.83625 4.02974 10.8908C4.02974 10.8908 4.19541 11.1103 4.22247 11.1419L8.8806 16.6686L13.5409 11.1391C13.5652 11.1097 13.7315 10.8908 13.7315 10.8908L13.732 10.8891C14.5274 9.83504 14.9571 8.54755 14.9552 7.22415C14.9533 5.60397 14.3127 4.05069 13.1739 2.90505C12.0351 1.75941 10.4911 1.11495 8.8806 1.11304ZM8.8806 9.44637C8.44371 9.44637 8.01663 9.31604 7.65337 9.07186C7.29011 8.82768 7.00698 8.48061 6.83979 8.07455C6.6726 7.6685 6.62886 7.22168 6.71409 6.79061C6.79932 6.35954 7.00971 5.96358 7.31864 5.6528C7.62756 5.34202 8.02116 5.13037 8.44966 5.04462C8.87815 4.95888 9.3223 5.00289 9.72593 5.17108C10.1296 5.33928 10.4746 5.6241 10.7173 5.98955C10.96 6.35499 11.0896 6.78463 11.0896 7.22415C11.0888 7.81329 10.8559 8.3781 10.4418 8.79468C10.0277 9.21127 9.46623 9.44563 8.8806 9.44637Z" fill="white"/>
-                        </g>
-                      </svg>
-                      Glora Bung Karno, Jakarta</span>
-                    <span class="fs-12 d-block">
-                      <svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg" class="me-5">
-                        <g id="bx:bx-time-five">
-                        <path id="Vector" d="M8.88039 2.37866C4.82034 2.37866 1.51721 5.70162 1.51721 9.78607C1.51721 13.8705 4.82034 17.1935 8.88039 17.1935C12.9405 17.1935 16.2436 13.8705 16.2436 9.78607C16.2436 5.70162 12.9405 2.37866 8.88039 2.37866ZM8.88039 15.712C5.63249 15.712 2.98985 13.0535 2.98985 9.78607C2.98985 6.51866 5.63249 3.86014 8.88039 3.86014C12.1283 3.86014 14.7709 6.51866 14.7709 9.78607C14.7709 13.0535 12.1283 15.712 8.88039 15.712Z" fill="white"/>
-                        <path id="Vector_2" d="M9.6168 6.07788H8.14417V10.0883L10.5689 12.5275L11.61 11.4801L9.6168 9.47492V6.07788Z" fill="white"/>
-                        </g>
-                      </svg>                        
-                      1 Agustus 2023
-                    </span>
-                  </div>
-                  <div class="text-light ps-20">
-                    <span class="fs-12 d-block">Start From</span>
-                    <label class="fs-16 fw-700 d-block m-0">Rp 130.000</label>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-12 col-sm-4">
-            <div class="hpe-item position-relative mb-30 br-10 overflow-hidden">
-              <img src="{{ url('assets/images/past-events/5.png') }}" alt="" class="wp-100">
-              <div class="p-10">
-                <h5 class="fs-16 fw-700 text-light">COLDPLAY WORLD TOUR - JAKARTA</h5>
-                <div class="d-flex align-items-end justify-content-between">
-                  <div class="text-light pe-20">
-                    <span class="fs-12 d-block">
-                      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" class="me-5">
-                        <g id="carbon:location-filled">
-                        <path id="Vector" d="M8.8806 1.11304C7.27009 1.11495 5.72609 1.75941 4.58729 2.90505C3.44849 4.05069 2.80788 5.60397 2.80598 7.22415C2.80405 8.54816 3.23395 9.83625 4.02974 10.8908C4.02974 10.8908 4.19541 11.1103 4.22247 11.1419L8.8806 16.6686L13.5409 11.1391C13.5652 11.1097 13.7315 10.8908 13.7315 10.8908L13.732 10.8891C14.5274 9.83504 14.9571 8.54755 14.9552 7.22415C14.9533 5.60397 14.3127 4.05069 13.1739 2.90505C12.0351 1.75941 10.4911 1.11495 8.8806 1.11304ZM8.8806 9.44637C8.44371 9.44637 8.01663 9.31604 7.65337 9.07186C7.29011 8.82768 7.00698 8.48061 6.83979 8.07455C6.6726 7.6685 6.62886 7.22168 6.71409 6.79061C6.79932 6.35954 7.00971 5.96358 7.31864 5.6528C7.62756 5.34202 8.02116 5.13037 8.44966 5.04462C8.87815 4.95888 9.3223 5.00289 9.72593 5.17108C10.1296 5.33928 10.4746 5.6241 10.7173 5.98955C10.96 6.35499 11.0896 6.78463 11.0896 7.22415C11.0888 7.81329 10.8559 8.3781 10.4418 8.79468C10.0277 9.21127 9.46623 9.44563 8.8806 9.44637Z" fill="white"/>
-                        </g>
-                      </svg>
-                      Glora Bung Karno, Jakarta</span>
-                    <span class="fs-12 d-block">
-                      <svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg" class="me-5">
-                        <g id="bx:bx-time-five">
-                        <path id="Vector" d="M8.88039 2.37866C4.82034 2.37866 1.51721 5.70162 1.51721 9.78607C1.51721 13.8705 4.82034 17.1935 8.88039 17.1935C12.9405 17.1935 16.2436 13.8705 16.2436 9.78607C16.2436 5.70162 12.9405 2.37866 8.88039 2.37866ZM8.88039 15.712C5.63249 15.712 2.98985 13.0535 2.98985 9.78607C2.98985 6.51866 5.63249 3.86014 8.88039 3.86014C12.1283 3.86014 14.7709 6.51866 14.7709 9.78607C14.7709 13.0535 12.1283 15.712 8.88039 15.712Z" fill="white"/>
-                        <path id="Vector_2" d="M9.6168 6.07788H8.14417V10.0883L10.5689 12.5275L11.61 11.4801L9.6168 9.47492V6.07788Z" fill="white"/>
-                        </g>
-                      </svg>                        
-                      1 Agustus 2023
-                    </span>
-                  </div>
-                  <div class="text-light ps-20">
-                    <span class="fs-12 d-block">Start From</span>
-                    <label class="fs-16 fw-700 d-block m-0">Rp 130.000</label>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-12 col-sm-4">
-            <div class="hpe-item position-relative mb-30 br-10 overflow-hidden">
-              <img src="{{ url('assets/images/past-events/6.png') }}" alt="" class="wp-100">
-              <div class="p-10">
-                <h5 class="fs-16 fw-700 text-light">COLDPLAY WORLD TOUR - JAKARTA</h5>
-                <div class="d-flex align-items-end justify-content-between">
-                  <div class="text-light pe-20">
-                    <span class="fs-12 d-block">
-                      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" class="me-5">
-                        <g id="carbon:location-filled">
-                        <path id="Vector" d="M8.8806 1.11304C7.27009 1.11495 5.72609 1.75941 4.58729 2.90505C3.44849 4.05069 2.80788 5.60397 2.80598 7.22415C2.80405 8.54816 3.23395 9.83625 4.02974 10.8908C4.02974 10.8908 4.19541 11.1103 4.22247 11.1419L8.8806 16.6686L13.5409 11.1391C13.5652 11.1097 13.7315 10.8908 13.7315 10.8908L13.732 10.8891C14.5274 9.83504 14.9571 8.54755 14.9552 7.22415C14.9533 5.60397 14.3127 4.05069 13.1739 2.90505C12.0351 1.75941 10.4911 1.11495 8.8806 1.11304ZM8.8806 9.44637C8.44371 9.44637 8.01663 9.31604 7.65337 9.07186C7.29011 8.82768 7.00698 8.48061 6.83979 8.07455C6.6726 7.6685 6.62886 7.22168 6.71409 6.79061C6.79932 6.35954 7.00971 5.96358 7.31864 5.6528C7.62756 5.34202 8.02116 5.13037 8.44966 5.04462C8.87815 4.95888 9.3223 5.00289 9.72593 5.17108C10.1296 5.33928 10.4746 5.6241 10.7173 5.98955C10.96 6.35499 11.0896 6.78463 11.0896 7.22415C11.0888 7.81329 10.8559 8.3781 10.4418 8.79468C10.0277 9.21127 9.46623 9.44563 8.8806 9.44637Z" fill="white"/>
-                        </g>
-                      </svg>
-                      Glora Bung Karno, Jakarta</span>
-                    <span class="fs-12 d-block">
-                      <svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg" class="me-5">
-                        <g id="bx:bx-time-five">
-                        <path id="Vector" d="M8.88039 2.37866C4.82034 2.37866 1.51721 5.70162 1.51721 9.78607C1.51721 13.8705 4.82034 17.1935 8.88039 17.1935C12.9405 17.1935 16.2436 13.8705 16.2436 9.78607C16.2436 5.70162 12.9405 2.37866 8.88039 2.37866ZM8.88039 15.712C5.63249 15.712 2.98985 13.0535 2.98985 9.78607C2.98985 6.51866 5.63249 3.86014 8.88039 3.86014C12.1283 3.86014 14.7709 6.51866 14.7709 9.78607C14.7709 13.0535 12.1283 15.712 8.88039 15.712Z" fill="white"/>
-                        <path id="Vector_2" d="M9.6168 6.07788H8.14417V10.0883L10.5689 12.5275L11.61 11.4801L9.6168 9.47492V6.07788Z" fill="white"/>
-                        </g>
-                      </svg>                        
-                      1 Agustus 2023
-                    </span>
-                  </div>
-                  <div class="text-light ps-20">
-                    <span class="fs-12 d-block">Start From</span>
-                    <label class="fs-16 fw-700 d-block m-0">Rp 130.000</label>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          </a>
         </div>
       </div>
     </div>
@@ -633,7 +374,143 @@
   </section>
 @endsection
 @section('styles')
-  
+  <style>
+    .home-pastEvents .hp-item img {
+      filter: grayscale(1);
+    }
+    @media screen and (max-width: 768px) {
+      .hp-content-box {
+        height: calc(100% - 150px) !important;
+      }
+      .home-banner .carousel-item img {
+        height: 240px;
+        object-fit: cover
+      }
+      .home-banner .hb-caption {
+        padding: 0 15px !important;
+      }
+      .home-banner .hb-caption h1 {
+        font-size: 28px;
+      }
+      .home-banner .hb-caption h6 {
+        font-size: 16px;
+      }
+      .home-banner .hb-caption .hbc-input-search {
+        height: 45px;
+        padding: 0 15px !important;
+        border-radius: 5px !important;
+      }
+      .home-banner .hb-caption .hbc-input-search input {
+        font-size: 16px !important;
+      }
+      .home-banner .hb-caption .hbc-input-search button svg {
+        width: 25px;
+        height: 25px;
+      }
+      .home-banner .carousel-indicators {
+        margin-bottom: 0;
+      }
+      .home-category > h1 {
+        width: 100% !important;
+        font-size: 20px !important;
+        margin-bottom: 15px !important;
+      }
+      .home-category .hc-item {
+        flex-direction: column !important;
+      }
+      .home-category .hc-item > span {
+        margin-left: 0 !important;
+        font-size: 14px;
+        text-align: center;
+        margin-top: 15px;
+      }
+      .home-best-deals > div > a {
+        font-size: 16px !important;
+      }
+      .home-best-deals > div > h1 {
+        font-size: 20px !important;
+        margin-bottom: 15px !important;
+        width: 80% !important;
+      }
+      .home-popular > div > a {
+        font-size: 16px !important;
+      }
+      .home-popular > div > h1 {
+        font-size: 20px !important;
+        margin-bottom: 15px !important;
+        width: 80% !important;
+      }
+      .home-popular .hp-details {
+        flex-direction: column;
+        align-items: flex-start !important;
+      }
+      .home-popular .hp-details > div {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+      }
+      .home-popular .hp-price {
+        margin-top: 5px;
+      }
+      .hp-image {
+        height: 150px !important;
+      }
+      .hp-item h5 {
+        max-height: 38px;
+        overflow: hidden;
+      }
+      .hp-address {
+        width: 100% !important;
+        max-height: 35px;
+        overflow: hidden;
+      }
+      .hp-address-box {
+        width: 100% !important;
+      }
+      .home-place-best-deals > div > a {
+        font-size: 16px !important;
+      }
+      .home-place-best-deals > div > h1 {
+        font-size: 20px !important;
+        margin-bottom: 15px !important;
+        width: 80% !important;
+      }
+      .home-place-best-deals .hpbd-details {
+        flex-direction: column;
+        align-items: flex-start !important;
+      }
+      .home-place-best-deals .hpbd-details > div {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+      }
+      .home-place-best-deals .hpbd-btn {
+        margin-top: 15px;
+      }
+      .home-past-events > div > a {
+        font-size: 16px !important;
+      }
+      .home-past-events > div > h1 {
+        font-size: 20px !important;
+        margin-bottom: 15px !important;
+        width: 80% !important;
+      }
+      .home-past-events .hpe-details {
+        flex-direction: column;
+        align-items: flex-start !important;
+      }
+      .home-past-events .hpe-details > div {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+      }
+      .home-past-events .hpe-price {
+        margin-top: 15px;
+      }
+    }
+    @media screen and (min-width: 1024px) {
+      .hp-content-box {
+        height: calc(100% - 250px) !important;
+      }
+    }
+  </style>
 @endsection
 @section('script')
   <script>
@@ -642,6 +519,9 @@
       data: {
         search: null,
         popular: [],
+        placeBestDeals: [],
+        upcomingEvents: [],
+        pastEvents: [],
         bestDeals: [],
         banner: [],
         alert: {
@@ -658,48 +538,6 @@
         ...helper,
         doSearch(){
           window.location.href="/search/"+this.search
-        },
-        async getPopular() {
-          let payload = {
-            perPage: 9,
-            page: 1,
-            sortDir: 'desc',
-            sortBy: 'id',
-            search: null
-          }
-          let token = 'abcdreUYBH&^*VHGY^&GY'
-          try {
-            let req = await tiketboxApi.readEvent(payload,token)
-            let { status, msg, data} = req.data
-            if(status){
-              this.popular = data
-            } else {
-              this.notify('error','Error',msg)
-            }
-          } catch (error) {
-            this.notify('error','Error',error.message)
-          }
-        },
-        async getBestDeals() {
-          let payload = {
-            perPage: 3,
-            page: 1,
-            sortDir: 'desc',
-            sortBy: 'id',
-            search: null
-          }
-          let token = 'abcdreUYBH&^*VHGY^&GY'
-          try {
-            let req = await tiketboxApi.readPromotion(payload,token)
-            let { status, msg, data} = req.data
-            if(status){
-              this.bestDeals = data
-            } else {
-              this.notify('error','Error',msg)
-            }
-          } catch (error) {
-            this.notify('error','Error',error.message)
-          }
         },
         async getBanner() {
           let payload = {
@@ -725,43 +563,167 @@
             this.notify('error','Error',error.message)
           }
         },
+        async getBestDeals() {
+          let payload = {
+            perPage: 3,
+            page: 1,
+            sortDir: 'desc',
+            sortBy: 'id',
+            search: null
+          }
+          let token = 'abcdreUYBH&^*VHGY^&GY'
+          try {
+            let req = await tiketboxApi.readPromotion(payload,token)
+            let { status, msg, data} = req.data
+            if(status){
+              this.bestDeals = data
+              if(data.length > 0){
+                this.initSwiper()
+              }
+            } else {
+              this.notify('error','Error',msg)
+            }
+          } catch (error) {
+            this.notify('error','Error',error.message)
+          }
+        },
+        async getPopular() {
+          let payload = {
+            perPage: 9,
+            page: 1,
+            sortDir: 'desc',
+            sortBy: 'id',
+            search: null,
+            filter: 'popular'
+          }
+          let token = 'abcdreUYBH&^*VHGY^&GY'
+          try {
+            let req = await tiketboxApi.readEvent(payload,token)
+            let { status, msg, data} = req.data
+            if(status){
+              this.popular = data
+            } else {
+              this.notify('error','Error',msg)
+            }
+          } catch (error) {
+            this.notify('error','Error',error.message)
+          }
+        },
+        async getPlaceBestDeals() {
+          let payload = {
+            perPage: 9,
+            page: 1,
+            sortDir: 'desc',
+            sortBy: 'id',
+            search: null,
+            filter: 'bestDeals'
+          }
+          let token = 'abcdreUYBH&^*VHGY^&GY'
+          try {
+            let req = await tiketboxApi.readEvent(payload,token)
+            let { status, msg, data} = req.data
+            if(status){
+              this.placeBestDeals = data
+              if(data.length > 0){
+                this.initSwiper()
+              }
+            } else {
+              this.notify('error','Error',msg)
+            }
+          } catch (error) {
+            this.notify('error','Error',error.message)
+          }
+        },
+        async getUpcomingEvents() {
+          let payload = {
+            perPage: 9,
+            page: 1,
+            sortDir: 'desc',
+            sortBy: 'id',
+            search: null,
+            filter: 'upcoming'
+          }
+          let token = 'abcdreUYBH&^*VHGY^&GY'
+          try {
+            let req = await tiketboxApi.readEvent(payload,token)
+            let { status, msg, data} = req.data
+            if(status){
+              this.upcomingEvents = data
+            } else {
+              this.notify('error','Error',msg)
+            }
+          } catch (error) {
+            this.notify('error','Error',error.message)
+          }
+        },
+        async getPastEvents() {
+          let payload = {
+            perPage: 9,
+            page: 1,
+            sortDir: 'desc',
+            sortBy: 'id',
+            search: null,
+            filter: 'past'
+          }
+          let token = 'abcdreUYBH&^*VHGY^&GY'
+          try {
+            let req = await tiketboxApi.readEvent(payload,token)
+            let { status, msg, data} = req.data
+            if(status){
+              this.pastEvents = data
+            } else {
+              this.notify('error','Error',msg)
+            }
+          } catch (error) {
+            this.notify('error','Error',error.message)
+          }
+        },
         initSwiper() {
-          const homeBestDeals = new Swiper('.swiper-hbd', {
-            // Optional parameters
-            autoplay: true,
-            delay: 2000,
-            slidesPerView: 1,
-            spaceBetween: 30,
-            loop: true,
-            // Navigation arrows
-            navigation: {
-              nextEl: '.swiper-next',
-              prevEl: '.swiper-prev',
-            },
-            breakpoints: {
-              768: {
-                slidesPerView: 3
+          let s1 = document.querySelector('.swiper-hbd')
+          let s2 = document.querySelector('.swiper-hpbd')
+          console.log('ada',s1, s2)
+          if(s1){
+            const homeBestDeals = new Swiper('.swiper-hbd', {
+              // Optional parameters
+              autoplay: true,
+              delay: 2000,
+              slidesPerView: 2,
+              spaceBetween: 30,
+              loop: true,
+              // Navigation arrows
+              navigation: {
+                nextEl: '.swiper-next',
+                prevEl: '.swiper-prev',
               },
-            }
-          });
-          const homePlaceBestDeals = new Swiper('.swiper-hpbd', {
-            // Optional parameters
-            autoplay: true,
-            delay: 2000,
-            slidesPerView: 1,
-            spaceBetween: 30,
-            loop: true,
-            // Navigation arrows
-            navigation: {
-              nextEl: '.swiper-next',
-              prevEl: '.swiper-prev',
-            },
-            breakpoints: {
-              768: {
-                slidesPerView: 3
+              breakpoints: {
+                768: {
+                  slidesPerView: 3
+                },
+              }
+            });
+            console.log('s1 init')
+          }
+          if(s2){
+            const homePlaceBestDeals = new Swiper('.swiper-hpbd', {
+              // Optional parameters
+              autoplay: true,
+              delay: 2000,
+              slidesPerView: 2,
+              spaceBetween: 30,
+              loop: true,
+              // Navigation arrows
+              navigation: {
+                nextEl: '.swiper-next',
+                prevEl: '.swiper-prev',
               },
-            }
-          });
+              breakpoints: {
+                768: {
+                  slidesPerView: 3
+                },
+              }
+            });
+            console.log('s2 init')
+          }
         },
         notify(type,title,msg){
           let bg = 'bg-primary'
@@ -791,10 +753,12 @@
         }
       },
       mounted() {
-        this.getPopular()
-        this.getBestDeals()
         this.getBanner()
-        this.initSwiper();
+        this.getBestDeals()
+        this.getPopular()
+        this.getPlaceBestDeals()
+        this.getUpcomingEvents()
+        this.getPastEvents()
       }
     });
   </script>

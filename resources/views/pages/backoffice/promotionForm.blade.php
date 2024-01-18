@@ -71,6 +71,26 @@
             </div>
           </div>
         </div>
+        {{-- Best deal & Popular --}}
+        <div class="col-12 py-25 border-bottom border-primary" v-show="users.type == 'admin'">
+          <label class="fs-20 fw-600 text-light wp-100">Best Deal & Popular</label>
+          <div class="row">
+            <div class="col-md-4 col-12">
+              <div class="d-flex align-items-center justify-content-between mt-15">
+                <span class="fs-16 fw-400 text-light">Best Deal</span>
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" role="switch" id="oneemailonetrans" v-model="form.data.is_bestdeal">
+                </div>
+              </div>
+              <div class="d-flex align-items-center justify-content-between mt-15">
+                <span class="fs-16 fw-400 text-light">Popular</span>
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" role="switch" id="oneemailonetrans" v-model="form.data.is_popular">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <!-- Images -->
         <div class="col-12 py-25 border-bottom border-primary">
           <input type="file" @change="previewImage" multiple class="d-none" id="input-poster">
@@ -249,6 +269,7 @@
         form: {
           data: {
             _token:'{{ csrf_token() }}',
+            id_user: null,
             event_target: 'all',
             target_event: null,
             name: null,
@@ -266,6 +287,8 @@
             time_start: null,
             time_end: null,
             status: null,
+            is_bestdeal: false,
+            is_popular: false,
             images: [],
           }
         },
@@ -281,6 +304,9 @@
         }
       },
       computed: {
+        users() {
+          return store.getters.users
+        },
         quota_val() {
           let value = this.thousand(this.form.data.quota)
           return value
@@ -360,6 +386,7 @@
           let payload = {...this.form.data}
           payload.status = status
           payload.target_event = (payload.event_target == 'all') ? 0 : payload.target_event
+          payload.id_user = this.users.id
           let token = 'abcdreUYBH&^*VHGY^&GY'
           try {
             let req = {
@@ -378,7 +405,7 @@
             if(status){
               this.notify('success','Success',msg)
               setTimeout(() => {
-                window.location.href = '/backoffice/promotion-and-voucher'
+                window.location.href = "{{ url('/'.request()->segment(1).'/promotion-and-voucher') }}"
               }, 1000)
             } else {
               this.notify('error','Error',msg)
@@ -469,6 +496,9 @@
       mounted() {
         this.doGetEvent()
         this.doGet()
+        if(this.users.type == 'user') {
+          window.location.href = "{{ url('/promotor') }}"
+        }
       }
     });
   </script>

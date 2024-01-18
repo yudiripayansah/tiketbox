@@ -4,7 +4,7 @@
     <div class="boc-title py-15 px-25 text-left fw-700 fs-14 text-light border-bottom border-primary">
       Profile
     </div>
-    <div class="boc-content mt-25 br-10 py-40 text-light">
+    <div class="boc-content mt-25 br-10 py-40 text-light" v-if="userType == 'audience'">
       <div class="px-40">
         <h3 class="fs-20 fw-600 m-0">Photo Profile</h3>
         <p class="fs-12 fw-400 mt-10">Your avatar and cover photo are the first images you will see on your account profile.</p>
@@ -15,11 +15,11 @@
           <div class="text-light d-flex flex-column align-items-start">
             <span class="fs-12 fw-700">Photo Profile</span>
             <span class="fs-12 fw-400 mt-5">Use a maximum high-resolution square image of 1MB.</span>
-            <label for="file" class="btn btn-primary fs-12 fw-700 mt-5">
+            <label for="image" class="btn btn-primary fs-12 fw-700 mt-5">
               @include('svg.upload')
               Upload Photo
             </label>
-            <input type="file" name="profile_image" id="file" class="hide d-none" @change="previewImage(event)">
+            <input type="file" name="image" id="image" class="hide d-none" @change="previewImage(event)">
           </div>
         </div>
       </div>
@@ -36,6 +36,81 @@
         <label class="fs-20 fw-600 text-light mb-10">Email</label>
         <input type="text" class="fs-12 fw-400 wp-100 bg-transparent border-0 text-light" v-model="form.data.email" placeholder="Eg: email@email.com">
         <span class="fs-12 fw-400 mt-5 text-success">Verified</span>
+      </div>
+      <div class="py-25 px-40 text-center border-top border-primary">
+        <button class="btn btn-primary py-15 px-40 fs-20 fw-600" :disabled="form.loading" v-text="(form.loading) ? 'Menyimpan...' : 'Simpan'" @click="doSave()"></button>
+      </div>
+    </div>
+    <div class="boc-content mt-25 br-10 py-40 text-light" v-else>
+      <div class="px-40">
+        <h3 class="fs-20 fw-600 m-0">Photo Profile</h3>
+        <p class="fs-12 fw-400 mt-10">Your avatar and cover photo are the first images you will see on your account profile.</p>
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <div class="d-flex align-items-center mt-20">
+              <div class="me-35">
+                <img :src="form.data.promotor_logo" alt="" class="w-120 h-120 object-fit-contain br-10">
+              </div>
+              <div class="text-light d-flex flex-column align-items-start">
+                <span class="fs-12 fw-700">Logo Organizer</span>
+                <span class="fs-12 fw-400 mt-5">Use a maximum high-resolution square image of 1MB.</span>
+                <label for="promotor_logo" class="btn btn-primary fs-12 fw-700 mt-5">
+                  @include('svg.upload')
+                  Upload Photo
+                </label>
+                <input type="file" name="promotor_logo" id="promotor_logo" class="hide d-none" @change="previewImage(event)">
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="d-flex align-items-center mt-20">
+              <div class="me-35">
+                <img :src="form.data.promotor_banner" alt="" class="w-120 h-120 object-fit-contain br-10">
+              </div>
+              <div class="text-light d-flex flex-column align-items-start">
+                <span class="fs-12 fw-700">Banner / Poster</span>
+                <span class="fs-12 fw-400 mt-5">Use a maximum high-resolution square image of 1MB.</span>
+                <label for="promotor_banner" class="btn btn-primary fs-12 fw-700 mt-5">
+                  @include('svg.upload')
+                  Upload Photo
+                </label>
+                <input type="file" name="promotor_banner" id="promotor_banner" class="hide d-none" @change="previewImage(event)">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="py-25 px-40 border-top border-primary mt-25">
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <label class="fs-20 fw-600 text-light mb-10">Organization Name</label>
+            <input type="text" class="fs-12 fw-400 wp-100 bg-transparent border-0 text-light" v-model="form.data.promotor_name" placeholder="Eg: Tiketbox">
+          </div>
+          <div class="col-12 col-md-6">
+            <label class="fs-20 fw-600 text-light mb-10">Short Link</label>
+            <input type="text" class="fs-12 fw-400 wp-100 bg-transparent border-0 text-light" v-model="form.data.promotor_link" placeholder="Eg: https://tiketbox.com/p/tiketbox">
+          </div>
+        </div>
+      </div>
+      <div class="py-25 px-40 border-top border-primary">
+        <label class="fs-20 fw-600 text-light mb-10">Phone</label>
+        <input type="text" class="fs-12 fw-400 wp-100 bg-transparent border-0 text-light" v-model="form.data.promotor_phone" placeholder="Eg: +6281234567890">
+      </div>
+      <div class="py-25 px-40 border-top border-primary">
+        <label class="fs-20 fw-600 text-light mb-10">Email</label>
+        <input type="text" class="fs-12 fw-400 wp-100 bg-transparent border-0 text-light" v-model="form.data.promotor_email" placeholder="Eg: email@email.com">
+      </div>
+      <div class="py-25 px-40 border-top border-primary">
+        <label class="fs-20 fw-600 text-light mb-10">Address</label>
+        <input type="text" class="fs-12 fw-400 wp-100 bg-transparent border-0 text-light" v-model="form.data.promotor_address" placeholder="Eg: Jakarta">
+      </div>
+      <div class="py-25 px-40 border-top border-primary">
+        <label class="fs-20 fw-600 text-light mb-10">About</label>
+        <input type="text" class="fs-12 fw-400 wp-100 bg-transparent border-0 text-light" v-model="form.data.promotor_about" placeholder="Eg: email@email.com">
+      </div>
+      <div class="py-25 px-40 border-top border-primary">
+        <label class="fs-20 fw-600 text-light mb-10">Social Media</label>
+        <input type="text" class="fs-12 fw-400 wp-100 bg-transparent border-0 text-light" v-model="form.data.promotor_social_media" placeholder="Eg: @tiketbox">
       </div>
       <div class="py-25 px-40 text-center border-top border-primary">
         <button class="btn btn-primary py-15 px-40 fs-20 fw-600" :disabled="form.loading" v-text="(form.loading) ? 'Menyimpan...' : 'Simpan'" @click="doSave()"></button>
@@ -61,6 +136,7 @@
   const vueBUser = new Vue( {
     el: '#bprofile',
     data: {
+      userType: '{{ request()->segment(1) }}',
       form: {
         data: {
           id: null,
@@ -172,6 +248,8 @@
               if(status){
                 this.form.data = data
                 this.form.data.image = (data.image) ? data.image : 'https://placehold.co/120x120'
+                this.form.data.promotor_logo = (data.promotor_logo) ? data.promotor_logo : 'https://placehold.co/120x120'
+                this.form.data.promotor_banner = (data.promotor_banner) ? data.promotor_banner : 'https://placehold.co/120x120'
               } else {
                 this.notify('error','Error',msg)
               }
@@ -187,11 +265,12 @@
         let vm = this
         let inp = e.target
         let files = e.target.files
+        let target = inp.getAttribute('id')
         for(let i = 0; i < files.length; i++) {
           let reader = new FileReader();
           reader.readAsDataURL(files[i]);
           reader.onload = function () {
-            vm.form.data.image = reader.result
+            vm.form.data[target] = reader.result
             inp.type = 'text';
             inp.type = 'file';
           };

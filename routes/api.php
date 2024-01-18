@@ -9,6 +9,7 @@ use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\UserOrderDataController;
 use App\Http\Controllers\UserLegalController;
+use App\Http\Controllers\UserBankController;
 use App\Http\Controllers\PromotionsController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\XenditController;
@@ -27,6 +28,7 @@ use App\Http\Controllers\XenditController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::post('city', [EventsController::class, 'city']);
 Route::prefix('events')->group(function () {
     Route::post('/', [EventsController::class, 'read']);
     Route::post('/get', [EventsController::class, 'get']);
@@ -62,6 +64,13 @@ Route::prefix('userLegal')->group(function () {
     Route::post('/create', [UserLegalController::class, 'create']);
     Route::post('/update', [UserLegalController::class, 'update']);
     Route::post('/delete', [UserLegalController::class, 'delete']);
+});
+Route::prefix('userBank')->group(function () {
+    Route::post('/', [UserBankController::class, 'read']);
+    Route::post('/get', [UserBankController::class, 'get']);
+    Route::post('/create', [UserBankController::class, 'create']);
+    Route::post('/update', [UserBankController::class, 'update']);
+    Route::post('/delete', [UserBankController::class, 'delete']);
 });
 Route::prefix('promotions')->group(function () {
     Route::post('/', [PromotionsController::class, 'read']);

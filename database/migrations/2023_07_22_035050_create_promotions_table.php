@@ -15,6 +15,7 @@ class CreatePromotionsTable extends Migration
   {
     Schema::create('promotions', function (Blueprint $table) {
       $table->id();
+      $table->integer('id_user')->nullable();
       $table->integer('id_event')->nullable();
       $table->integer('target_event')->nullable();
       $table->text('name');

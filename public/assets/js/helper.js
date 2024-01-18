@@ -48,6 +48,15 @@ const helper = {
     let y = theDate.getFullYear()
     return `${d}-${[m+1]}-${y}`
   },
+  dateDmy(date) {
+    let theDate = new Date(date)
+    let d = theDate.getDate()
+    let m = theDate.getMonth()
+    let y = theDate.getFullYear()
+    m = ('0' + (m+1)).slice(-2)
+    d = ('0' + (d)).slice(-2)
+    return `${d}-${m}-${y}`
+  },
   timeIndo(time) {
     let theTime = new Date(time)
     let h = theTime.getHours()

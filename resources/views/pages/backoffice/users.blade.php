@@ -53,6 +53,9 @@
                   <button class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#formModal" @click="doUpdate(d.id)">
                     @include('svg.edit')
                   </button>
+                  <button class="btn btn-sm btn-success" title="Promotor Request" data-bs-toggle="modal" data-bs-target="#legalModal" @click="doUpdateLegal(d.id)" v-if="d.legal">
+                    @include('svg.checkmark')
+                  </button>
                 </td>
               </tr>
             </thead>
@@ -166,22 +169,115 @@
               <div class="form-group mt-20">
                 <label class="fs-20 fw-600 text-light mb-10 form-label">Status</label>
                 <select class="border-top-0 border-start-0 border-end-0 border-bottom border-primary bg-transparent py-12 text-light fs-16 fw-400 wp-100" v-model="form.data.status">
-                  <option value="Active">Active</option>
-                  <option value="Inactive">Inactive</option>
+                  <option value="active">Active</option>
+                  <option value="inactive">Inactive</option>
                 </select>
               </div>
               <div class="form-group mt-20">
                 <label class="fs-20 fw-600 text-light mb-10 form-label">Type</label>
                 <select class="border-top-0 border-start-0 border-end-0 border-bottom border-primary bg-transparent py-12 text-light fs-16 fw-400 wp-100" v-model="form.data.type">
-                  <option value="User">User</option>
-                  <option value="Admin">Admin</option>
-                  <option value="Scanner">Scanner</option>
+                  <option value="user">User</option>
+                  <option value="promotor">Promotor</option>
+                  <option value="admin">Admin</option>
+                  <option value="scanner">Scanner</option>
                 </select>
               </div>
             </div>
             <div class="modal-footer text-center justify-content-center pt-50 pb-45 border-top-0">
               <button type="button" class="btn btn-secondary fs-16 fw-600 mx-5" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
               <button type="button" class="btn btn-primary fs-16 fw-600 mx-5" @click="doSave()">Save</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      {{-- Modal Legal --}}
+      <div class="modal fade" id="legalModal" tabindex="-1" aria-labelledby="legalModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-bg-black-choco max-w-1000 modal-lg">
+          <div class="modal-content">
+            <div class="modal-header border-bottom border-primary pt-30 pb-20 px-30 position-relative">
+              <h5 class="modal-title text-center text-light fs-20 fw-600 wp-100" id="legalModalLabel">Form Pengajuan Promotor</h5>
+              <button type="button" class="btn-close btn-close-white position-absolute right-30" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body px-30 pt-40">
+              <div class="row g-0 border-bottom border-dark text-light">
+                <div class="col-6">
+                  <h5 class="pt-25 pb-15 px-25 text-center fs-20 fw-700">Individu</h5>
+                </div>
+                <div class="col-6">
+                  <h5 class="pt-25 pb-15 px-25 text-center fs-20 fw-700">Badan Hukum</h5>
+                </div>
+              </div>
+              <div class="row g-0 text-light">
+                <div class="col-12 col-md-6 py-20 px-30">
+                  <div class="d-flex align-items-center justify-content-center br-10 min-h-130 overflow-hidden" style="background-color: rgba(5, 6, 7, 0.50);">
+                    <img :src="form.legal.ktp_image" alt="" v-if="form.legal.ktp_image" class="h-250 object-fit-contain wp-100 img-fluid">
+                    <h5 class="fs-14 fw-700" v-else>Dokumen KTP</h5>
+                  </div>
+                  <div class="d-flex align-items-end justify-content-between mt-15 pb-15 border-bottom border-secondary">
+                    <div class="mx-wp-50 fs-12 fw-400">
+                      <span class="fw-600">Dokumen KTP</span>
+                      <p class="m-0 p-0" v-if="!form.legal.status">Upload dokumen KTP, <br>
+                      max. 2MB</p>
+                    </div>
+                    <label for="ktp_image" class="btn btn-primary fs-12 fw-700"  v-if="!form.legal.status">
+                      <input type="file" name="ktp_image" id="ktp_image" class="hide d-none" @change="previewImage(event)">
+                      <span class="me-10">
+                        @include('svg.upload')
+                      </span>
+                      Upload KTP
+                    </label>
+                  </div>
+                  <div class="mt-15 pb-15 border-bottom border-secondary">
+                    <label for="" class="fs-12 fw-600">Nomor KTP</label>
+                    <input :disabled="(!form.legal.status) ? false: true" type="text" class="fs-12 fw-400 wp-100 d-block bg-transparent border-0 mt-10 text-light" v-model="form.legal.ktp_no" placeholder="Eg: 1234345678901122">
+                  </div>
+                  <div class="mt-15 pb-15 border-bottom border-secondary">
+                    <label for="" class="fs-12 fw-600">Name sesuai ( KTP )</label>
+                    <input :disabled="(!form.legal.status) ? false: true" type="text" class="fs-12 fw-400 wp-100 d-block bg-transparent border-0 mt-10 text-light" v-model="form.legal.ktp_name" placeholder="Eg: John Doe">
+                  </div>
+                  <div class="mt-15 pb-15 border-bottom border-secondary">
+                    <label for="" class="fs-12 fw-600">Alamat sesuai ( KTP )</label>
+                    <input :disabled="(!form.legal.status) ? false: true" type="text" class="fs-12 fw-400 wp-100 d-block bg-transparent border-0 mt-10 text-light" v-model="form.legal.ktp_address" placeholder="Eg: Jl. Bersih Kec. Cerah Kab. Indah 11234">
+                  </div>
+                </div>
+                <div class="col-12 col-md-6 py-20 px-30">
+                  <div class="d-flex align-items-center justify-content-center br-10 min-h-130 overflow-hidden" style="background-color: rgba(5, 6, 7, 0.50);">
+                    <img :src="form.legal.npwp_image" alt="" v-if="form.legal.npwp_image" class="h-250 object-fit-contain wp-100 img-fluid">
+                    <h5 class="fs-14 fw-700" v-else>Dokumen NPWP</h5>
+                  </div>
+                  <div class="d-flex align-items-end justify-content-between mt-15 pb-15 border-bottom border-secondary">
+                    <div class="mx-wp-50 fs-12 fw-400">
+                      <span class="fw-600">Dokumen NPWP</span>
+                      <p class="m-0 p-0" v-if="!form.legal.status">Upload dokumen NPWP, <br>
+                      max. 2MB</p>
+                    </div>
+                    <label for="npwp_image" class="btn btn-primary fs-12 fw-700" v-if="!form.legal.status">
+                      <input type="file" name="npwp_image" id="npwp_image" class="hide d-none" @change="previewImage(event)">
+                      <span class="me-10">
+                        @include('svg.upload')
+                      </span>
+                      Upload NPWP
+                    </label>
+                  </div>
+                  <div class="mt-15 pb-15 border-bottom border-secondary">
+                    <label for="" class="fs-12 fw-600">Nomor NPWP</label>
+                    <input :disabled="(!form.legal.status) ? false: true" type="text" class="fs-12 fw-400 wp-100 d-block bg-transparent border-0 mt-10 text-light" v-model="form.legal.npwp_no" placeholder="Eg: 1234345678901122">
+                  </div>
+                  <div class="mt-15 pb-15 border-bottom border-secondary">
+                    <label for="" class="fs-12 fw-600">Name sesuai ( NPWP )</label>
+                    <input :disabled="(!form.legal.status) ? false: true" type="text" class="fs-12 fw-400 wp-100 d-block bg-transparent border-0 mt-10 text-light" v-model="form.legal.npwp_name" placeholder="Eg: John Doe">
+                  </div>
+                  <div class="mt-15 pb-15 border-bottom border-secondary">
+                    <label for="" class="fs-12 fw-600">Alamat sesuai ( NPWP )</label>
+                    <input :disabled="(!form.legal.status) ? false: true" type="text" class="fs-12 fw-400 wp-100 d-block bg-transparent border-0 mt-10 text-light" v-model="form.legal.npwp_address" placeholder="Eg: Jl. Bersih Kec. Cerah Kab. Indah 11234">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer text-center justify-content-center pt-50 pb-45 border-top-0">
+              <button type="button" class="btn btn-secondary fs-16 fw-600 mx-5" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+              <button type="button" class="btn btn-danger fs-16 fw-600 mx-5" @click="doSaveLegal('REJECTED')">Reject</button>
+              <button type="button" class="btn btn-success fs-16 fw-600 mx-5" @click="doSaveLegal('APPROVED')">Approve</button>
             </div>
           </div>
         </div>
@@ -241,6 +337,20 @@
           status: null,
           type: null
         },
+        legal: {
+          id: null,
+          id_user: null,
+          ktp_image: null,
+          ktp_name: null,
+          ktp_no: null,
+          ktp_address: null,
+          npwp_image: null,
+          npwp_name: null,
+          npwp_no: null,
+          npwp_address: null,
+          type: null,
+          status: 'PENDING',
+        },
         deleteId: null,
         loading: false
       },
@@ -263,6 +373,11 @@
         title: null,
         msg: null
       },
+      modal: {
+        form: null,
+        legal: null,
+        delete: null
+      }
     },
     watch: {
       paging: {
@@ -344,6 +459,80 @@
           this.notify('error','Error',msg)
         }
       },
+      async doApprove(id) {
+        try {
+          if(id){
+            let payload = {
+              id: id
+            }
+            let token = 'abcdreUYBH&^*VHGY^&GY'
+              let req = await tiketboxApi.getUser(payload,token)
+              let { status, msg, data} = req.data
+              if(status){
+                this.form.data = data
+              } else {
+                this.notify('error','Error',msg)
+              }
+            } else {
+              this.notify('error','Error','No Data Selected')
+            }
+          } catch (error) {
+          this.notify('error','Error',msg)
+        }
+      },
+      async doSaveLegal(status) {
+        this.notify('info','Processing','Menyimpan data...')
+        let payload = {...this.form.legal}
+        payload.status = status
+        let token = 'abcdreUYBH&^*VHGY^&GY'
+        try {
+          let req = {
+            data : {
+              status: false,
+              msg: null,
+              data: null
+            }
+          }
+          if(payload.id) {
+            req = await tiketboxApi.updateUserLegal(payload,token)
+          } else {
+            req = await tiketboxApi.createUserLegal(payload,token)
+          }
+          let { status, msg, data} = req.data
+          if(status){
+            this.notify('success','Success',msg)
+            this.modal.legal.hide()
+            this.clearFormLegal()
+            this.doGet()
+          } else {
+            this.notify('error','Error',msg)
+          }
+        } catch (error) {
+          this.notify('error','Error',error.message)
+        }
+      },
+      async doUpdateLegal(id_user) {
+        try {
+          if(id_user){
+            let payload = {
+              id_user: id_user
+            }
+            let token = 'abcdreUYBH&^*VHGY^&GY'
+              let req = await tiketboxApi.getUserLegal(payload,token)
+              let { status, msg, data} = req.data
+              if(status){
+                if(data) {
+                  this.form.legal = data
+                }
+              }
+            } else {
+              this.notify('error','Error','No Data Selected')
+            }
+          } catch (error) {
+            console.log(error)
+          this.notify('error','Error',error.message)
+        }
+      },
       async doDelete(id,state) {
         if(state){
           try {
@@ -388,6 +577,13 @@
           };
         }
       },
+      initModal() {
+        this.modal = {
+          form: new bootstrap.Modal(document.getElementById('formModal')),
+          legal: new bootstrap.Modal(document.getElementById('legalModal')),
+          delete: new bootstrap.Modal(document.getElementById('deleteModal')),
+        }
+      },
       clearForm() {
         this.form.data = {
           id: null,
@@ -403,6 +599,22 @@
           domicile: null,
           status: null,
           type: null
+        }
+      },
+      clearFormLegal() {
+        this.form.legal = {
+          id: null,
+          id_user: null,
+          ktp_image: null,
+          ktp_name: null,
+          ktp_no: null,
+          ktp_address: null,
+          npwp_image: null,
+          npwp_name: null,
+          npwp_no: null,
+          npwp_address: null,
+          type: null,
+          status: 'PENDING',
         }
       },
       notify(type,title,msg){
@@ -434,6 +646,7 @@
     },
     mounted() {
       this.doGet()
+      this.initModal()
     }
   });
 </script>

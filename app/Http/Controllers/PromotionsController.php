@@ -25,12 +25,16 @@ class PromotionsController extends Controller
     $search = ($request->search) ? $request->search : null;
     $total = 0;
     $totalPage = 1;
+    $id_user = ($request->id_user) ? $request->id_user : null;
     $listData = Promotions::select('promotions.*')->orderBy($sortBy, $sortDir);
     if ($perPage != '~') {
         $listData->skip($offset)->take($perPage);
     }
     if ($search != null) {
         $listData->whereRaw('(promotions.name LIKE "%'.$search.'%")');
+    }
+    if ($id_user != null) {
+      $listData->where('id_user',$id_user);
     }
     $listData = $listData->get();
     foreach($listData as $ld) {
@@ -43,10 +47,13 @@ class PromotionsController extends Controller
       }
       $ld->images = $images;
     }
-    if ($search) {
+    if ($search || $id_user) {
         $total = Promotions::orderBy($sortBy, $sortDir);
         if ($search) {
             $total->whereRaw('(promotions.name LIKE "%'.$search.'%")');
+        }
+        if ($id_user) {
+            $total->where('id_user',$id_user);
         }
         $total = $total->count();
     } else {

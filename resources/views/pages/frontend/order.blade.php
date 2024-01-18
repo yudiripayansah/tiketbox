@@ -31,7 +31,7 @@
                       <span class="fs-18 fw-600 text-white" v-text="order.email">wildan@tiketbox.com</span>
                     </div>
                   </div>
-                  <div>
+                  <div class="odbp-before">
                     <h6 class="fs-18 fw-300 text-white wp-100 text-end">Please complete the payment before :</h6>
                     <span class="fs-20 fw-600 text-white text-end" v-text="(order.payment_expired) ? `${dateIndo(order.payment_expired)} | ${timeIndo(order.payment_expired)}` : ``">Kamis, 31 Agustus 2023 | 17:14 WIB</span>
                   </div>
@@ -145,6 +145,48 @@
       </div>
     </div>
   </section>
+@endsection
+@section('styles')
+  <style>
+    @media screen and (max-width: 768px) {
+      .odb-title {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px 15px !important;
+      }
+      .odb-title img {
+        width: 100% !important;
+      }
+      .odb-payment {
+        padding: 20px 15px !important;
+      } 
+      .odb-payment * {
+        font-size: 14px !important;
+        text-align: left !important;
+      }
+      .odb-payment > div:first-child {
+        flex-direction: column;
+      }
+      .odbp-before {
+        margin-top: 15px;
+      }
+      .odb-voucher,
+      .odb-continue {
+        padding: 20px 15px !important;
+      }
+      .odb-voucher > div {
+        flex-direction: column;
+        align-items: flex-start !important;
+      }
+      .odb-voucher > div input {
+        margin: 10px 0 !important;
+      }
+      .odb-continue button,
+      .odb-continue a {
+        font-size: 12px !important;
+      }
+    }
+  </style>
 @endsection
 @section('script')
   <script>

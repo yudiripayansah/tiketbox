@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Models\UserLegal;
+use App\Models\User;
 
 class UserLegalController extends Controller
 {
@@ -169,6 +170,13 @@ class UserLegalController extends Controller
     if ($validate['status']) {
       try {
         $du = UserLegal::where('id',$request->id)->update($dataUpdate);
+        $user = User::find($dataUpdate['id_user']);
+        if($dataUpdate['status'] == 'APPROVED'){
+          $user->type = 'promotor';
+        } else {
+          $user->type = 'user';
+        }
+        $user->save();
         $dg = UserLegal::find($request->id);
         $res = array(
                 'status' => true,

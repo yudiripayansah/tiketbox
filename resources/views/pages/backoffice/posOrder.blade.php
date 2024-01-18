@@ -287,6 +287,9 @@
       }
     },
     computed: {
+      users() {
+        return store.getters.users
+      }
     },
     methods: {
       ...helper,
